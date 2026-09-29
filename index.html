@@ -1,0 +1,940 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>시애틀 모녀 여행</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --bg:#F4F6F3; --surface:#FFFFFF; --surface-2:#EDF2EE; --ink:#1B2A22; --muted:#66756D; --line:#DCE4DE;
+  --accent:#2B6A4F; --accent-ink:#FFFFFF; --accent-soft:#E1EEE6;
+  --cedar:#B8642D; --cedar-soft:#F6E7DB;
+  --rain:#3F6F9F; --sun:#D19A2F; --cloud:#7B8A94;
+  --sans:"IBM Plex Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --serif:"Gowun Batang","Apple SD Gothic Neo","Nanum Myeongjo",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1512; --surface:#182019; --surface-2:#1F2A24; --ink:#E9EEEA; --muted:#9DAAA2; --line:#2A3630;
+    --accent:#7CC4A2; --accent-ink:#0F1512; --accent-soft:#1F3A2E;
+    --cedar:#E0925C; --cedar-soft:#3A2A1F;
+    --rain:#7FAEDD; --sun:#E8B860; --cloud:#93A2AB;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1512; --surface:#182019; --surface-2:#1F2A24; --ink:#E9EEEA; --muted:#9DAAA2; --line:#2A3630;
+  --accent:#7CC4A2; --accent-ink:#0F1512; --accent-soft:#1F3A2E;
+  --cedar:#E0925C; --cedar-soft:#3A2A1F;
+  --rain:#7FAEDD; --sun:#E8B860; --cloud:#93A2AB;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;word-break:keep-all;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+.wrap{max-width:600px;margin:0 auto;padding:0 18px 72px}
+
+/* header */
+header{padding:26px 0 12px}
+.eyebrow{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-family:var(--mono)}
+h1{font-family:var(--serif);font-size:32px;line-height:1.2;margin:6px 0 10px;text-wrap:balance}
+.sub{color:var(--muted);margin:0;font-size:15.5px;line-height:1.55}
+.flights{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.flight{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.flight .k{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.flight .t{font-family:var(--mono);font-size:15px;font-weight:500;margin-top:3px}
+.flight .d{font-size:13.5px;color:var(--muted);margin-top:2px;line-height:1.45}
+
+/* tabs */
+.tabs{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px;display:flex;gap:6px;border-bottom:1px solid var(--line)}
+.tab{flex:1;appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:10px 2px;font:inherit;font-size:14px;font-weight:500;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+section[data-panel]{padding-top:6px}
+.note{background:var(--surface-2);border-radius:12px;padding:14px 16px;font-size:15px;line-height:1.6;margin:14px 0}
+.note b{font-weight:600}
+h2{font-family:var(--serif);font-size:22px;margin:30px 0 12px;text-wrap:balance}
+h3{font-size:16.5px;font-weight:600;margin:18px 0 8px}
+
+/* ===== overview (10일 한눈에) ===== */
+.ov{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0 6px}
+.ov a{display:block;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 6px 9px;text-align:center;position:relative}
+.ov a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ov .d{font-family:var(--mono);font-size:15px;font-weight:500;line-height:1}
+.ov .d small{font-family:var(--sans);font-size:11px;color:var(--muted);margin-left:2px;font-weight:400}
+.ov.wknd .d,.ov a.wknd .d{color:var(--cedar)}
+.ov svg{width:22px;height:22px;display:block;margin:7px auto 5px;color:var(--accent)}
+.ov .l{font-size:11.5px;line-height:1.3;color:var(--muted);word-break:keep-all}
+.ov a.aunt::after{content:"";position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);margin:8px 2px 4px}
+.legend .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:5px;vertical-align:1px}
+.legend .wk{color:var(--cedar);font-family:var(--mono);margin-right:4px}
+
+/* ===== day card ===== */
+.day{background:var(--surface);border:1px solid var(--line);border-radius:18px;margin:18px 0;scroll-margin-top:118px;overflow:hidden}
+.day-head{padding:18px 18px 14px;display:flex;gap:14px;align-items:flex-start}
+.date{flex:0 0 auto;width:56px;height:56px;border-radius:14px;background:var(--surface-2);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.date b{font-family:var(--mono);font-size:24px;font-weight:500;line-height:1;letter-spacing:-.02em}
+.date span{font-size:12px;color:var(--muted);margin-top:3px;line-height:1}
+.date.wknd{background:var(--cedar-soft)}
+.date.wknd b,.date.wknd span{color:var(--cedar)}
+.head-main{flex:1;min-width:0;padding-top:2px}
+.theme{font-family:var(--serif);font-size:20px;line-height:1.3;margin:0 0 6px;text-wrap:balance}
+.meta{font-size:13.5px;color:var(--muted);line-height:1.6}
+.meta .sep{margin:0 6px;opacity:.5}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:1px 9px;border-radius:999px;background:var(--accent);color:var(--accent-ink);vertical-align:1px;margin-right:6px;line-height:1.6}
+.leaf{color:var(--cedar);font-weight:600}
+.wx{flex:0 0 auto;text-align:right;padding-top:2px}
+.wx svg{width:28px;height:28px;display:block;margin:0 0 2px auto}
+.wx .temps{font-family:var(--mono);font-size:14px;font-weight:500;white-space:nowrap}
+.wx .temps span{color:var(--muted)}
+.wear{margin:0 18px 6px;padding:9px 12px;border-radius:10px;background:var(--surface-2);font-size:14px;line-height:1.5;display:flex;gap:10px;align-items:flex-start;color:var(--ink)}
+.wear .k{font-size:12px;color:var(--muted);flex:0 0 auto;padding-top:1px;font-weight:600}
+
+/* timeline rail */
+.its{list-style:none;margin:0;padding:12px 18px 18px;position:relative}
+.its::before{content:"";position:absolute;left:37px;top:24px;bottom:30px;border-left:2px solid var(--line)}
+.it{display:grid;grid-template-columns:40px 1fr;gap:0 14px;padding:10px 0;position:relative}
+.ic{width:40px;height:40px;border-radius:50%;background:var(--surface);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--accent);position:relative;z-index:1}
+.ic svg{width:20px;height:20px}
+.it.warn .ic{border-color:var(--cedar);color:var(--cedar);background:var(--cedar-soft)}
+.it.empty .ic{border-style:dashed;color:var(--muted);background:transparent}
+.it.empty .nm{color:var(--muted);font-weight:600}
+.it.empty .bd{border:1.5px dashed var(--line);border-radius:12px;padding:10px 12px}
+.bd{min-width:0;padding-top:2px}
+.tm{font-family:var(--mono);font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.2;margin-bottom:4px}
+.nm{font-weight:700;font-size:17px;line-height:1.35;margin:0}
+.nm .map{display:inline-block;margin-left:8px;font-size:12.5px;font-weight:500;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:7px;padding:1px 8px;vertical-align:2px;white-space:nowrap}
+.nm .map:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ab{margin:6px 0 0;font-size:15px;line-height:1.6;color:var(--ink)}
+.tp{margin:6px 0 0;font-size:13.5px;line-height:1.55;color:var(--muted)}
+.tp::before{content:"↳ ";opacity:.7}
+.opt{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--surface-2);font-size:13.5px;line-height:1.55}
+.opt b{color:var(--cedar)}
+/* naver blog links */
+.blogs{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.bk{font-size:11.5px;color:#03C75A;font-weight:700;letter-spacing:.02em}
+.bl{display:flex;gap:8px;align-items:center;text-decoration:none;color:var(--ink);font-size:14px;line-height:1.45;padding:8px 11px;border-radius:9px;background:var(--surface-2);border:1px solid transparent}
+.bl:hover{border-color:var(--line)}
+.bl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.bl span{flex:1;min-width:0}
+.bl small{flex:0 0 auto;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.bl::before{content:"N";flex:0 0 auto;display:inline-block;width:18px;height:18px;line-height:18px;text-align:center;border-radius:4px;background:#03C75A;color:#fff;font-size:11px;font-weight:800}
+
+/* ===== tours ===== */
+.tour{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+.tour-top{display:grid;grid-template-columns:44px 1fr auto;gap:0 14px;align-items:start}
+.tour-top .ic{width:44px;height:44px}
+.tour-top .ic svg{width:24px;height:24px}
+.tour .rank{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em}
+.tour h3{margin:2px 0 0;font-size:18px;font-family:var(--serif);line-height:1.3}
+.price{font-family:var(--mono);font-size:16px;font-weight:500;white-space:nowrap;text-align:right}
+.price small{display:block;font-size:11.5px;color:var(--muted);font-weight:500;white-space:normal;max-width:130px;line-height:1.35}
+.why{margin:12px 0 0;font-size:15.5px;line-height:1.6}
+.facts{margin:12px 0 0;padding:0;list-style:none;font-size:14px;color:var(--muted);line-height:1.6}
+.facts li{padding-left:1.1em;text-indent:-1.1em}
+.facts li b{color:var(--ink);font-weight:600}
+.walk{font-family:var(--mono);letter-spacing:.12em;color:var(--accent)}
+.tour-foot{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{display:inline-flex;align-items:center;border-radius:9px;padding:9px 14px;font-size:14px;font-weight:500;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tour.small{padding:14px 18px}
+.tour.small .tour-top{grid-template-columns:1fr auto}
+.tour.small h3{font-family:var(--sans);font-size:16.5px;font-weight:600}
+.tour.small .why{margin-top:6px;font-size:14.5px}
+.tour.hold{opacity:.8}
+
+/* ===== weather ===== */
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+.tscroll{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+th{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);text-align:left;padding:12px 12px;border-bottom:1px solid var(--line);font-weight:500}
+td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:0}
+td.d{font-family:var(--mono);white-space:nowrap}
+td.d.wknd{color:var(--cedar)}
+td.tp2{font-family:var(--mono);white-space:nowrap;font-variant-numeric:tabular-nums}
+td.tp2 span{color:var(--muted)}
+td svg{width:22px;height:22px;vertical-align:middle;margin-right:6px}
+.list{margin:0;padding:0;list-style:none}
+.list li{padding:10px 0;border-bottom:1px dashed var(--line);font-size:15.5px;line-height:1.6}
+.list li:last-child{border-bottom:0}
+.list li b{font-weight:600}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:440px){.cols{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.card h3{margin:0 0 6px;font-size:15.5px}
+.card .list li{font-size:14.5px;padding:8px 0}
+
+/* ===== move ===== */
+.dist{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dist li{display:grid;grid-template-columns:1fr auto auto;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);align-items:center;font-size:15px}
+.dist li:last-child{border-bottom:0}
+.dist .km{font-family:var(--mono);font-size:12.5px;color:var(--muted);white-space:nowrap}
+.dist .min{font-family:var(--mono);font-size:15px;font-weight:500;white-space:nowrap}
+.dist .grp{grid-column:1/-1;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--muted);background:var(--surface-2);padding:7px 16px}
+.dist li.hdr{padding:0;display:block}
+.dist .map{font-size:13px;color:var(--accent);text-decoration:none;border:1px solid var(--line);border-radius:7px;padding:2px 9px;white-space:nowrap}
+.step{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:15px;line-height:1.55}
+.step:last-child{border-bottom:0}
+.step .no{font-family:var(--mono);color:var(--accent);font-weight:500}
+.step .n{color:var(--muted);font-size:14px}
+footer{margin-top:40px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line);padding-top:16px;line-height:1.6}
+footer p{margin:6px 0}
+
+/* ===== 한눈에 ===== */
+.sum{list-style:none;margin:10px 0 0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.sum li{border-bottom:1px solid var(--line)}
+.sum li:last-child{border-bottom:0}
+.sum .row{appearance:none;border:0;background:none;font:inherit;color:inherit;text-align:left;display:grid;grid-template-columns:40px 1fr auto;gap:12px;width:100%;padding:13px 14px;cursor:pointer}
+.sum .row:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+.sum .row[aria-pressed="true"]{background:var(--accent-soft)}
+.sum .dd{font-family:var(--mono);font-size:21px;font-weight:500;line-height:1;text-align:center;padding-top:2px}
+.sum .dd small{display:block;font-family:var(--sans);font-size:12px;color:var(--muted);margin-top:5px}
+.sum .dd.wknd,.sum .dd.wknd small{color:var(--cedar)}
+.sum .rb{display:block;min-width:0}
+.sum .wq{display:block;text-align:right;padding-top:1px}
+.sum .wq svg{width:24px;height:24px;display:block;margin:0 0 2px auto}
+.sum .wq span{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+.sum .wq small{color:var(--muted);font-size:12px}
+.sum .th{display:block;font-weight:700;font-size:15.5px;line-height:1.35}
+.sum .fl{display:block;font-size:14px;color:var(--muted);line-height:1.5;margin-top:3px}
+.sum .fl .ar{opacity:.55;margin:0 1px}
+.sum .fl .gp{color:var(--cedar);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.chip{font-size:11.5px;font-weight:600;padding:1px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted);line-height:1.7}
+.chip.au{background:var(--accent);color:var(--accent-ink)}
+.chip.je{background:var(--cedar-soft);color:var(--cedar)}
+.chip.gp{border:1px dashed var(--cedar);color:var(--cedar);background:transparent;padding:0 7px}
+.mapcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:26px 0 0;scroll-margin-top:78px}
+.dchips{display:flex;gap:6px;overflow-x:auto;padding:12px 12px 8px;scrollbar-width:none}
+.dchips::-webkit-scrollbar{display:none}
+.dchip{flex:0 0 auto;appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:6px 11px;font:inherit;font-family:var(--mono);font-size:14px;cursor:pointer;line-height:1.3}
+.dchip small{font-family:var(--sans);font-size:11px;margin-left:2px;color:var(--muted)}
+.dchip.wknd,.dchip.wknd small{color:var(--cedar)}
+.dchip[aria-pressed="true"],.dchip[aria-pressed="true"] small{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.dchip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mhead{padding:2px 16px 10px}
+.mhead .md{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.mhead h3{font-family:var(--serif);font-size:19px;line-height:1.3;margin:2px 0 0;text-wrap:balance}
+#mapbox svg.mp{display:block;width:100%;height:auto}
+.mp .bg{fill:var(--surface-2)}
+.mp .gd{fill:var(--line)}
+.mp .r{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.mp .r-car{stroke:var(--accent);stroke-width:3.2}
+.mp .r-walk{stroke:var(--muted);stroke-width:3;stroke-dasharray:.1 6}
+.mp .r-tr{stroke:var(--rain);stroke-width:3.2;stroke-dasharray:7 4}
+.mp .r-train{stroke:var(--cedar);stroke-width:3.2;stroke-dasharray:10 4}
+.mp .r-ferry{stroke:var(--rain);stroke-width:3;stroke-dasharray:.1 6}
+.mp .ld{stroke:var(--muted);stroke-width:1;opacity:.7}
+.mp .od{fill:var(--muted)}
+.mp .vd{fill:var(--surface);stroke:var(--muted);stroke-width:2}
+.mp .mk{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.mp .mn{font-family:var(--mono);font-size:12px;font-weight:500;fill:var(--accent-ink);text-anchor:middle;dominant-baseline:central}
+.mp .mh{fill:var(--ink);stroke:var(--surface);stroke-width:2}
+.mp .mhi{color:var(--surface)}
+.mp .lb{font-family:var(--sans);font-size:11px;font-weight:600;fill:var(--ink);paint-order:stroke;stroke:var(--surface-2);stroke-width:3px;stroke-linejoin:round}
+.mp .ct{font-family:var(--sans);font-size:10.5px;fill:var(--muted);letter-spacing:.04em}
+.mp .sc{stroke:var(--muted);stroke-width:1.5}
+.mp .st{font-family:var(--mono);font-size:10px;fill:var(--muted)}
+.mlegend{display:flex;flex-wrap:wrap;gap:4px 14px;padding:8px 16px 4px;font-size:12px;color:var(--muted)}
+.mlegend svg{width:24px;height:8px;vertical-align:middle;margin-right:4px}
+.mlegend line{fill:none;stroke-linecap:round}
+.segs{list-style:none;margin:0;padding:6px 16px 4px}
+.segs .st{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;padding:5px 0}
+.segs .no{width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center}
+.segs .no svg{width:15px;height:15px}
+.segs .no.hm{background:var(--ink);color:var(--surface);border-radius:7px}
+.segs .no.vi{width:12px;height:12px;margin:0 7px;background:var(--surface);border:2px solid var(--muted)}
+.segs .no.gp{background:transparent;border:1.5px dashed var(--cedar);color:var(--cedar)}
+.segs .no.nt{background:var(--surface-2);color:var(--muted)}
+.segs .wn .no.nt{background:var(--cedar-soft);color:var(--cedar);font-weight:700}
+.segs .nm2{display:block;font-size:15px;font-weight:600;line-height:1.35}
+.segs .via .nm2{font-weight:400;color:var(--muted);font-size:14px}
+.segs .gapr .nm2{color:var(--cedar)}
+.segs .sb{display:block;font-size:13px;color:var(--muted);line-height:1.4}
+.segs .tm2{font-family:var(--mono);font-size:12.5px;color:var(--muted);white-space:nowrap}
+.segs .mv{display:grid;grid-template-columns:26px 1fr;gap:10px}
+.segs .mv .ln{justify-self:center;border-left:3px solid var(--accent);min-height:24px}
+.segs .mv-walk .ln{border-left:3px dotted var(--muted)}
+.segs .mv-tr .ln{border-left:3px dashed var(--rain)}
+.segs .mv-train .ln{border-left:3px dashed var(--cedar)}
+.segs .mv-ferry .ln{border-left:3px dotted var(--rain)}
+.segs .mv .tx{font-size:13.5px;color:var(--muted);padding:3px 0;line-height:1.45}
+.segs .mv .tx b{color:var(--ink);font-weight:600;margin-right:6px}
+.mfoot{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 16px}
+button.btn{font:inherit;font-size:14px;cursor:pointer}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- weather -->
+  <symbol id="w-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="var(--sun)"/><g stroke="var(--sun)" stroke-width="1.8" stroke-linecap="round" fill="none"><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></g></symbol>
+  <symbol id="w-partly" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.6" fill="var(--sun)"/><path d="M8 19.5h9.5a3.5 3.5 0 0 0 .4-7 5 5 0 0 0-9.6 1.2A3 3 0 0 0 8 19.5z" fill="var(--cloud)"/></symbol>
+  <symbol id="w-cloud" viewBox="0 0 24 24"><path d="M7 19h10.5a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 19z" fill="var(--cloud)"/></symbol>
+  <symbol id="w-rain" viewBox="0 0 24 24"><path d="M7 16h10.5a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 16z" fill="var(--cloud)"/><g stroke="var(--rain)" stroke-width="1.8" stroke-linecap="round" fill="none"><path d="M9 18.5l-1 2.5M13 18.5l-1 2.5M17 18.5l-1 2.5"/></g></symbol>
+  <!-- places (stroke icons) -->
+  <symbol id="p-plane" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 11l18-8-6 18-3-7z"/><path d="M12 14l9-11"/></g></symbol>
+  <symbol id="p-home" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/></g></symbol>
+  <symbol id="p-tree" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3l5 7h-3l4 6H6l4-6H7z"/><path d="M12 16v5"/></g></symbol>
+  <symbol id="p-coffee" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11h1.5a2 2 0 0 1 0 4H16"/><path d="M8 3.5c0 1.2 1 1.3 1 2.5M11.5 3.5c0 1.2 1 1.3 1 2.5"/></g></symbol>
+  <symbol id="p-wine" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M8 3h8l-1 6.5a3 3 0 0 1-6 0z"/><path d="M12 12.5V20M8.5 20h7"/></g></symbol>
+  <symbol id="p-beer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M6 7h9v13H6z"/><path d="M15 10h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2"/><path d="M6 7a2.5 2.5 0 0 1 4-2 2.5 2.5 0 0 1 5 2"/></g></symbol>
+  <symbol id="p-mountain" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 19L10 6l3.5 6 2-3L21 19z"/><path d="M8.3 9.5l1.7-1.2 1.7 1.2"/></g></symbol>
+  <symbol id="p-falls" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 4v11M12 4v11M16 4v11"/><path d="M3 19c2-1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"/></g></symbol>
+  <symbol id="p-fish" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 12c3-4 6-6 10-6 3 0 5.5 2.5 7 6-1.5 3.5-4 6-7 6-4 0-7-2-10-6z"/><path d="M20 12l2-4v8z"/><circle cx="8" cy="11" r="1" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="p-market" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 10h16l-1.5 10h-13z"/><path d="M8 10a4 4 0 0 1 8 0"/><path d="M9 14v3M12 14v3M15 14v3"/></g></symbol>
+  <symbol id="p-glass" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 4c3 3 3 5 0 8-3-3-3-5 0-8z"/><path d="M12 12c3 3 5 3 8 0-3-3-5-3-8 0z"/><path d="M12 12c-3 3-5 3-8 0 3-3 5-3 8 0z"/><path d="M12 12c3 3 3 5 0 8-3-3-3-5 0-8z"/></g></symbol>
+  <symbol id="p-view" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 8h4l2-2.5h4L16 8h4v11H4z"/><circle cx="12" cy="13" r="3"/></g></symbol>
+  <symbol id="p-ferry" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 14l1.5 4h13L20 14z"/><path d="M6 14v-4h12v4"/><path d="M9 10V7h6v3"/><path d="M3 21c2-1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"/></g></symbol>
+  <symbol id="p-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 4v16M19 4v16"/><path d="M5 11h14"/><path d="M7 17c1.5-1 3 1 5 0s3.5-1 5 0"/></g></symbol>
+  <symbol id="p-train" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><rect x="6" y="3" width="12" height="13" rx="2"/><path d="M6 9h12"/><circle cx="9.5" cy="12.5" r="1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="12.5" r="1" fill="currentColor" stroke="none"/><path d="M8 21l2-5M16 21l-2-5"/></g></symbol>
+  <symbol id="p-book" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5h7v14H4zM13 5h7v14h-7z"/><path d="M11 5c.7.6 1.3.6 2 0"/></g></symbol>
+  <symbol id="p-shop" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 8h12l1 12H5z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></g></symbol>
+  <symbol id="p-garden" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M5 19C5 9 12 4 19 4c0 8-5 15-14 15z"/><path d="M6 18L17 6"/></g></symbol>
+  <symbol id="p-apple" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 8c-4-3-8 0-8 4.5S7 21 9 21s2-1 3-1 1 1 3 1 5-4 5-8.5S16 5 12 8z"/><path d="M12 8V5"/><path d="M12 5c2-2 4-1 4-1s-1 2-4 2"/></g></symbol>
+  <symbol id="p-drink" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 4h16l-8 9z"/><path d="M12 13v7M8 20h8"/></g></symbol>
+  <symbol id="p-car" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 15l2-6h12l2 6v4H4z"/><path d="M7 12h10"/><circle cx="8" cy="17" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="17" r="1.3" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="p-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M12 4l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".8" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="p-food" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v18M5 3v5a2 2 0 0 0 4 0V3"/><path d="M17 3c-2 2-2 6 0 8v10"/></g></symbol>
+  <symbol id="p-village" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 20v-8l4.5-4 4.5 4v8"/><path d="M12 20V9l4.5-4L21 9v11"/><path d="M3 20h18"/></g></symbol>
+  <symbol id="p-bed" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 18v-7h18v7"/><path d="M3 11V7h8v4"/><path d="M3 18v1M21 18v1"/></g></symbol>
+</svg>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">2026.10.01 – 10.11 · Bothell 베이스</div>
+  <h1>시애틀 모녀 여행</h1>
+  <p class="sub">이모 댁(Bothell)에 머물며 시애틀·근교 + 포틀랜드 당일. 월·수는 이모와. 이동은 대부분 이모부 차로. 하루에 큰 것 하나만.</p>
+  <div class="flights">
+    <div class="flight"><div class="k">OZ272 · 가는 편</div><div class="t">10.01 목 21:20 → 15:15</div><div class="d">인천 T2 → 시애틀, 직항</div></div>
+    <div class="flight"><div class="k">OZ271 · 오는 편</div><div class="t">10.11 일 00:10 → 04:30</div><div class="d">10.10 토 밤 21시 공항 도착 · 인천 10.12 월 새벽</div></div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="보기 선택">
+  <button class="tab" role="tab" aria-selected="true" data-tab="glance">한눈에</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="plan">일정</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="tours">투어</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="weather">날씨·옷</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="move">이동</button>
+</nav>
+
+<section data-panel="glance">
+  <div class="note"><b>남은 빈칸 2곳</b>: 10/2(금) 오후, 10/10(토) 오전<br>동행: 이모 월·수 / 제니 금·토·일</div>
+  <ul class="sum" id="sum"></ul>
+  <div class="mapcard" id="mapcard">
+    <div class="dchips" id="dchips" role="group" aria-label="날짜 선택"></div>
+    <div class="mhead"><div class="md" id="mdate"></div><h3 id="mtitle"></h3></div>
+    <div id="mapbox"></div>
+    <div class="mlegend">
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--accent);stroke-width:3"/></svg>차·우버</span>
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--rain);stroke-width:3;stroke-dasharray:6 3"/></svg>버스·경전철</span>
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--cedar);stroke-width:3;stroke-dasharray:8 3"/></svg>기차</span>
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--rain);stroke-width:3;stroke-dasharray:.1 5"/></svg>페리</span>
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--muted);stroke-width:3;stroke-dasharray:.1 5"/></svg>도보</span>
+    </div>
+    <ol class="segs" id="segs"></ol>
+    <div class="mfoot"><a class="btn primary" id="gmap" href="#" target="_blank" rel="noopener">구글 지도에서 보기</a><button class="btn" type="button" id="todetail">상세 일정 보기</button></div>
+  </div>
+  <p class="sub" style="margin-top:8px;font-size:13.5px">위 지도는 위치 관계만 보여주는 약도예요. 실제 길은 구글 지도 버튼으로 확인하세요. 거리·시간은 막히지 않을 때 기준.</p>
+</section>
+
+<section data-panel="plan" hidden>
+  <nav class="ov" id="ov" aria-label="10일 한눈에"></nav>
+  <div class="legend"><span><span class="dot"></span>이모 동행 (월·수)</span><span><span class="wk">토·일</span>주말</span><span><span class="leaf">단풍</span> 볼 수 있는 날</span><span>나머지는 이모부 차</span></div>
+  <div id="days"></div>
+</section>
+
+<section data-panel="tours" hidden>
+  <div class="note">가격은 <b>9/22, 로그인·쿠키 없는 상태</b>로 공식 사이트에서 확인한 1인 기준(세금 별도인 곳 표기). 예약할 때도 <b>시크릿 창</b>으로. 걷기는 어머니 기준 ●○○(거의 안 걸음) ~ ●●●(2시간 이상).</div>
+  <h2>확정 1 + 추천 4</h2>
+  <div id="tours"></div>
+  <h2>시내 입장권 · 가벼운 것들</h2>
+  <div id="tours-small"></div>
+  <h2>이번엔 보류</h2>
+  <div id="tours-hold"></div>
+</section>
+
+<section data-panel="weather" hidden>
+  <div class="note">10월 초 시애틀 평년: <b>낮 15~18°C · 아침 8~10°C</b>, 흐리다 오다 말다. 아래는 <b>9/29 기준 예보</b>예요 (1~8일 WeatherBug 10일 예보, 9~10일 AccuWeather 장기예보). <b>1~8일 비 예보 없음</b>, 예년보다 2~3°C 따뜻해요. 출발 전날 한 번 더 확인하세요. 일출 07:07 → 07:20 / 일몰 18:50 → 18:32.</div>
+  <div class="tscroll"><table>
+    <thead><tr><th>날짜</th><th>예보</th><th>최고/최저</th><th>옷차림</th></tr></thead>
+    <tbody id="wxrows"></tbody>
+  </table></div>
+
+  <h2>옷차림 원칙</h2>
+  <ul class="list">
+    <li><b>레이어 3장</b> — 긴팔 티 + 얇은 플리스(또는 가디건) + <b>후드 있는 방수 재킷</b>. 시애틀 사람들은 우산보다 후드를 씁니다.</li>
+    <li><b>신발은 방수 운동화</b> 하나로 통일. 젖은 낙엽·보도가 미끄럽습니다. 레이니어 가는 날만 등산화가 있으면 좋아요.</li>
+    <li><b>레이니어(해발 1,650m)</b>는 시애틀보다 8~10°C 낮고 바람 — 체감 0°C. 경량 패딩 + 비니 + 장갑. 첫눈이 올 수도 있는 시기.</li>
+    <li><b>페리</b>는 바다 위라 체감이 3~4°C 낮아요. 실내 객실이 있지만 갑판에 나갈 때 목도리·비니.</li>
+    <li>낮엔 15~19°C까지 올라가서 <b>벗고 입기 쉬운</b> 구성이 핵심. 얇은 옷 여러 장이 두꺼운 옷 한 장보다 낫습니다.</li>
+  </ul>
+
+  <h2>가져갈 것</h2>
+  <div class="cols">
+    <div class="card"><h3>옷</h3><ul class="list">
+      <li>방수 후드 재킷 (필수)</li><li>얇은 플리스·가디건 2</li><li>긴팔 티 4~5, 반팔 1~2</li><li>바지 3 (청바지 1, 속건 1)</li><li>방수 운동화 + 편한 실내용</li><li>비니·장갑·얇은 목도리 (레이니어·바다용)</li><li>얇은 경량 패딩 (레이니어용, 저녁용)</li>
+    </ul></div>
+    <div class="card"><h3>기타</h3><ul class="list">
+      <li>보조배터리 (사진·지도로 배터리 빨리 닳음)</li><li>휴대폰: Apple Pay / Google Pay 카드 등록 → Link·버스 탑승 가능</li><li>ESTA 승인 화면 저장 · 여권은 술자리·옥토버페스트에도 지참 (21+ 확인)</li><li>멀미약 (기차·페리 멀미 있으면)</li><li>작은 접이 우산 1 (있으면 좋음)</li><li>선글라스 (맑은 날 물에 반사 심함)</li>
+    </ul></div>
+  </div>
+</section>
+
+<section data-panel="move" hidden>
+  <div class="note">이모 댁(Bothell 98012)은 시애틀 다운타운에서 <b>차로 30~35분</b> 북쪽. 시애틀 시내 갈 때는 차보다 <b>경전철(Link)</b>이 편하고, 근교(Edmonds·Snohomish·Woodinville·Mukilteo)는 <b>차 15~25분</b> 거리라 이모부 차나 우버가 맞아요.</div>
+
+  <h2>베이스 두 곳</h2>
+  <ul class="dist">
+    <li><span><b>이모 댁</b><br><span class="km">9905 40th Dr SE, Bothell 98012</span></span><span></span><a class="map" href="https://www.google.com/maps/search/?api=1&query=9905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">지도</a></li>
+    <li><span><b>이모네 가게</b><br><span class="km">19905 40th Dr SE, Bothell 98012</span></span><span></span><a class="map" href="https://www.google.com/maps/search/?api=1&query=19905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">지도</a></li>
+    <li><span>집 ↔ 가게</span><span class="km">1.1 km · 평지</span><span class="min">걸어서 16분 · 차 5분</span></li>
+  </ul>
+  <p class="sub" style="margin-top:8px;font-size:14px">같은 40th Dr SE지만 번지가 달라서 차로는 동네를 한 바퀴 돌아 3.5km, 걸으면 41st Ave SE로 곧장 1.1km. 어머니와 산책 겸 오갈 수 있는 거리예요.</p>
+
+  <h2>거리감 (이모 댁 기준, 막히지 않을 때)</h2>
+  <ul class="dist" id="dist"></ul>
+  <p class="sub" style="margin-top:8px;font-size:14px">평일 07–09시·15:30–18:30에 시애틀 방향은 45~60분으로 늘어납니다. Rainier·Leavenworth는 왕복만 5시간 — 하루를 통째로 쓰는 코스예요.</p>
+
+  <h2>차 없이 시애틀 가기 (약 55~65분, $3)</h2>
+  <div class="card">
+    <div class="step"><span class="no">1</span><div>이모 댁 → <b>Canyon Park Park &amp; Ride</b> (차 8분 / 우버 $10 안팎)<div class="n">1800 228th St SE, Bothell · 주차 무료</div></div></div>
+    <div class="step"><span class="no">2</span><div><b>ST Express 535</b> 버스 → Lynnwood City Center 역 (약 15분)<div class="n">월~토만 운행. 일요일은 CT 120번(35~40분) 또는 우버로 Lynnwood 역까지</div></div></div>
+    <div class="step"><span class="no">3</span><div><b>Link 1 Line 또는 2 Line</b> → Westlake 역 (28~30분, 8~15분 간격)<div class="n">두 노선 다 다운타운 지나감. 2 Line은 Bellevue까지 직행</div></div></div>
+    <div class="step"><span class="no">4</span><div>요금 <b>$3.00</b>, 개찰기에 <b>Apple Pay / Google Pay 탭</b>하면 끝<div class="n">버스→Link 2시간 내 환승 할인(같은 카드로 찍기). 65세+ $1은 ORCA 경로우대 카드 필요 — Lynnwood 역 CT Ride Store에서 발급</div></div></div>
+    <div class="step"><span class="no">·</span><div>우버 Bothell → 다운타운 직행은 <b>약 $60</b>, 33분. 늦은 저녁 귀가 때 한 번 정도.</div></div>
+  </div>
+
+  <h2>포틀랜드 당일치기 (10/7 수, 이모부 차)</h2>
+  <div class="card">
+    <div class="step"><span class="no">1</span><div><b>06:30 출발</b> → I-5 남쪽 Woodburn 아울렛까지 약 335 km, <b>3시간 반</b> + 휴게소 한 번<div class="n">시애틀·Tacoma 출근 정체(07~09시) 전에 빠져나가는 게 핵심</div></div></div>
+    <div class="step"><span class="no">2</span><div>아울렛 무료 주차 → 포틀랜드까지 북쪽 45분. 일본정원은 공원 주차장(유료), Pearl은 <b>SmartPark 주차장</b><div class="n">오리건은 소비세 0% — 쇼핑은 이날 몰아서</div></div></div>
+    <div class="step"><span class="no">3</span><div>돌아올 때 <b>16~18시 출발은 피하기</b> — 포틀랜드 다리와 Tacoma·시애틀 퇴근길이 겹침<div class="n">저녁 먹고 19:00 출발 → 22:00 귀가, 또는 15시 전 출발 → 18:30~19:00 귀가</div></div></div>
+    <div class="step"><span class="no">·</span><div>기차로 바꾸고 싶으면 Amtrak Cascades 07:10 → 10:35 / 17:55 → 21:20 (편도 $28~60)</div></div>
+  </div>
+
+  <h2>밴쿠버는 다음 기회에</h2>
+  <div class="note">Edmonds역에서 Amtrak 4시간(08:56 → 12:30)으로 갈 수 있고 한국 여권은 기차 입국에 eTA도 필요 없지만, 포틀랜드까지 넣으면 9일 중 4일이 이동이라 이번엔 뺐어요. 다음에 오면 Stanley Park·Granville Island·Capilano 다리.</div>
+
+  <h2>폰에 저장하기</h2>
+  <ul class="list">
+    <li><b>아이폰</b>: Safari에서 이 페이지 열기 → 공유(□↑) → <b>홈 화면에 추가</b>. 앱처럼 열려요.</li>
+    <li><b>갤럭시</b>: Chrome에서 열기 → 메뉴(⋮) → <b>홈 화면에 추가</b>.</li>
+    <li>각 장소의 <b>지도</b> 버튼은 두 폰 모두 Google 지도 앱으로 바로 열립니다. 우버 부를 때 주소 복사용으로도 쓰세요.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>이모 댁: 9905 40th Dr SE, Bothell, WA 98012 · <a href="https://www.google.com/maps/search/?api=1&query=9905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">지도</a></p>
+  <p>이모네 가게: 19905 40th Dr SE, Bothell, WA 98012 · <a href="https://www.google.com/maps/search/?api=1&query=19905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">지도</a> · 집에서 걸어서 16분, 차 5분</p>
+  <p>시애틀은 한국보다 16시간 늦음(PDT). 시애틀 오전 9시 = 한국 다음날 새벽 1시.</p>
+  <p>정보 확인일 2026.09.22 (날씨 9.29) · 가격·운행은 예약 전 한 번 더 확인.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var M = function(q){ return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); };
+  var WI = {sun:'w-sun', partly:'w-partly', cloud:'w-cloud', rain:'w-rain'};
+  var svg = function(id){ return '<svg aria-hidden="true"><use href="#'+id+'"/></svg>'; };
+  var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); };
+
+  /* ---------- 날씨 (9/29 예보: 1~8일 WeatherBug 10일 예보, 9~10일 AccuWeather 장기예보) ---------- */
+  var WX = [
+    {d:'10.01', w:'목', hi:17, lo:11, ic:'cloud',  tx:'대체로 흐림',            wear:'긴팔 + 얇은 겉옷. 비 예보 없음'},
+    {d:'10.02', w:'금', hi:19, lo:12, ic:'cloud',  tx:'대체로 흐림',            wear:'긴팔 + 가디건. 저녁 술자리엔 겉옷 하나'},
+    {d:'10.03', w:'토', hi:19, lo:13, ic:'sun',    tx:'대체로 맑음',            wear:'시애틀 기준. Leavenworth·고개는 아침저녁 훨씬 쌀쌀 — 플리스 + 재킷'},
+    {d:'10.04', w:'일', hi:19, lo:12, ic:'sun',    tx:'대체로 맑음',            wear:'긴팔 + 얇은 겉옷, 폭포 물보라엔 후드'},
+    {d:'10.05', w:'월', hi:17, lo:12, ic:'partly', tx:'구름 사이 해',           wear:'편한 운동화. Gas Works 저녁엔 호숫가 바람 — 겉옷'},
+    {d:'10.06', w:'화', hi:16, lo:12, ic:'partly', tx:'구름 조금',              wear:'페리 갑판 바람 — 재킷 지퍼 끝까지, 비니'},
+    {d:'10.07', w:'수', hi:17, lo:12, ic:'partly', tx:'구름 조금',              wear:'포틀랜드도 비슷. 차 오래 타는 날 — 편한 옷·운동화, 저녁용 겉옷'},
+    {d:'10.08', w:'목', hi:18, lo:11, ic:'partly', tx:'구름 조금',              wear:'동네 산책 — 긴팔 + 가디건'},
+    {d:'10.09', w:'금', hi:18, lo:11, ic:'cloud',  tx:'장기예보 · 하늘 미정',   wear:'시애틀 기준. Rainier는 훨씬 추움 — 패딩·비니·장갑·등산화. 전날 예보 확인'},
+    {d:'10.10', w:'토', hi:17, lo:9,  ic:'cloud',  tx:'장기예보 · 하늘 미정',   wear:'비행기용 편한 옷. 전날 예보 확인'}
+  ];
+
+  /* ---------- 일정 ----------
+     i: 아이콘, t: 시간, p: 장소, a: 장소 설명, n: 실용 메모, map: 지도 검색어, opt: 대안 */
+  var DAYS = [
+    {n:1, ov:'출국·도착', oi:'plane', date:'10.01', w:'목', theme:'인천 출국 · 시애틀 도착', who:'이모부 픽업', how:'차',
+     items:[
+      {i:'shop', t:'16:00 (한국)', p:'퇴근', a:'', n:'짐은 전날 밤 다 싸두고 출근', map:''},
+      {i:'car', t:'16:30 (한국)', p:'공항버스 → 인천공항 제2터미널(T2)', a:'아시아나는 2026년 1월부터 제2터미널로 옮겼어요.', n:'"제2여객터미널" 하차 꼭 확인. 퇴근 시간대라 평소보다 여유 있게', map:'인천국제공항 제2여객터미널'},
+      {i:'plane', t:'18:00 전후', p:'T2 도착 · 체크인 G~J 카운터 · 엄마와 만나기', a:'', n:'출발 3시간 전 도착이면 충분. 모바일 체크인 해두면 G열 백드롭만 하면 돼요', map:'인천국제공항 제2여객터미널'},
+      {i:'plane', t:'21:20 (한국)', p:'OZ272 출발 → 시애틀', a:'약 10시간 비행. 날짜변경선을 넘어 같은 날 오후에 도착해요.', n:'기내에서 시애틀 시간 기준으로 자고 깨기', map:''},
+      {i:'plane', t:'15:15', p:'SEA 공항 도착 (OZ272)', a:'시애틀·타코마 국제공항. 시내에서 남쪽 25분, 이모 댁까지는 45~60분.', n:'입국심사 30~60분 — 16시 반쯤 나옴', map:'Seattle-Tacoma International Airport'},
+      {i:'home', t:'17:30', p:'이모 댁 도착 · 짐 풀기', a:'Bothell 남쪽 Mill Creek 옆 조용한 주택가. 시애틀 다운타운에서 북쪽으로 30분.', n:'퇴근시간이라 공항에서 1시간 잡기', map:'9905 40th Dr SE, Bothell, WA 98012'},
+      {i:'food', t:'19:00', p:'저녁은 가볍게, 일찍 자기', a:'첫날은 시차 적응이 전부. 나가야 한다면 10분 거리 Lynnwood H Mart 푸드코트에 한식이 있어요.', n:'', map:'H Mart Lynnwood, 3301 184th St SW'}
+     ]},
+    {n:2, ov:'동네', oi:'tree', date:'10.02', w:'금', theme:'동네 적응 · 강변 산책 (오후 비움)', who:'이모부 차 or 우버', how:'다 15분 안',
+     items:[
+      {i:'tree', t:'09:30', p:'Bothell Landing · Sammamish River Trail', a:'강을 따라 난 평탄한 포장 산책길. 10월엔 옆 North Creek로 연어(Sockeye)가 올라와요.', n:'1시간 가볍게, 어머니 워밍업', map:'Bothell Landing Park, 9919 NE 180th St, Bothell'},
+      {i:'coffee', t:'12:00', p:'점심 · Mill Creek Town Center', a:'광장 둘레에 카페·베이커리·식당이 모인 작은 타운. 걸어 다니기 좋아요.', n:'', map:'Mill Creek Town Center, 15224 Main St, Mill Creek'},
+      {i:'alert', empty:true, t:'14:30', p:'오후 — 비워둠 (와이너리 제외)', a:'채울 곳 정해지면 여기에. 집에서 15~25분 안 근교 위주로.', n:'', map:''},
+      {i:'beer', t:'17:30', p:'이른 저녁 · McMenamins Anderson School', a:'1931년 중학교를 통째로 개조한 호텔·펍. 교실은 바, 체육관은 극장, 수영장은 온수풀. Bothell 대표 명소.', n:'어머니는 여기까지', map:'McMenamins Anderson School, 18607 Bothell Way NE, Bothell'},
+      {i:'drink', t:'20:00', p:'사촌동생 친구들과 술 한잔', a:'장소는 사촌동생이 정하는 대로.', n:'여권 지참(21+ 확인, 한국 신분증 안 됨). 내일 08:00 출발이라 늦지 않게, 귀가는 우버', map:''}
+     ]},
+    {n:3, ov:'Leavenworth', oi:'beer', date:'10.03', w:'토', theme:'Leavenworth · 바바리아 마을 옥토버페스트', who:'이모부 차', how:'편도 2h15', leaf:'Tumwater Canyon 단풍', fixed:true,
+     items:[
+      {i:'mountain', t:'08:00', p:'US-2 → Stevens Pass → Tumwater Canyon', a:'캐스케이드 산맥을 넘는 산악 도로. 마을 직전 Tumwater Canyon은 워싱턴에서 손꼽히는 단풍길 — 10월 첫 두 주가 절정.', n:'고개 정상은 5°C 안팎', map:'Tumwater Canyon, US-2, Leavenworth'},
+      {i:'village', t:'10:30', p:'Leavenworth Front Street', b:[{u:'https://blog.naver.com/choijs1021/224158988181', t:'미국 리븐워스 독일 마을 여행', d:'2026.2'}, {u:'https://blog.naver.com/youngvely735/223939141179', t:'시애틀 근교 여행 : 리븐워스 (옥토버페스트 언급)', d:'2025.7'}], a:'1960년대 목재산업이 무너진 마을을 통째로 독일 바바리아풍으로 다시 지어 살려낸 곳. 알프스 산장 같은 건물, 소시지·프레첼, 호두까기 인형 박물관.', n:'마을 구경은 무료. 점심은 독일식', map:'Front Street Park, Leavenworth, WA'},
+      {i:'beer', t:'12:00', p:'Oktoberfest 축제장', a:'독일 맥주 + 밴드 + 요들 + 소시지. 미국에서 손꼽히는 규모의 옥토버페스트.', n:'토 $40, 12~24시. 티켓은 leavenworth.org(EventIM)에서만 — 다른 사이트는 리셀러. 5시쯤 나오면 인파 피함', map:'Leavenworth Oktoberfest, Front Street Park'},
+      {i:'car', t:'17:00', p:'출발 → Bothell (도착 19:30)', a:'', n:'', map:'', opt:'<b>이모부가 바쁘시면</b> Starline 버스 왕복 $89 — 다운타운 9th Ave &amp; Pine 09:00 출발, 18:30 복귀. Lynnwood에서 Link 첫차로 가면 맞출 수 있어요. 10/10(토)에도 같은 버스 있음.'}
+     ]},
+    {n:4, ov:'연어·폭포', oi:'fish', date:'10.04', w:'일', theme:'Issaquah 연어 축제 · Snoqualmie 폭포', who:'이모부 차', how:'편도 45분',
+     items:[
+      {i:'fish', t:'10:00', p:'Issaquah Salmon Days', b:[{u:'https://blog.naver.com/wony318/224056336278', t:'시애틀 연어축제 (이사콰 부화장)', d:'2026.1'}, {u:'https://blog.naver.com/anyes88/224053210245', t:'이사콰 살몬데이즈 동네축제에 가다', d:'2026.1'}], a:'연어가 태어난 하천으로 돌아오는 10월, Issaquah 시내 전체가 축제장. 부화장 다리 위에서 연어 떼를 바로 내려다보고, 200여 개 부스와 퍼레이드.', n:'무료, 10~18시. 주차 혼잡 — 10시 전 도착 or 외곽 주차 + 무료 셔틀', map:'Issaquah Salmon Hatchery, 125 W Sunset Way, Issaquah'},
+      {i:'falls', t:'13:30', p:'Snoqualmie Falls', b:[{u:'https://blog.naver.com/murphy1222/224008534060', t:'시애틀 근교: 스노퀄미 폭포', d:'2025.9'}], a:'82m 높이(나이아가라보다 높음) 폭포. 드라마 <트윈 픽스> 배경. 주차장 옆 전망대에서 바로 보여서 걷기 거의 없음.', n:'무료. 길 건너 무료 주차장. Issaquah에서 20분', map:'Snoqualmie Falls, 6501 Railroad Ave SE, Snoqualmie'},
+      {i:'coffee', t:'15:00', p:'Salish Lodge 카페', a:'폭포 바로 위에 앉은 롯지. 창가 자리에서 폭포 보며 차 한 잔.', n:'', map:'Salish Lodge & Spa, Snoqualmie'},
+      {i:'alert', warn:true, t:'', p:'이날 다운타운은 피하기', a:'시호크스(13:25) + 크라켄 홈 개막(17:00)이 같은 날 — 시내 극심한 혼잡.', n:'', map:''}
+     ]},
+    {n:5, ov:'다운타운·Gas Works', oi:'view', date:'10.05', w:'월', theme:'이모와 다운타운 · Gas Works 일몰', who:'이모 동행', aunt:true, how:'이모부 차',
+     items:[
+      {i:'car', t:'08:40', p:'출발 → Pike Place Market 주차장 (09:30 도착)', a:'', n:'출근 정체 끝물이라 40~50분. 주차 4~10시간 $36 (09시 전 입차 조건인 하루 $17은 07:50 출발이 필요해서 안 씀)', map:'Pike Place Market Parking Garage, 1531 Western Ave, Seattle'},
+      {i:'market', t:'10:00', p:'Savor Seattle 푸드투어 · Pike Place Market', b:[{u:'https://blog.naver.com/cindylog-/224397965543', t:'파이크 플레이스 마켓 쇼핑 추천 기념품까지', d:'2026.9'}, {u:'https://blog.naver.com/zzzsosos1/224344071776', t:'파이크플레이스 맛집·마켓·주차·기념품 완전 정리', d:'2026.7'}, {u:'https://blog.naver.com/reine____/224111213793', t:'파이크 플레이스 마켓 *생선던지기*', d:'2025.11'}], a:'1907년 문 연 미국에서 가장 오래된 공설시장. 가이드와 상인 이야기 들으며 클램차우더·훈제연어·도넛·치즈 14가지 시식.', n:'$78, 2시간 15분, 팁 없음. 집결 2004 1st Ave. 이걸로 점심 해결', map:'2004 1st Ave, Seattle'},
+      {i:'coffee', t:'12:30', p:'원조 스타벅스 · Gum Wall · 워터프론트', a:'1971년 스타벅스 1호점(갈색 원조 로고). 골목 아래 Gum Wall은 껌으로 뒤덮인 벽. 새로 생긴 Overlook Walk 산책로로 바다까지 내려가요.', n:'스타벅스는 줄이 길어서 사진만. 1시간 반 여유롭게 걷고 카페에서 쉬기', map:'Original Starbucks, 1912 Pike Pl, Seattle'},
+      {i:'view', t:'15:00', p:'Gas Works Park · 다운타운 스카이라인', a:'옛 가스 공장 설비를 그대로 남긴 호숫가 공원. 완만한 잔디 언덕(Kite Hill)에 오르면 Lake Union 건너 다운타운과 스페이스 니들이 한눈에 보여요.', n:'무료, 공원 주차장 있음. 마켓에서 차 15분. 공장 탑 사다리·통로 철거 공사가 올봄 있었어서 펜스가 남아 있을 수 있음. 저녁은 차 5분 Fremont 동네에서 먹고 일몰(18:40) 보기', map:'Gas Works Park, 2101 N Northlake Way, Seattle'},
+      {i:'car', t:'19:00', p:'출발 → Bothell (도착 19:30)', a:'', n:'일몰 후 출발하면 퇴근길 정체를 피해요', map:''}
+     ]},
+    {n:6, ov:'페리·Ballard', oi:'ferry', date:'10.06', w:'화', theme:'Bainbridge 페리 · Ballard', who:'엄마와 둘', how:'경전철',
+     items:[
+      {i:'train', t:'09:30', p:'Link → Westlake → 걸어서 Colman Dock', a:'', n:'15분, 내리막', map:'Colman Dock Seattle Ferry Terminal, 801 Alaskan Way'},
+      {i:'ferry', t:'10:40', p:'Bainbridge Island 페리', b:[{u:'https://blog.naver.com/sy1228532/224370119893', t:'베인브릿지 아일랜드 페리로 가는 방법·가격·맛집', d:'2026.8'}, {u:'https://blog.naver.com/choijs1021/224153160670', t:'시애틀 당일치기 베인브릿지 아일랜드 페리 여행', d:'2026.2'}, {u:'https://blog.naver.com/reine____/224144491977', t:'시애틀 필수 코스 — 베인브릿지 당일치기', d:'2026.1'}], a:'35분 항해. 배가 멀어지면서 보이는 시애틀 스카이라인이 이 도시 최고의 뷰. 시애틀에서 가장 싼 크루즈.', n:'왕복 $11.35, 65세+ $5.65. 갑판 뒤쪽에 서기', map:'Bainbridge Island Ferry Terminal, Winslow'},
+      {i:'village', t:'11:20', p:'Winslow 거리 · 점심', a:'섬 입구의 작은 마을. 서점·카페·갤러리·작은 가게들이 한 길에.', n:'터미널에서 평지 10분. 1시간 반이면 충분', map:'Winslow Way E, Bainbridge Island'},
+      {i:'lock', t:'13:30', p:'Ballard Locks · 연어 사다리', b:[{u:'https://blog.naver.com/daeheely_/224375811186', t:'Ballard Locks에서 연어와 바다표범 구경하기', d:'2026.8'}, {u:'https://blog.naver.com/paupaubeach/224098862146', t:'발라드 록스 / 연어와 바다사자 구경', d:'2025.12'}], a:'바다와 호수 사이 수위 차를 조절하는 갑문. 배가 오르내리는 걸 보고, 지하 유리창으로 사다리를 오르는 연어를 봐요.', n:'무료. 10월 초 Coho 막바지. 버스 40번 or 우버 15분', map:'Ballard Locks, 3015 NW 54th St, Seattle'},
+      {i:'shop', t:'16:00', p:'Ballard Ave · 저녁', a:'1900년대 벽돌 건물이 남은 옛 항구 거리. 시애틀에서 가장 예쁜 상점가.', n:'내일 새벽 기차라 너무 늦지 않게. 귀가는 우버 30분', map:'Ballard Ave NW, Seattle'}
+     ]},
+    {n:7, ov:'포틀랜드', oi:'shop', date:'10.07', w:'수', theme:'포틀랜드 당일치기 · 아울렛 쇼핑', who:'이모 동행 가능', how:'편도 3h~3h30', leaf:'일본정원 단풍 초입', fixed:true,
+     items:[
+      {i:'car', t:'06:30', p:'출발 → I-5 남쪽 → Woodburn', a:'Tacoma·Olympia를 지나 포틀랜드를 통과해 30분 더 남쪽.', n:'약 335 km, 3시간 반 + 휴게소 한 번. 시애틀 출근 정체 전에 빠져나가기', map:'Woodburn Premium Outlets, 1001 N Arney Rd, Woodburn, OR'},
+      {i:'shop', t:'10:00', p:'Woodburn Premium Outlets · 점심', a:'오리건은 소비세 0% — 110여 개 브랜드 매장(나이키·코치·노스페이스·컬럼비아 등)을 세금 없이. 지붕 덮인 통로라 비 와도 괜찮아요.', n:'10~19시. 무료 주차. 점심은 아울렛에서 해결. 2시간 반', map:'Woodburn Premium Outlets, 1001 N Arney Rd, Woodburn, OR'},
+      {i:'garden', t:'13:15', p:'Portland Japanese Garden + 장미 정원', b:[{u:'https://blog.naver.com/dbeods/224074170103', t:'포틀랜드 일본정원 가을 풍경, 중국정원과 비교', d:'2025.11'}], a:'일본 밖에서 가장 정통이라 평가받는 일본정원. 다섯 가지 정원 양식, 언덕에서 내려다보는 후드산. 단풍은 시작 단계지만 정원 자체가 볼 것.', n:'약 $22, 65세+ 할인. 바로 옆 장미 정원(International Rose Test Garden)은 무료 — 10월 초는 끝물이지만 꽃이 조금 남아 있어요. 공원 주차장 유료. 아울렛에서 45분', map:'Portland Japanese Garden, 611 SW Kingston Ave'},
+      {i:'book', t:'15:15', p:'Powell\'s City of Books → Pearl District 쇼핑', b:[{u:'https://blog.naver.com/umhuh_bbu/224409416298', t:'포틀랜드 Day 1 — 브런치 카페부터 파웰스 북스까지', d:'2026.9'}, {u:'https://blog.naver.com/yujuroad/224262875161', t:'포틀랜드 여행 파웰스 서점 포함 가볼만한곳 5', d:'2026.4'}], a:'한 블록을 통째로 쓰는 세계 최대 독립서점. 색깔로 나눈 방 9개. 오리건은 소비세 0%라 옷·화장품·신발 사기 좋아요.', n:'', map:'Powell\'s City of Books, 1005 W Burnside St, Portland'},
+      {i:'shop', t:'17:00', p:'NW 23rd Ave · Salt & Straw → 저녁', a:'가로수 길에 부티크·카페가 늘어선 거리. Salt & Straw는 포틀랜드에서 시작한 수제 아이스크림.', n:'저녁까지 먹고 나오기 — 퇴근길(16~18시) 다리 정체 피하기', map:'NW 23rd Ave, Portland'},
+      {i:'car', t:'19:00', p:'출발 → Bothell (도착 22:00)', a:'', n:'', map:'', opt:'<b>힘들면</b> 15시 전에 출발 → 귀가 18:30~19:00 (시애틀 퇴근길 조금 막힘). 서점 이후는 빼기.'}
+     ]},
+    {n:8, ov:'쉬는 날', oi:'home', date:'10.08', w:'목', theme:'쉬는 날 · 이모네 동네 구경', who:'이모부 차 or 걸어서', how:'다 10분 안',
+     items:[
+      {i:'tree', t:'10:00', p:'North Creek Park 데크 산책', a:'습지 위로 나무 데크길이 이어진 평지 공원. 새·오리 구경하며 30~40분 천천히.', n:'무료, 07~18시. 화장실은 간이화장실뿐 — 집에서 다녀오기', map:'North Creek Park, 1011 183rd St SE, Bothell'},
+      {i:'coffee', t:'11:00', p:'Mon Amie Bakery · 브런치', a:'크루아상으로 유명한 동네 프랑스식 빵집.', n:'목 08~16시(월 휴무). 자리 좁음 — 포장해서 집에서 먹어도 좋아요', map:'Mon Amie Bakery & Cafe, 914 164th St SE, Mill Creek'},
+      {i:'shop', t:'13:30', p:'이모네 가게 구경', a:'', n:'집에서 걸어서 16분 · 차 5분', map:'19905 40th Dr SE, Bothell, WA 98012'},
+      {i:'market', t:'15:00', p:'PCC 마켓 구경 · 기념품 장보기', a:'워싱턴 로컬 유기농 마트. 커피원두·잼·초콜릿 같은 선물 사기 좋아요.', n:'06~23시. 가게 근처', map:'PCC Community Markets, 22621 Bothell Everett Hwy, Bothell'},
+      {i:'home', t:'17:00', p:'집에서 쉬기 · 이모 가족과 저녁', a:'', n:'내일 레이니어라 일찍 자기', map:''}
+     ]},
+    {n:9, ov:'Rainier', oi:'mountain', date:'10.09', w:'금', theme:'Mt. Rainier · Paradise', who:'이모부 차', how:'편도 2h45', leaf:'Paradise 초원 단풍', fixed:true,
+     items:[
+      {i:'mountain', t:'07:30', p:'출발 → Longmire → Paradise', b:[{u:'https://blog.naver.com/greatkelly/224356965518', t:'레이니어산 파라다이스 만년설 당일치기 드라이브 후기', d:'2026.7'}, {u:'https://blog.naver.com/daeheely_/224357181317', t:'마운트 레이니어 파라다이스 — 방문 전 꼭 알아야 할 팁', d:'2026.7'}, {u:'https://blog.naver.com/yuyeon4145/224209292056', t:'레이니어 당일치기, 파라다이스 스카이라인 트레일 후기', d:'2026.3'}], a:'시애틀 어디서든 보이는 4,392m 활화산. Paradise(해발 1,650m)까지 차로 올라가면 설산 바로 아래 초원이 펼쳐져요.', n:'입장 $30/차량, 예약 불필요. Sunrise 도로는 산불로 폐쇄 — Paradise만. 아침에 NPS 도로 상태 확인', map:'Paradise, Mount Rainier National Park'},
+      {i:'tree', t:'10:30', p:'Myrtle Falls 산책 (왕복 1.6km, 포장)', a:'폭포 뒤로 레이니어 정상이 딱 들어오는 사진 포인트. 10월 초원은 진홍색으로 물들어요.', n:'힘 남으면 Nisqually Vista 순환 1.9km', map:'Myrtle Falls Trailhead, Paradise'},
+      {i:'food', t:'12:30', p:'점심 · 도시락', a:'Paradise Inn은 9/30 폐관. Jackson 비지터센터 매점은 간단한 것만.', n:'집에서 김밥 싸 가기 추천', map:'Henry M. Jackson Memorial Visitor Center'},
+      {i:'falls', t:'14:00', p:'Reflection Lakes → Narada Falls → Christine Falls', a:'차로 세우고 5분씩 보는 포인트들. Reflection Lakes는 바람 없을 때 레이니어가 물에 그대로 비쳐요.', n:'', map:'Reflection Lakes, Mount Rainier'},
+      {i:'car', t:'15:30', p:'출발 → Bothell (도착 18:30)', a:'', n:'', map:'', opt:'<b>날씨가 나쁘면</b> 6일(화)이나 8일(목)과 맞바꾸기 — 이틀 전 예보 보고 결정. 당일 아침 NPS 웹캠으로 Paradise 하늘 확인.'}
+     ]},
+    {n:10, ov:'출발', oi:'plane', date:'10.10', w:'토', theme:'오전 비움 · 저녁 출발', who:'미정', how:'—',
+     items:[
+      {i:'alert', empty:true, t:'09:30', p:'오전 — 비워둠 (사과 따기·Snohomish 다운타운 제외)', a:'출국일이라 14시 귀가 기준 오전 반나절만. 가까운 곳으로.', n:'', map:''},
+      {i:'home', t:'14:00', p:'귀가 · 짐 정리 · 이모 가족과 마지막 저녁', a:'', n:'', map:''},
+      {i:'plane', t:'20:00', p:'출발 → SEA 공항', a:'', n:'토요일 밤 50분. 21:00 도착 → 00:10 OZ271 출발', map:'Seattle-Tacoma International Airport'}
+     ]}
+  ];
+
+  /* ---------- 투어 ---------- */
+  var TOURS = [
+    {rank:'확정', i:'beer', name:'Leavenworth Oktoberfest (10/3 토)', b:[{u:'https://blog.naver.com/choijs1021/224158988181', t:'미국 리븐워스 독일 마을 여행', d:'2026.2'}], price:'$40', ps:'토요일 입장 · 금 $20 · Starline 버스 왕복 $89',
+     why:'캐스케이드 산속 마을 전체가 바바리아풍. 미국에서 손꼽히는 옥토버페스트가 딱 여행 기간 두 주말에 열려요. 가는 길 Tumwater Canyon 단풍이 보너스.',
+     walk:'●●○', time:'하루 종일 · 차 2h15 / 버스 09:00 다운타운 출발', where:'Front Street Park, Leavenworth', caveat:'티켓은 leavenworth.org(EventIM)에서만. 토요일 오후~밤 인파·주취 — 5시 전 나오기.',
+     url:'https://leavenworth.org/oktoberfest/', day:'10/3 확정 — 토요권 $40 예매'},
+    {rank:'추천 1', i:'mountain', name:'Mt. Rainier 당일 · 이모부 차 or Tours Northwest', b:[{u:'https://blog.naver.com/jhj2291/224308198057', t:'시애틀 레이니어 국립공원 투어 후기 (버스 투어)', d:'2026.6'}, {u:'https://blog.naver.com/greatkelly/224356965518', t:'레이니어산 파라다이스 당일치기 드라이브 후기', d:'2026.7'}], price:'$211', ps:'투어 기준 · 차로 가면 입장 $30/차량',
+     why:'워싱턴을 상징하는 4,392m 화산. Paradise의 포장된 짧은 트레일(Myrtle Falls 1.6km)만 걸어도 설산·폭포·야생화 초원이 한 번에 나와요. 시즌 막바지라 맑은 날 가는 게 핵심.',
+     walk:'●●○', time:'10~11시간 (06:45 다운타운 픽업)', where:'1900 4th Ave (Urban Coffeehouse) 또는 MoPOP 06:55', caveat:'Sunrise 도로는 산불로 폐쇄, Paradise만 운행. 코드 JIMOTHY 10%. Viator 소그룹 $148~175도 있음.',
+     url:'https://www.toursnorthwest.com/tours/mt-rainier/', day:'10/9 (금) 이모부 차 — 날씨 나쁘면 6·8일과 교체'},
+    {rank:'추천 2', i:'market', name:'Pike Place 푸드투어 · Savor Seattle', b:[{u:'https://blog.naver.com/cindylog-/224397965543', t:'파이크 플레이스 마켓 쇼핑 추천 기념품까지', d:'2026.9'}], price:'$78', ps:'팁 불필요 · 세금 포함',
+     why:'시장 상인들 스토리 들으면서 14가지 시식 — 클램차우더, 훈제연어, 도넛, 치즈. 2시간 15분에 점심까지 해결되고, 어머니가 "뭘 먹어야 하지" 고민 안 하셔도 돼요.',
+     walk:'●●○', time:'2시간 15분 · 오전 슬롯 추천', where:'2004 1st Ave, Seattle', caveat:'약 1.6km 천천히 걷기 + 서 있는 시간 많음. 최대 16명.',
+     url:'https://www.savorseattletours.com/food-tours/the-original-food-and-culture-tour-of-pike-place-market/', day:'10/5 오전'},
+    {rank:'추천 3', i:'plane', name:'Boeing Future of Flight 공장투어 (Mukilteo)', b:[{u:'https://blog.naver.com/tmdnpepsr089/224301694802', t:'항덕이세요? 시애틀 보잉 퓨처 오브 플라이트 후기', d:'2026.5'}, {u:'https://blog.naver.com/lady_favourite/224147865114', t:'보잉 팩토리 투어 (2025.10 방문)', d:'2026.1'}, {u:'https://blog.naver.com/paupaubeach/224108068481', t:'대실망한 보잉 공장 견학 — 솔직 후기', d:'2025.12'}], price:'$42~', ps:'일반입장은 $14~ · 공식가 재확인 필요',
+     why:'세계에서 가장 큰 건물 안에서 777 여객기가 조립되는 걸 위에서 내려다봐요. 여기 아니면 못 보는 경험이고 집에서 25분.',
+     walk:'●●○', time:'80분 · 매일 08:30~17:30', where:'8415 Paine Field Blvd, Mukilteo', caveat:'몇 주 전 매진 흔함 — 지금 예약. 계단 있음, 사진 금지, 가방 반입 제한.',
+     url:'https://www.boeingfutureofflight.com/tour', day:'10/2 오후 (이모부 차, 집에서 25분)'},
+    {rank:'추천 4', i:'falls', name:'Snoqualmie Falls + Issaquah Salmon Days', b:[{u:'https://blog.naver.com/murphy1222/224008534060', t:'시애틀 근교: 스노퀄미 폭포', d:'2025.9'}, {u:'https://blog.naver.com/wony318/224056336278', t:'시애틀 연어축제 (이사콰)', d:'2026.1'}], price:'무료', ps:'폭포 주차 $7 (길 건너 무료) · 축제 무료',
+     why:'82m 폭포가 주차장 옆 전망대에서 바로 보이고, 같은 날 Issaquah에선 연어가 강을 거슬러 오르는 걸 다리 위에서 봐요. 10/3~4 주말에만 하는 축제라 시기가 딱 맞아요.',
+     walk:'●○○', time:'반나절 · 차 45분', where:'Issaquah Salmon Hatchery → Snoqualmie Falls', caveat:'차 없으면 Tours Northwest 폭포 투어 $74 (3시간, 다운타운 출발).',
+     url:'https://www.salmondays.org/', day:'10/4'}
+  ];
+  var SMALL = [
+    {name:'Bainbridge Island 페리', price:'$11.35', ps:'65세+ $5.65 · 왕복 요금', why:'35분 항해, 스카이라인 뷰 최고. 시애틀에서 가장 싼 "크루즈".', url:'https://www.wsdot.wa.gov/ferries/fares/faresdetail.aspx?departingterm=7&arrivingterm=3'},
+    {name:'Chihuly Garden and Glass', price:'$37~45', ps:'시간대별 가격', why:'유리 조형 정원 + 온실. 어머니 취향 1순위.', url:'https://www.chihulygardenandglass.com/visit/plan-your-visit'},
+    {name:'Space Needle', price:'$37.50~49', ps:'Chihuly 콤보 있음', why:'맑은 날만 가치 있음. 흐리면 Kerry Park 뷰로 대체.', url:'https://www.spaceneedle.com/'},
+    {name:'Seattle CityPASS C3', price:'$108', ps:'3곳 선택 · 9일 유효', why:'Chihuly + Space Needle + Argosy(or MoPOP) 셋 다 갈 거면 $20~30 절약.', url:'https://www.citypass.com/seattle'},
+    {name:'Underground Tour (Bill Speidel)', price:'$30', ps:'시니어 $27 · 75분', why:'1889년 대화재 후 묻힌 옛 거리를 걷는 유머 투어. 영어 농담 위주라 어머니는 덜 재미있을 수도.', url:'https://www.undergroundtour.com/'},
+    {name:'Capitol Hill 커피 투어 (Viator)', price:'$49', ps:'2시간', why:'시애틀 커피 문화 — 로스터리 3~4곳. 커피 좋아하면 10/5 오전에 끼우기.', url:'https://www.viator.com/Seattle-tours/Coffee-and-Tea-Tours/d704-g6-c5325'}
+  ];
+  var HOLD = [
+    {name:'고래관측 · Puget Sound Express (Edmonds)', price:'$155', why:'뺐음. 10월이 범고래·혹등고래 시즌이고 못 보면 재탑승 보장이 있지만, $155에 4~5시간 배 + 멀미 위험. 바다 뷰는 10/6 Bainbridge 페리($11)로 대체.'},
+    {name:'Olympic National Park 당일투어', price:'$188~315', why:'12시간 이동, Hoh 우림은 미포함. 60대에겐 가장 피로한 옵션. Rainier와 둘 중 하나면 Rainier.'},
+    {name:'North Cascades 단풍(낙엽송) 투어', price:'$426', why:'시애틀 픽업 없고 가격도 초과. 이모부 차로 Diablo Lake 전망대 드라이브(왕복 5시간)가 대안.'},
+    {name:'Seattle Coffee Crawl 패스', price:'매진', why:'9/15~10/15 패스 매진. Viator 커피 투어로 대체.'}
+  ];
+
+  /* ---------- 거리 ---------- */
+  var DIST = [
+    ['grp','30분 안'],
+    ['Woodinville 와이너리','14 km','15~20분'],['Lynnwood (Link 역·H Mart)','10 km','12분'],['Snohomish 앤티크 마을','21 km','25분'],['Edmonds 항구·Amtrak역','21 km','25분'],['Mukilteo (Boeing)','22 km','25분'],['Bellevue','27 km','25분'],['시애틀 다운타운','32 km','30~35분'],
+    ['grp','1시간 안팎'],
+    ['Issaquah','48 km','35~45분'],['Snoqualmie Falls','56 km','45~50분'],['SEA 공항','45 km','45~60분'],['Tacoma','80 km','1시간'],['La Conner (튤립 마을)','90 km','1h10'],['Deception Pass · Whidbey','105 km','1h20~30'],
+    ['grp','하루 코스 (왕복 5시간)'],
+    ['Leavenworth','175 km','2h15~30'],['Mt. Rainier Paradise','180 km','2h45~3h'],['Hurricane Ridge (Olympic)','150 km + 페리','3~3.5h'],
+    ['grp','1박 거리'],
+    ['Vancouver BC','210 km','2h30 + 국경'],['Portland OR','305 km','3~3.5h']
+  ];
+
+  /* ---------- render ---------- */
+  var blogs = function(arr){
+    if(!arr || !arr.length) return '';
+    return '<div class="blogs"><span class="bk">네이버 블로그 후기</span>'+arr.map(function(b){
+      return '<a class="bl" href="'+b.u+'" target="_blank" rel="noopener"><span>'+esc(b.t)+'</span><small>'+b.d+'</small></a>';
+    }).join('')+'</div>';
+  };
+  var mapLink = function(q){ return q ? '<a class="map" href="'+M(q)+'" target="_blank" rel="noopener">지도</a>' : ''; };
+
+  var daysEl = document.getElementById('days');
+  var dh = '';
+  DAYS.forEach(function(d, i){
+    var wx = WX[i]; var wk = (d.w==='토'||d.w==='일') ? ' wknd' : '';
+    var meta = (d.aunt ? '<span class="pill">이모 동행</span>' : esc(d.who)) + '<span class="sep">·</span>' + esc(d.how)
+      + (d.leaf ? '<span class="sep">·</span><span class="leaf">단풍 · '+esc(d.leaf)+'</span>' : '')
+      + (d.fixed ? '<span class="sep">·</span>확정' : '');
+    var items = d.items.map(function(it){
+      return '<li class="it'+(it.warn?' warn':'')+(it.empty?' empty':'')+'"><div class="ic">'+svg('p-'+it.i)+'</div><div class="bd">'
+        + (it.t ? '<div class="tm">'+it.t+'</div>' : '')
+        + '<p class="nm">'+esc(it.p)+mapLink(it.map)+'</p>'
+        + (it.a ? '<p class="ab">'+esc(it.a)+'</p>' : '')
+        + (it.n ? '<p class="tp">'+esc(it.n)+'</p>' : '')
+        + blogs(it.b)
+        + (it.opt ? '<div class="opt">'+it.opt+'</div>' : '')
+        + '</div></li>';
+    }).join('');
+    dh += '<article class="day" id="d'+d.n+'">'
+      + '<div class="day-head"><div class="date'+wk+'"><b>'+d.date.slice(3)+'</b><span>'+d.w+'요일</span></div>'
+      + '<div class="head-main"><h3 class="theme">'+esc(d.theme)+'</h3><div class="meta">'+meta+'</div></div>'
+      + '<div class="wx">'+svg(WI[wx.ic])+'<div class="temps">'+wx.hi+'° <span>'+wx.lo+'°</span></div></div></div>'
+      + '<div class="wear"><span class="k">옷</span><span>'+esc(wx.wear)+'</span></div>'
+      + '<ul class="its">'+items+'</ul></article>';
+  });
+  daysEl.innerHTML = dh;
+  document.getElementById('ov').innerHTML = DAYS.map(function(d){
+    var wk = (d.w==='토'||d.w==='일') ? ' wknd' : '';
+    return '<a href="#d'+d.n+'" class="'+(d.aunt?'aunt':'')+wk+'"><div class="d">'+d.date.slice(3)+'<small>'+d.w+'</small></div>'+svg('p-'+d.oi)+'<div class="l">'+esc(d.ov)+'</div></a>';
+  }).join('');
+
+  document.getElementById('tours').innerHTML = TOURS.map(function(t){
+    return '<article class="tour"><div class="tour-top"><div class="ic">'+svg('p-'+t.i)+'</div><div><div class="rank">'+t.rank+'</div><h3>'+esc(t.name)+'</h3></div><div class="price">'+esc(t.price)+'<small>'+esc(t.ps)+'</small></div></div>'
+      + '<p class="why">'+esc(t.why)+'</p>'
+      + '<ul class="facts"><li><b>걷기</b> <span class="walk">'+t.walk+'</span></li><li><b>시간</b> '+esc(t.time)+'</li><li><b>장소</b> '+esc(t.where)+'</li><li><b>일정</b> '+esc(t.day)+'</li><li><b>주의</b> '+esc(t.caveat)+'</li></ul>'
+      + blogs(t.b)
+      + '<div class="tour-foot"><a class="btn primary" href="'+t.url+'" target="_blank" rel="noopener">예약 페이지</a><a class="btn" href="'+M(t.where)+'" target="_blank" rel="noopener">지도</a></div></article>';
+  }).join('');
+  document.getElementById('tours-small').innerHTML = SMALL.map(function(t){
+    return '<article class="tour small"><div class="tour-top"><h3>'+esc(t.name)+'</h3><div class="price">'+esc(t.price)+'<small>'+esc(t.ps)+'</small></div></div><p class="why">'+esc(t.why)+'</p><div class="tour-foot"><a class="btn" href="'+t.url+'" target="_blank" rel="noopener">자세히</a></div></article>';
+  }).join('');
+  document.getElementById('tours-hold').innerHTML = HOLD.map(function(t){
+    return '<article class="tour small hold"><div class="tour-top"><h3>'+esc(t.name)+'</h3><div class="price">'+esc(t.price)+'</div></div><p class="why">'+esc(t.why)+'</p></article>';
+  }).join('');
+
+  document.getElementById('wxrows').innerHTML = WX.map(function(w){
+    var wk = (w.w==='토'||w.w==='일') ? ' wknd' : '';
+    return '<tr><td class="d'+wk+'">'+w.d.slice(3)+' '+w.w+'</td><td>'+svg(WI[w.ic])+esc(w.tx)+'</td><td class="tp2">'+w.hi+'° <span>'+w.lo+'°</span></td><td>'+esc(w.wear)+'</td></tr>';
+  }).join('');
+
+  document.getElementById('dist').innerHTML = DIST.map(function(r){
+    if(r[0]==='grp') return '<li class="hdr"><div class="grp">'+r[1]+'</div></li>';
+    return '<li><span>'+esc(r[0])+'</span><span class="km">'+r[1]+'</span><span class="min">'+r[2]+'</span></li>';
+  }).join('');
+
+  /* tabs */
+  var tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('section[data-panel]');
+  var show = function(name){
+    tabs.forEach(function(b){ b.setAttribute('aria-selected', String(b.dataset.tab===name)); });
+    panels.forEach(function(p){ p.hidden = p.dataset.panel!==name; });
+    try{ localStorage.setItem('sea-tab2', name); }catch(e){}
+  };
+  tabs.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.tab); window.scrollTo({top:0}); }); });
+  var saved = null; try{ saved = localStorage.getItem('sea-tab2'); }catch(e){}
+  if(saved && saved!=='glance' && document.querySelector('.tab[data-tab="'+saved+'"]')) show(saved);
+
+  /* ---------- 한눈에: 10일 요약 + 날짜별 동선 지도 ---------- */
+  var PL = {
+    home:['이모 댁',47.818,-122.176,'9905 40th Dr SE, Bothell, WA 98012'],
+    sea:['SEA 공항',47.4436,-122.3016,'Seattle-Tacoma International Airport'],
+    bl:['Bothell Landing',47.7597,-122.2069,'Bothell Landing Park, Bothell, WA'],
+    mc:['Mill Creek',47.859,-122.2168,'Mill Creek Town Center, Mill Creek, WA'],
+    mcm:['McMenamins',47.7625,-122.2053,'McMenamins Anderson School, Bothell, WA'],
+    tum:['Tumwater Canyon',47.644,-120.743,'Tumwater Canyon, Leavenworth, WA'],
+    lvw:['Leavenworth',47.5962,-120.6615,'Front Street Park, Leavenworth, WA'],
+    iss:['Issaquah',47.5301,-122.0386,'Issaquah Salmon Hatchery, Issaquah, WA'],
+    snq:['Snoqualmie 폭포',47.5417,-121.8377,'Snoqualmie Falls, Snoqualmie, WA'],
+    cp:['Canyon Park',47.796,-122.2105,'Canyon Park Park & Ride, Bothell, WA'],
+    lyn:['Lynnwood역',47.8158,-122.2946,'Lynnwood City Center Station'],
+    wl:['Westlake역',47.6116,-122.337,'Westlake Station, Seattle'],
+    pike:['Pike Place',47.6107,-122.3423,'Pike Place Market, Seattle'],
+    sbx:['스타벅스 1호점',47.6101,-122.3426,'Original Starbucks, 1912 Pike Pl, Seattle'],
+    chi:['Chihuly',47.6205,-122.3504,'Chihuly Garden and Glass, Seattle'],
+    kerry:['Kerry Park',47.6295,-122.3599,'Kerry Park, Seattle'],
+    gas:['Gas Works Park',47.6456,-122.3344,'Gas Works Park, Seattle'],
+    ncp:['North Creek Park',47.8329,-122.2186,'North Creek Park, 1011 183rd St SE, Bothell'],
+    mon:['Mon Amie',47.8487,-122.2199,'Mon Amie Bakery & Cafe, Mill Creek'],
+    shop:['이모네 가게',47.8105,-122.1805,'19905 40th Dr SE, Bothell, WA 98012'],
+    pcc:['PCC 마켓',47.7927,-122.2146,'PCC Community Markets Bothell'],
+    lunch:['푸드카트',45.5185,-122.6790,'Downtown Portland food carts'],
+    wood:['Woodburn 아울렛',45.1557,-122.8812,'Woodburn Premium Outlets, Woodburn, OR'],
+    par:['Paradise',46.7865,-121.7353,'Paradise, Mount Rainier National Park'],
+    refl:['Reflection Lakes',46.7686,-121.7295,'Reflection Lakes, Mount Rainier'],
+    nar:['Narada 폭포',46.7753,-121.7455,'Narada Falls, Mount Rainier'],
+    chr:['Christine 폭포',46.7818,-121.781,'Christine Falls, Mount Rainier'],
+    colman:['Colman Dock',47.6025,-122.3386,'Seattle Ferry Terminal Colman Dock'],
+    win:['Bainbridge',47.6247,-122.5165,'Winslow Way E, Bainbridge Island, WA'],
+    locks:['Ballard Locks',47.6655,-122.3972,'Ballard Locks, Seattle'],
+    bave:['Ballard Ave',47.6677,-122.3843,'Ballard Ave NW, Seattle'],
+    kss:['King Street역',47.5983,-122.3301,'King Street Station, Seattle'],
+    pdx:['Portland역',45.529,-122.6765,'Portland Union Station'],
+    pearl:['Pearl 숙소',45.5275,-122.6825,'Pearl District, Portland'],
+    powell:["Powell's",45.5231,-122.6813,"Powell's City of Books, Portland"],
+    nw23:['NW 23rd',45.527,-122.6985,'NW 23rd Ave, Portland'],
+    jgar:['일본정원',45.519,-122.708,'Portland Japanese Garden'],
+    lansu:['중국정원',45.5255,-122.6735,'Lan Su Chinese Garden, Portland']
+  };
+  var US2=[[47.8565,-121.971],[47.71,-121.36],[47.745,-121.088]];
+  var US2R=[[47.644,-120.743],[47.745,-121.088],[47.71,-121.36],[47.8565,-121.971]];
+  var RAIN=[[47.48,-122.19],[47.19,-122.29],[46.77,-122.2],[46.758,-121.98],[46.75,-121.813]];
+  var RAINR=RAIN.slice().reverse();
+  var LINK=[[47.705,-122.325],[47.66,-122.312]];
+  var LINKH=[[47.66,-122.312],[47.705,-122.325],[47.8158,-122.2946]];
+  var AMT=[[47.24,-122.43],[47.0,-122.8],[46.72,-122.96],[46.14,-122.91],[45.63,-122.68]];
+  var AMTR=AMT.slice().reverse();
+  var MODE={car:'차',uber:'우버',walk:'도보',bus:'버스',link:'경전철',mono:'모노레일',train:'Amtrak',ferry:'페리'};
+  var MC={car:'car',uber:'car',walk:'walk',bus:'tr',link:'tr',mono:'tr',train:'train',ferry:'ferry'};
+  var JENNY={2:1,3:1,4:1,10:1};
+
+  /* k: 장소, t: 시간, nm: 이름, s: 요약용 짧은 이름, m/d/wp: 앞 장소에서 오는 이동수단/거리·시간/경유 좌표 */
+  var RT = {
+    1:[{note:1,t:'16:30',nm:'퇴근 → 공항버스 (한국 시간)',sub:'인천공항 제2터미널(T2) 하차',s:'공항버스'},
+       {note:1,t:'21:20',nm:'인천 T2 · OZ272 출발',sub:'18:00 전후 도착 · G~J 카운터',s:'인천 출발'},
+       {k:'sea',t:'15:15',nm:'SEA 공항 도착 (OZ272)',s:'SEA 공항'},
+       {k:'home',t:'17:30',nm:'이모 댁 도착',s:'이모 댁',m:'car',d:'45 km · 45~60분 (퇴근시간)'}],
+    2:[{k:'home',t:'09:15',nm:'이모 댁 출발'},
+       {k:'bl',t:'09:30',nm:'Bothell Landing 강변 산책',s:'강변 산책',m:'car',d:'9 km · 15분'},
+       {k:'mc',t:'12:00',nm:'Mill Creek 타운센터 점심',s:'Mill Creek 점심',m:'car',d:'13 km · 18분'},
+       {gap:1,t:'14:30',nm:'오후 비움',sub:'집에서 15~25분 거리 근교로',s:'오후 빈칸'},
+       {k:'mcm',t:'17:30',nm:'McMenamins Anderson School 이른 저녁',s:'McMenamins 저녁',m:'car',d:'12 km · 18분'},
+       {note:1,t:'20:00',nm:'제니 친구들과 한잔',sub:'장소 미정 · 여권 지참',s:'제니 친구들과 한잔'},
+       {k:'home',nm:'귀가',m:'uber',d:'장소 따라 10~20분'}],
+    3:[{k:'home',t:'08:00',nm:'출발 (US-2 · Stevens Pass)'},
+       {k:'tum',t:'10:10',nm:'Tumwater Canyon 단풍길 (차창)',s:'단풍길',m:'car',d:'165 km · 약 2시간',wp:US2},
+       {k:'lvw',t:'10:30',nm:'Leavenworth 마을 → 12:00 옥토버페스트',s:'Leavenworth 옥토버페스트',m:'car',d:'10 km · 10분'},
+       {k:'home',t:'19:30',nm:'귀가 (17:00 출발)',m:'car',d:'175 km · 2h30',wp:US2R}],
+    4:[{k:'home',t:'09:15',nm:'출발'},
+       {k:'iss',t:'10:00',nm:'Issaquah 연어 축제',s:'Issaquah 연어축제',m:'car',d:'48 km · 35~45분',wp:[[47.62,-122.19]]},
+       {k:'snq',t:'13:30',nm:'Snoqualmie 폭포 · Salish Lodge 카페',s:'Snoqualmie 폭포',m:'car',d:'20 km · 20분'},
+       {k:'home',nm:'귀가',m:'car',d:'56 km · 45~50분'},
+       {note:1,warn:1,nm:'이날 시애틀 다운타운 피하기',sub:'시호크스 + 크라켄 경기 겹침'}],
+    5:[{k:'home',t:'08:40',nm:'출발 (이모부 차)'},
+       {k:'pike',t:'10:00',nm:'Pike Place 푸드투어',s:'Pike Place',m:'car',d:'35 km · 40~50분 · 주차 $36'},
+       {k:'sbx',t:'12:30',nm:'원조 스타벅스 · Gum Wall · 워터프론트',s:'스타벅스 1호점',m:'walk',d:'150 m · 2분'},
+       {k:'gas',t:'15:00',nm:'Gas Works Park · 저녁 · 일몰 18:40',s:'Gas Works 일몰',m:'car',d:'5 km · 15분'},
+       {k:'home',t:'19:30',nm:'귀가 (19:00 출발)',m:'car',d:'28 km · 30분'}],
+    6:[{k:'home',t:'09:30',nm:'출발'},
+       {k:'cp',via:1,nm:'Canyon Park P&R',m:'car',d:'4 km · 8분'},
+       {k:'lyn',via:1,nm:'Lynnwood역',m:'bus',d:'535번 · 15분'},
+       {k:'wl',via:1,nm:'Westlake역',m:'link',d:'30분',wp:LINK},
+       {k:'colman',t:'10:40',nm:'Colman Dock 페리 터미널',m:'walk',d:'1 km · 15분 (내리막)'},
+       {k:'win',t:'11:20',nm:'Bainbridge · Winslow 거리 · 점심',s:'페리 · Bainbridge',m:'ferry',d:'14 km · 35분 · 왕복 $11.35'},
+       {k:'colman',via:1,nm:'시애틀로 돌아옴',m:'ferry',d:'35분'},
+       {k:'locks',t:'13:30',nm:'Ballard Locks · 연어 사다리',s:'Ballard Locks',m:'uber',d:'9 km · 15분 (버스 40번도 됨)'},
+       {k:'bave',t:'16:00',nm:'Ballard Ave · 저녁',s:'Ballard 저녁',m:'walk',d:'1.2 km · 15분'},
+       {k:'home',nm:'귀가',m:'uber',d:'25 km · 30분 · 대중교통 1시간'}],
+    7:[{k:'home',t:'06:30',nm:'출발 (이모부 차)'},
+       {k:'wood',t:'10:00',nm:'Woodburn 아울렛 · 점심',s:'아울렛 쇼핑',m:'car',d:'335 km · 3시간 반 + 휴게소',wp:AMT},
+       {k:'jgar',t:'13:15',nm:'일본정원 + 장미 정원',s:'일본정원',m:'car',d:'50 km · 45분'},
+       {k:'powell',t:'15:15',nm:"Powell's 서점 · Pearl 쇼핑",s:"Powell's",m:'car',d:'3 km · 10분'},
+       {k:'nw23',t:'17:00',nm:'NW 23rd · Salt & Straw · 저녁',s:'NW 23rd 저녁',m:'car',d:'2 km · 7분'},
+       {k:'home',t:'22:00',nm:'귀가 (19:00 출발)',m:'car',d:'305 km · 3시간',wp:AMTR}],
+    8:[{k:'home',nm:'이모 댁'},
+       {k:'ncp',t:'10:00',nm:'North Creek Park 데크 산책',s:'습지 데크 산책',m:'car',d:'3 km · 5분'},
+       {k:'mon',t:'11:00',nm:'Mon Amie Bakery 브런치',s:'빵집 브런치',m:'car',d:'2 km · 5분'},
+       {k:'shop',t:'13:30',nm:'이모네 가게 구경',s:'이모네 가게',m:'car',d:'6 km · 10분'},
+       {k:'pcc',t:'15:00',nm:'PCC 마켓 · 기념품 장보기',s:'마트 구경',m:'car',d:'3 km · 5분'},
+       {k:'home',t:'17:00',nm:'집에서 쉬기 · 이모 가족과 저녁',m:'car',d:'4 km · 8분'}],
+    9:[{k:'home',t:'07:30',nm:'출발'},
+       {k:'par',t:'10:15',nm:'Paradise · Myrtle Falls 산책 · 도시락',s:'Paradise',m:'car',d:'180 km · 2h45',wp:RAIN},
+       {k:'refl',t:'14:00',nm:'Reflection Lakes',s:'Reflection Lakes',m:'car',d:'5 km · 10분'},
+       {k:'nar',nm:'Narada Falls',s:'Narada 폭포',m:'car',d:'2 km · 5분'},
+       {k:'chr',nm:'Christine Falls',s:'Christine 폭포',m:'car',d:'8 km · 12분'},
+       {k:'home',t:'18:30',nm:'귀가 (15:30 출발)',m:'car',d:'185 km · 약 3시간',wp:RAINR}],
+    10:[{k:'home',nm:'이모 댁'},
+       {gap:1,t:'09:30',nm:'오전 비움',sub:'14시 귀가 기준 · 가까운 곳으로',s:'오전 빈칸'},
+       {note:1,t:'14:00',nm:'귀가 · 짐 정리 · 이모 가족과 마지막 저녁',s:'짐 정리'},
+       {k:'sea',t:'21:00',nm:'SEA 공항 도착 (00:10 OZ271)',s:'공항',m:'car',d:'45 km · 50분 (20:00 출발)'}]
+  };
+  var CITY=[['시애틀',47.6062,-122.3321],['벨뷰',47.6101,-122.2015],['에버렛',47.979,-122.2021],['타코마',47.2529,-122.4443],['올림피아',47.0379,-122.9007],['포틀랜드',45.5152,-122.6784],['레이니어산',46.8523,-121.7603],['Stevens Pass',47.745,-121.088],['Monroe',47.8565,-121.971]];
+
+  var MW=340, MH=260, PAD=32;
+  var tw = function(t){ var w=0; for(var i=0;i<t.length;i++){ var c=t.charCodeAt(i); w += c>0x2E80 ? 11 : (c===32 ? 3.2 : 6.4); } return w; };
+  var hit = function(a,b){ return a.x<b.x+b.w && b.x<a.x+a.w && a.y<b.y+b.h && b.y<a.y+a.h; };
+
+  var drawMap = function(n){
+    var items=RT[n], pts=[];
+    items.forEach(function(it){ if(it.k){ pts.push([PL[it.k][1],PL[it.k][2]]); } });
+    var la0=Infinity,la1=-Infinity,lo0=Infinity,lo1=-Infinity;
+    pts.forEach(function(p){ la0=Math.min(la0,p[0]);la1=Math.max(la1,p[0]);lo0=Math.min(lo0,p[1]);lo1=Math.max(lo1,p[1]); });
+    var kx=Math.cos((la0+la1)/2*Math.PI/180);
+    var w=Math.max((lo1-lo0)*kx,0.02), h=Math.max(la1-la0,0.02);
+    var sc=Math.min((MW-2*PAD)/w,(MH-2*PAD)/h);
+    var cx=(lo0+lo1)/2*kx, cy=(la0+la1)/2;
+    var P=function(la,lo){ return [MW/2+(lo*kx-cx)*sc, MH/2-(la-cy)*sc]; };
+    var f=function(v){ return Math.round(v*10)/10; };
+
+    var paths='', prev=null;
+    items.forEach(function(it){
+      if(!it.k) return;
+      var cur=[PL[it.k][1],PL[it.k][2]];
+      if(prev && it.m){
+        var seq=[prev].concat(it.wp||[]).concat([cur]);
+        paths+='<path class="r r-'+MC[it.m]+'" d="'+seq.map(function(q,i){ var xy=P(q[0],q[1]); return (i?'L':'M')+f(xy[0])+' '+f(xy[1]); }).join('')+'"/>';
+      }
+      prev=cur;
+    });
+
+    var M=[], vias='', seen={}, num=0;
+    items.forEach(function(it){
+      if(!it.k) return;
+      var xy=P(PL[it.k][1],PL[it.k][2]);
+      if(it.via){ vias+='<circle class="vd" cx="'+f(xy[0])+'" cy="'+f(xy[1])+'" r="4"/>'; return; }
+      if(it.k==='home'){ if(seen.home) return; seen.home=1; M.push({x:xy[0],y:xy[1],x0:xy[0],y0:xy[1],home:1,lb:PL.home[0]}); return; }
+      num++; M.push({x:xy[0],y:xy[1],x0:xy[0],y0:xy[1],num:num,lb:PL[it.k][0]});
+    });
+    for(var iter=0; iter<60; iter++){
+      var moved=false;
+      for(var i=0;i<M.length;i++) for(var j=i+1;j<M.length;j++){
+        var dx=M[j].x-M[i].x, dy=M[j].y-M[i].y, d=Math.sqrt(dx*dx+dy*dy);
+        if(d<25){ if(d<0.01){ dx=Math.cos(j*2.4); dy=Math.sin(j*2.4); d=1; } var pu=(25-d)/2, ux=dx/d, uy=dy/d;
+          M[i].x-=ux*pu; M[i].y-=uy*pu; M[j].x+=ux*pu; M[j].y+=uy*pu; moved=true; }
+      }
+      M.forEach(function(m){ m.x=Math.max(14,Math.min(MW-14,m.x)); m.y=Math.max(14,Math.min(MH-30,m.y)); });
+      if(!moved) break;
+    }
+
+    var pxkm=sc/111, nice=[0.5,1,2,5,10,20,50,100], km=nice[0];
+    nice.forEach(function(v){ if(v*pxkm<=80) km=v; });
+    var bl=f(km*pxkm);
+    var boxes=M.map(function(m){ return {x:m.x-12,y:m.y-12,w:24,h:24}; });
+    boxes.push({x:6,y:MH-22,w:bl+50,h:20});
+    var lead='', marks='', labels='';
+    M.forEach(function(m){
+      if(Math.abs(m.x-m.x0)+Math.abs(m.y-m.y0)>4){
+        lead+='<line class="ld" x1="'+f(m.x0)+'" y1="'+f(m.y0)+'" x2="'+f(m.x)+'" y2="'+f(m.y)+'"/><circle class="od" cx="'+f(m.x0)+'" cy="'+f(m.y0)+'" r="2.2"/>';
+      }
+      if(m.home){
+        marks+='<g transform="translate('+f(m.x)+' '+f(m.y)+')"><rect class="mh" x="-11" y="-11" width="22" height="22" rx="6"/><use class="mhi" href="#p-home" x="-8" y="-8" width="16" height="16"/></g>';
+      } else {
+        marks+='<circle class="mk" cx="'+f(m.x)+'" cy="'+f(m.y)+'" r="11"/><text class="mn" x="'+f(m.x)+'" y="'+f(m.y)+'">'+m.num+'</text>';
+      }
+    });
+    M.forEach(function(m){
+      var wd=tw(m.lb), ht=13;
+      var cands=[{x:m.x+15,y:m.y-ht/2},{x:m.x-15-wd,y:m.y-ht/2},{x:m.x-wd/2,y:m.y-15-ht},{x:m.x-wd/2,y:m.y+15},{x:m.x-wd+4,y:m.y+14},{x:m.x-wd+4,y:m.y-14-ht},{x:m.x-4,y:m.y+14},{x:m.x-4,y:m.y-14-ht}];
+      for(var c=0;c<cands.length;c++){
+        var b={x:cands[c].x,y:cands[c].y,w:wd,h:ht};
+        if(b.x<4||b.y<4||b.x+b.w>MW-4||b.y+b.h>MH-4) continue;
+        if(boxes.some(function(o){ return hit(b,o); })) continue;
+        boxes.push(b);
+        labels+='<text class="lb" x="'+f(b.x)+'" y="'+f(b.y+10)+'">'+esc(m.lb)+'</text>';
+        break;
+      }
+    });
+    var cities='';
+    CITY.forEach(function(c){
+      var xy=P(c[1],c[2]), wd=tw(c[0])*0.95, b={x:xy[0]-wd/2,y:xy[1]-7,w:wd,h:13};
+      if(b.x<6||b.y<6||b.x+b.w>MW-6||b.y+b.h>MH-24) return;
+      if(boxes.some(function(o){ return hit(b,o); })) return;
+      if(M.some(function(m){ return Math.abs(m.x0-xy[0])<16 && Math.abs(m.y0-xy[1])<16; })) return;
+      boxes.push(b);
+      cities+='<text class="ct" x="'+f(b.x)+'" y="'+f(b.y+10)+'">'+esc(c[0])+'</text>';
+    });
+
+    var scale='<line class="sc" x1="12" y1="'+(MH-12)+'" x2="'+(12+bl)+'" y2="'+(MH-12)+'"/><line class="sc" x1="12" y1="'+(MH-16)+'" x2="12" y2="'+(MH-8)+'"/><line class="sc" x1="'+(12+bl)+'" y1="'+(MH-16)+'" x2="'+(12+bl)+'" y2="'+(MH-8)+'"/><text class="st" x="'+(16+bl)+'" y="'+(MH-9)+'">'+km+' km</text>';
+    var north='<text class="st" x="'+(MW-16)+'" y="16" text-anchor="middle">N</text><path class="sc" d="M'+(MW-16)+' 20v10" fill="none"/>';
+
+    document.getElementById('mapbox').innerHTML='<svg class="mp" viewBox="0 0 '+MW+' '+MH+'" role="img" aria-label="'+esc(DAYS[n-1].theme)+' 동선 약도">'
+      +'<defs><pattern id="gdot" width="16" height="16" patternUnits="userSpaceOnUse"><circle class="gd" cx="1" cy="1" r="1"/></pattern></defs>'
+      +'<rect class="bg" width="'+MW+'" height="'+MH+'"/><rect width="'+MW+'" height="'+MH+'" fill="url(#gdot)"/>'
+      +cities+paths+lead+vias+marks+labels+scale+north+'</svg>';
+  };
+
+  var segList = function(n){
+    var num=0, h='';
+    RT[n].forEach(function(it,i){
+      if(it.m && i>0) h+='<li class="mv mv-'+MC[it.m]+'"><span class="ln"></span><span class="tx"><b>'+MODE[it.m]+'</b>'+esc(it.d||'')+'</span></li>';
+      var tm='<span class="tm2">'+(it.t||'')+'</span>';
+      var sub=it.sub?'<span class="sb">'+esc(it.sub)+'</span>':'';
+      if(it.gap){ h+='<li class="st gapr"><span class="no gp">?</span><span><span class="nm2">'+esc(it.nm)+'</span>'+sub+'</span>'+tm+'</li>'; return; }
+      if(it.note){ h+='<li class="st'+(it.warn?' wn':'')+'"><span class="no nt">'+(it.warn?'!':'·')+'</span><span><span class="nm2">'+esc(it.nm)+'</span>'+sub+'</span>'+tm+'</li>'; return; }
+      var badge;
+      if(it.k==='home') badge='<span class="no hm">'+svg('p-home')+'</span>';
+      else if(it.via) badge='<span class="no vi"></span>';
+      else { num++; badge='<span class="no">'+num+'</span>'; }
+      h+='<li class="st'+(it.via?' via':'')+'">'+badge+'<span><span class="nm2">'+esc(it.nm)+'</span>'+sub+'</span>'+tm+'</li>';
+    });
+    document.getElementById('segs').innerHTML=h;
+  };
+
+  var gUrl = function(n){
+    var q=[];
+    RT[n].forEach(function(it){ if(it.k && !it.via){ var a=PL[it.k][3]; if(q[q.length-1]!==a) q.push(a); } });
+    if(q.length<2) return M(q[0]||'Bothell, WA');
+    var u='https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(q[0])+'&destination='+encodeURIComponent(q[q.length-1]);
+    if(q.length>2) u+='&waypoints='+encodeURIComponent(q.slice(1,-1).join('|'));
+    return u;
+  };
+
+  var cur=1;
+  var pick = function(n, scroll){
+    cur=n; var d=DAYS[n-1];
+    document.querySelectorAll('.sum .row').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.n===n)); });
+    var dc=document.getElementById('dchips');
+    dc.querySelectorAll('.dchip').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.n===n)); });
+    var on=dc.querySelector('.dchip[data-n="'+n+'"]');
+    if(on) dc.scrollLeft = on.offsetLeft - dc.clientWidth/2 + on.offsetWidth/2;
+    document.getElementById('mdate').textContent = d.date.replace('.','/').replace('/0','/')+' '+d.w+'요일';
+    document.getElementById('mtitle').textContent = d.theme;
+    drawMap(n); segList(n);
+    document.getElementById('gmap').href = gUrl(n);
+    if(scroll) document.getElementById('mapcard').scrollIntoView({block:'start'});
+  };
+
+  document.getElementById('sum').innerHTML = DAYS.map(function(d){
+    var items=RT[d.n]||[], wk=(d.w==='토'||d.w==='일')?' wknd':'';
+    var fl=items.filter(function(it){ return it.s && !it.via; }).map(function(it){ return it.gap?'<span class="gp">'+esc(it.s)+'</span>':esc(it.s); }).join(' <span class="ar">→</span> ');
+    var ch = d.aunt ? '<span class="chip au">이모 동행</span>' : '<span class="chip">'+esc(d.who)+'</span>';
+    if(JENNY[d.n]) ch+='<span class="chip je">제니 가능</span>';
+    if(d.how && d.how!=='—') ch+='<span class="chip">'+esc(d.how)+'</span>';
+    if(items.some(function(it){ return it.gap; })) ch+='<span class="chip gp">빈칸 있음</span>';
+    return '<li><button class="row" type="button" data-n="'+d.n+'" aria-pressed="false"><span class="dd'+wk+'">'+d.date.slice(3).replace(/^0/,'')+'<small>'+d.w+'</small></span>'
+      +'<span class="rb"><span class="th">'+esc(d.theme)+'</span><span class="fl">'+fl+'</span><span class="chips">'+ch+'</span></span>'
+      +'<span class="wq">'+svg(WI[WX[d.n-1].ic])+'<span>'+WX[d.n-1].hi+'° <small>'+WX[d.n-1].lo+'°</small></span></span></button></li>';
+  }).join('');
+  document.getElementById('dchips').innerHTML = DAYS.map(function(d){
+    var wk=(d.w==='토'||d.w==='일')?' wknd':'';
+    return '<button class="dchip'+wk+'" type="button" data-n="'+d.n+'" aria-pressed="false">'+d.date.replace('.','/').replace('/0','/')+'<small>'+d.w+'</small></button>';
+  }).join('');
+  document.querySelectorAll('.sum .row').forEach(function(b){ b.addEventListener('click', function(){ pick(+b.dataset.n, true); }); });
+  document.querySelectorAll('.dchip').forEach(function(b){ b.addEventListener('click', function(){ pick(+b.dataset.n, false); }); });
+  document.getElementById('todetail').addEventListener('click', function(){
+    show('plan');
+    var el=document.getElementById('d'+cur); if(el) el.scrollIntoView({block:'start'});
+  });
+  var now=new Date(), def=1;
+  if(now.getFullYear()===2026 && now.getMonth()===9 && now.getDate()<=10) def=now.getDate();
+  pick(def, false);
+
+})();
+</script>
+
+</body></html>
