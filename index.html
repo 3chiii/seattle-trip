@@ -85,6 +85,7 @@ h3{font-size:16.5px;font-weight:600;margin:18px 0 8px}
 .wx svg{width:28px;height:28px;display:block;margin:0 0 2px auto}
 .wx .temps{font-family:var(--mono);font-size:14px;font-weight:500;white-space:nowrap}
 .wx .temps span{color:var(--muted)}
+.wl{font-family:var(--sans);font-size:11px;color:var(--muted);line-height:1.3;font-weight:400;white-space:nowrap}
 .wear{margin:0 18px 6px;padding:9px 12px;border-radius:10px;background:var(--surface-2);font-size:14px;line-height:1.5;display:flex;gap:10px;align-items:flex-start;color:var(--ink)}
 .wear .k{font-size:12px;color:var(--muted);flex:0 0 auto;padding-top:1px;font-weight:600}
 
@@ -354,9 +355,9 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
 </section>
 
 <section data-panel="weather" hidden>
-  <div class="note">10월 초 시애틀 평년: <b>낮 15~18°C · 아침 8~10°C</b>, 흐리다 오다 말다. 아래는 <b>9/29 기준 예보</b>예요 (1~8일 WeatherBug 10일 예보, 9~10일 AccuWeather 장기예보). <b>1~8일 비 예보 없음</b>, 예년보다 2~3°C 따뜻해요. 출발 전날 한 번 더 확인하세요. 일출 07:07 → 07:20 / 일몰 18:50 → 18:32.</div>
+  <div class="note">10월 초 시애틀 평년: <b>낮 15~18°C · 아침 8~10°C</b>, 흐리다 오다 말다. 아래는 <b>AccuWeather 9/29 예보</b>로, <b>그날 가는 곳</b> 기준이에요. 여행 내내 <b>비 예보 없이 맑거나 구름 조금</b>, 예년보다 따뜻해요. 산(레븐워스·레이니어)은 <b>낮과 밤 기온 차가 15°C 이상</b>이라 겉옷 필수. 뒤쪽 날짜일수록 바뀔 수 있으니 전날 한 번 더 확인하세요. 일출 07:07 → 07:20 / 일몰 18:50 → 18:32.</div>
   <div class="tscroll"><table>
-    <thead><tr><th>날짜</th><th>예보</th><th>최고/최저</th><th>옷차림</th></tr></thead>
+    <thead><tr><th>날짜·장소</th><th>예보</th><th>최고/최저</th><th>옷차림</th></tr></thead>
     <tbody id="wxrows"></tbody>
   </table></div>
 
@@ -427,7 +428,7 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
   <p>이모 댁: 9905 40th Dr SE, Bothell, WA 98012 · <a href="https://www.google.com/maps/search/?api=1&query=9905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">지도</a></p>
   <p>이모네 가게: 19905 40th Dr SE, Bothell, WA 98012 · <a href="https://www.google.com/maps/search/?api=1&query=19905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">지도</a> · 집에서 걸어서 16분, 차 5분</p>
   <p>시애틀은 한국보다 16시간 늦음(PDT). 시애틀 오전 9시 = 한국 다음날 새벽 1시.</p>
-  <p>정보 확인일 2026.09.22 (날씨 9.29) · 가격·운행은 예약 전 한 번 더 확인.</p>
+  <p>정보 확인일 2026.09.22 (날씨 AccuWeather 9.29) · 가격·운행은 예약 전 한 번 더 확인.</p>
 </footer>
 </div>
 
@@ -438,18 +439,18 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
   var svg = function(id){ return '<svg aria-hidden="true"><use href="#'+id+'"/></svg>'; };
   var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); };
 
-  /* ---------- 날씨 (9/29 예보: 1~8일 WeatherBug 10일 예보, 9~10일 AccuWeather 장기예보) ---------- */
+  /* ---------- 날씨 (AccuWeather 9/29, 그날 가는 곳 기준) ---------- */
   var WX = [
-    {d:'10.01', w:'목', hi:17, lo:11, ic:'cloud',  tx:'대체로 흐림',            wear:'긴팔 + 얇은 겉옷. 비 예보 없음'},
-    {d:'10.02', w:'금', hi:19, lo:12, ic:'cloud',  tx:'대체로 흐림',            wear:'긴팔 + 가디건. 저녁 술자리엔 겉옷 하나'},
-    {d:'10.03', w:'토', hi:19, lo:13, ic:'sun',    tx:'대체로 맑음',            wear:'시애틀 기준. Leavenworth·고개는 아침저녁 훨씬 쌀쌀 — 플리스 + 재킷'},
-    {d:'10.04', w:'일', hi:19, lo:12, ic:'sun',    tx:'대체로 맑음',            wear:'긴팔 + 얇은 겉옷, 폭포 물보라엔 후드'},
-    {d:'10.05', w:'월', hi:17, lo:12, ic:'partly', tx:'구름 사이 해',           wear:'편한 운동화. Gas Works 저녁엔 호숫가 바람 — 겉옷'},
-    {d:'10.06', w:'화', hi:16, lo:12, ic:'partly', tx:'구름 조금',              wear:'페리 갑판 바람 — 재킷 지퍼 끝까지, 비니'},
-    {d:'10.07', w:'수', hi:17, lo:12, ic:'partly', tx:'구름 조금',              wear:'포틀랜드도 비슷. 차 오래 타는 날 — 편한 옷·운동화, 저녁용 겉옷'},
-    {d:'10.08', w:'목', hi:18, lo:11, ic:'partly', tx:'구름 조금',              wear:'동네 산책 — 긴팔 + 가디건'},
-    {d:'10.09', w:'금', hi:18, lo:11, ic:'cloud',  tx:'장기예보 · 하늘 미정',   wear:'시애틀 기준. Rainier는 훨씬 추움 — 패딩·비니·장갑·등산화. 전날 예보 확인'},
-    {d:'10.10', w:'토', hi:17, lo:9,  ic:'cloud',  tx:'장기예보 · 하늘 미정',   wear:'비행기용 편한 옷. 전날 예보 확인'}
+    {d:'10.01', w:'목', loc:'보셀', hi:17, lo:9,  ic:'partly', tx:'구름 사이 해',          wear:'긴팔 + 가디건. 비 예보 없음'},
+    {d:'10.02', w:'금', loc:'보셀', hi:20, lo:9,  ic:'partly', tx:'구름 사이 해',          wear:'긴팔 + 가디건. 저녁 술자리엔 겉옷'},
+    {d:'10.03', w:'토', loc:'Leavenworth', hi:25, lo:8, ic:'sun', tx:'맑음 · 낮엔 따뜻',  wear:'낮엔 반팔도 OK, 해 지면 8°C까지 뚝 — 플리스 + 재킷 꼭. 선글라스·모자'},
+    {d:'10.04', w:'일', loc:'노스캐스케이드', hi:23, lo:10, ic:'sun', tx:'맑음',            wear:'낮 23°C로 따뜻. Washington Pass(해발 1,670m)는 훨씬 쌀쌀 — 겉옷. 선글라스'},
+    {d:'10.05', w:'월', loc:'시애틀', hi:19, lo:10, ic:'partly', tx:'구름 사이 해',        wear:'편한 운동화. Gas Works 일몰 땐 호숫가 바람 — 겉옷'},
+    {d:'10.06', w:'화', loc:'시애틀·Bainbridge', hi:19, lo:11, ic:'partly', tx:'구름 걷히며 해', wear:'페리 갑판 바람 — 재킷 지퍼 끝까지, 비니'},
+    {d:'10.07', w:'수', loc:'포틀랜드', hi:27, lo:14, ic:'sun', tx:'맑고 더움',             wear:'반팔 + 얇은 겉옷(아침·저녁·차 안). 선크림·물 챙기기'},
+    {d:'10.08', w:'목', loc:'보셀·벨뷰', hi:20, lo:12, ic:'partly', tx:'구름 사이 해',     wear:'긴팔 + 가디건'},
+    {d:'10.09', w:'금', loc:'레이니어 Paradise', hi:14, lo:4, ic:'sun', tx:'맑음 · 산 위',  wear:'산 위 낮 14°C·아침 4°C — 패딩·비니·장갑·등산화. 햇빛 강해서 선글라스'},
+    {d:'10.10', w:'토', loc:'보셀', hi:20, lo:11, ic:'sun', tx:'맑음',                    wear:'비행기용 편한 옷 + 기내용 가디건'}
   ];
 
   /* ---------- 일정 ----------
@@ -475,54 +476,55 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
      ]},
     {n:3, ov:'Leavenworth', oi:'beer', date:'10.03', w:'토', theme:'Leavenworth · 바바리아 마을 옥토버페스트', who:'이모부 차', how:'편도 2h15', leaf:'Tumwater Canyon 단풍', fixed:true,
      items:[
-      {i:'mountain', t:'08:00', p:'US-2 → Stevens Pass → Tumwater Canyon', a:'캐스케이드 산맥을 넘는 산악 도로. 마을 직전 Tumwater Canyon은 워싱턴에서 손꼽히는 단풍길 — 10월 첫 두 주가 절정.', n:'고개 정상은 5°C 안팎', map:'Tumwater Canyon, US-2, Leavenworth'},
-      {i:'village', t:'10:30', p:'Leavenworth Front Street', b:[{u:'https://blog.naver.com/choijs1021/224158988181', t:'미국 리븐워스 독일 마을 여행', d:'2026.2'}, {u:'https://blog.naver.com/youngvely735/223939141179', t:'시애틀 근교 여행 : 리븐워스 (옥토버페스트 언급)', d:'2025.7'}], a:'1960년대 목재산업이 무너진 마을을 통째로 독일 바바리아풍으로 다시 지어 살려낸 곳. 알프스 산장 같은 건물, 소시지·프레첼, 호두까기 인형 박물관.', n:'마을 구경은 무료. 점심은 독일식', map:'Front Street Park, Leavenworth, WA'},
-      {i:'beer', t:'12:00', p:'Oktoberfest 축제장', a:'독일 맥주 + 밴드 + 요들 + 소시지. 미국에서 손꼽히는 규모의 옥토버페스트.', n:'토 $40, 12~24시. 티켓은 leavenworth.org(EventIM)에서만 — 다른 사이트는 리셀러. 5시쯤 나오면 인파 피함', map:'Leavenworth Oktoberfest, Front Street Park'},
+      {i:'mountain', t:'08:00', p:'US-2 → Stevens Pass → Tumwater Canyon', a:'캐스케이드 산맥을 넘는 산악 도로. 마을 직전 Tumwater Canyon은 워싱턴에서 손꼽히는 단풍길 — 10월 첫 두 주가 절정.', n:'고개 정상은 5°C 안팎. ⚡ 완충 출발 — 오르막이라 배터리 빨리 닳음. 충전소는 테슬라 내비로 확인', map:'Tumwater Canyon, US-2, Leavenworth'},
+      {i:'village', t:'10:30', p:'Leavenworth Front Street', a:'1960년대 목재산업이 무너진 마을을 통째로 독일 바바리아풍으로 다시 지어 살려낸 곳. 알프스 산장 같은 건물, 소시지·프레첼, 호두까기 인형 박물관.', n:'마을 구경은 무료. 점심은 독일식', map:'Front Street Park, Leavenworth, WA'},
+      {i:'beer', t:'12:00', p:'Oktoberfest 축제장', b:[{u:'https://blog.naver.com/yuyeon4145/224342144808', t:'리븐워스 옥토버페스트 후기', d:''}], a:'독일 맥주 + 밴드 + 요들 + 소시지. 미국에서 손꼽히는 규모의 옥토버페스트.', n:'토 $40, 12~24시. 티켓은 leavenworth.org(EventIM)에서만 — 다른 사이트는 리셀러. 5시쯤 나오면 인파 피함', map:'Leavenworth Oktoberfest, Front Street Park'},
       {i:'car', t:'17:00', p:'출발 → Bothell (도착 19:30)', a:'', n:'', map:'', opt:'<b>이모부가 바쁘시면</b> Starline 버스 왕복 $89 — 다운타운 9th Ave &amp; Pine 09:00 출발, 18:30 복귀. Lynnwood에서 Link 첫차로 가면 맞출 수 있어요. 10/10(토)에도 같은 버스 있음.'}
      ]},
-    {n:4, ov:'연어·폭포', oi:'fish', date:'10.04', w:'일', theme:'Issaquah 연어 축제 · Snoqualmie 폭포', who:'이모부 차', how:'편도 45분',
+    {n:4, ov:'Diablo Lake', oi:'mountain', date:'10.04', w:'일', theme:'노스캐스케이드 · Diablo Lake 드라이브', who:'이모부 차', how:'편도 2h30', leaf:'산 단풍 · 낙엽송',
      items:[
-      {i:'fish', t:'10:00', p:'Issaquah Salmon Days', b:[{u:'https://blog.naver.com/wony318/224056336278', t:'시애틀 연어축제 (이사콰 부화장)', d:'2026.1'}, {u:'https://blog.naver.com/anyes88/224053210245', t:'이사콰 살몬데이즈 동네축제에 가다', d:'2026.1'}], a:'연어가 태어난 하천으로 돌아오는 10월, Issaquah 시내 전체가 축제장. 부화장 다리 위에서 연어 떼를 바로 내려다보고, 200여 개 부스와 퍼레이드.', n:'무료, 10~18시. 주차 혼잡 — 10시 전 도착 or 외곽 주차 + 무료 셔틀', map:'Issaquah Salmon Hatchery, 125 W Sunset Way, Issaquah'},
-      {i:'falls', t:'13:30', p:'Snoqualmie Falls', b:[{u:'https://blog.naver.com/murphy1222/224008534060', t:'시애틀 근교: 스노퀄미 폭포', d:'2025.9'}], a:'82m 높이(나이아가라보다 높음) 폭포. 드라마 <트윈 픽스> 배경. 주차장 옆 전망대에서 바로 보여서 걷기 거의 없음.', n:'무료. 길 건너 무료 주차장. Issaquah에서 20분', map:'Snoqualmie Falls, 6501 Railroad Ave SE, Snoqualmie'},
-      {i:'coffee', t:'15:00', p:'Salish Lodge 카페', a:'폭포 바로 위에 앉은 롯지. 창가 자리에서 폭포 보며 차 한 잔.', n:'', map:'Salish Lodge & Spa, Snoqualmie'},
-      {i:'alert', warn:true, t:'', p:'이날 다운타운은 피하기', a:'시호크스(13:25) + 크라켄 홈 개막(17:00)이 같은 날 — 시내 극심한 혼잡.', n:'', map:''}
+      {i:'car', t:'08:30', p:'출발 → I-5 북쪽 → SR-20 (North Cascades Hwy)', a:'Burlington에서 동쪽으로 꺾어 Skagit 강을 따라 산속으로 들어가요.', n:'⚡ 완충 출발. 산속엔 충전소 없음 — 가는 길·오는 길 Burlington 슈퍼차저에서 20~30분 충전. 점심은 도시락 추천(식당 거의 없음). Marblemount가 마지막 화장실', map:'Tesla Supercharger Burlington, WA'},
+      {i:'falls', t:'10:45', p:'Gorge Creek 폭포', a:'도로 다리 위에서 협곡 사이로 떨어지는 폭포를 내려다봐요.', n:'도로 옆 주차장에서 몇 분. 짧게 사진만', map:'Gorge Creek Falls Overlook, North Cascades Hwy'},
+      {i:'view', t:'11:15', p:'Diablo Lake 전망대', b:[{u:'https://blog.naver.com/thedailyhailey/223450296748', t:'노스캐스케이드 · 디아블로 호수 후기', d:''}, {u:'https://blog.naver.com/common_kr_name/223447423914', t:'노스캐스케이드 · 디아블로 호수 후기', d:''}], a:'빙하 가루가 녹아들어 에메랄드·청록빛을 띠는 산속 호수. 워싱턴주에서 가장 사진이 많이 찍히는 풍경 중 하나예요.', n:'무료. 주차장에서 1~2분. 해가 들 때 색이 제일 예뻐요 — 이날 예보 맑음. 여기서 도시락 점심', map:'Diablo Lake Vista Point, North Cascades Hwy'},
+      {i:'mountain', t:'12:45', p:'Washington Pass 전망대 (선택)', a:'해발 약 1,670m 고개. 뾰족한 Liberty Bell 바위산과 10월 초 금빛으로 물드는 낙엽송.', n:'Diablo에서 45분 더. 포장 산책길 한 바퀴 10분. 쌀쌀하니 겉옷', map:'Washington Pass Overlook, North Cascades Hwy'},
+      {i:'car', t:'13:30', p:'출발 → Bothell (도착 16:45~17:00)', a:'', n:'오는 길 Marblemount·Concrete에서 쉬어가기', map:'', opt:'<b>힘들면</b> Washington Pass는 빼고 Diablo Lake에서 돌아오기 → 귀가 15:30'}
      ]},
     {n:5, ov:'다운타운·Gas Works', oi:'view', date:'10.05', w:'월', theme:'이모와 다운타운 · Gas Works 일몰', who:'이모 동행', aunt:true, how:'이모부 차',
      items:[
       {i:'car', t:'08:40', p:'출발 → Pike Place Market 주차장 (09:30 도착)', a:'', n:'출근 정체 끝물이라 40~50분. 주차 4~10시간 $36 (09시 전 입차 조건인 하루 $17은 07:50 출발이 필요해서 안 씀)', map:'Pike Place Market Parking Garage, 1531 Western Ave, Seattle'},
-      {i:'market', t:'10:00', p:'Savor Seattle 푸드투어 · Pike Place Market', b:[{u:'https://blog.naver.com/cindylog-/224397965543', t:'파이크 플레이스 마켓 쇼핑 추천 기념품까지', d:'2026.9'}, {u:'https://blog.naver.com/zzzsosos1/224344071776', t:'파이크플레이스 맛집·마켓·주차·기념품 완전 정리', d:'2026.7'}, {u:'https://blog.naver.com/reine____/224111213793', t:'파이크 플레이스 마켓 *생선던지기*', d:'2025.11'}], a:'1907년 문 연 미국에서 가장 오래된 공설시장. 가이드와 상인 이야기 들으며 클램차우더·훈제연어·도넛·치즈 14가지 시식.', n:'$78, 2시간 15분, 팁 없음. 집결 2004 1st Ave. 이걸로 점심 해결', map:'2004 1st Ave, Seattle'},
+      {i:'market', t:'10:00', p:'Savor Seattle 푸드투어 · Pike Place Market', a:'1907년 문 연 미국에서 가장 오래된 공설시장. 가이드와 상인 이야기 들으며 클램차우더·훈제연어·도넛·치즈 14가지 시식.', n:'$78, 2시간 15분, 팁 없음. 집결 2004 1st Ave. 이걸로 점심 해결', map:'2004 1st Ave, Seattle'},
       {i:'coffee', t:'12:30', p:'원조 스타벅스 · Gum Wall · 워터프론트', a:'1971년 스타벅스 1호점(갈색 원조 로고). 골목 아래 Gum Wall은 껌으로 뒤덮인 벽. 새로 생긴 Overlook Walk 산책로로 바다까지 내려가요.', n:'스타벅스는 줄이 길어서 사진만. 1시간 반 여유롭게 걷고 카페에서 쉬기', map:'Original Starbucks, 1912 Pike Pl, Seattle'},
-      {i:'view', t:'15:00', p:'Gas Works Park · 다운타운 스카이라인', a:'옛 가스 공장 설비를 그대로 남긴 호숫가 공원. 완만한 잔디 언덕(Kite Hill)에 오르면 Lake Union 건너 다운타운과 스페이스 니들이 한눈에 보여요.', n:'무료, 공원 주차장 있음. 마켓에서 차 15분. 공장 탑 사다리·통로 철거 공사가 올봄 있었어서 펜스가 남아 있을 수 있음. 저녁은 차 5분 Fremont 동네에서 먹고 일몰(18:40) 보기', map:'Gas Works Park, 2101 N Northlake Way, Seattle'},
+      {i:'view', t:'15:00', p:'Gas Works Park · 다운타운 스카이라인', b:[{u:'https://blog.naver.com/gallerysh/224412254507', t:'가스워크 파크 후기', d:''}], a:'옛 가스 공장 설비를 그대로 남긴 호숫가 공원. 완만한 잔디 언덕(Kite Hill)에 오르면 Lake Union 건너 다운타운과 스페이스 니들이 한눈에 보여요.', n:'무료, 공원 주차장 있음. 마켓에서 차 15분. 공장 탑 사다리·통로 철거 공사가 올봄 있었어서 펜스가 남아 있을 수 있음. 저녁은 차 5분 Fremont 동네에서 먹고 일몰(18:40) 보기', map:'Gas Works Park, 2101 N Northlake Way, Seattle'},
       {i:'car', t:'19:00', p:'출발 → Bothell (도착 19:30)', a:'', n:'일몰 후 출발하면 퇴근길 정체를 피해요', map:''}
      ]},
     {n:6, ov:'페리·Ballard', oi:'ferry', date:'10.06', w:'화', theme:'Bainbridge 페리 · Ballard', who:'엄마와 둘', how:'경전철',
      items:[
       {i:'train', t:'09:30', p:'Link → Westlake → 걸어서 Colman Dock', a:'', n:'15분, 내리막', map:'Colman Dock Seattle Ferry Terminal, 801 Alaskan Way'},
-      {i:'ferry', t:'10:40', p:'Bainbridge Island 페리', b:[{u:'https://blog.naver.com/sy1228532/224370119893', t:'베인브릿지 아일랜드 페리로 가는 방법·가격·맛집', d:'2026.8'}, {u:'https://blog.naver.com/choijs1021/224153160670', t:'시애틀 당일치기 베인브릿지 아일랜드 페리 여행', d:'2026.2'}, {u:'https://blog.naver.com/reine____/224144491977', t:'시애틀 필수 코스 — 베인브릿지 당일치기', d:'2026.1'}], a:'35분 항해. 배가 멀어지면서 보이는 시애틀 스카이라인이 이 도시 최고의 뷰. 시애틀에서 가장 싼 크루즈.', n:'왕복 $11.35, 65세+ $5.65. 갑판 뒤쪽에 서기', map:'Bainbridge Island Ferry Terminal, Winslow'},
+      {i:'ferry', t:'10:40', p:'Bainbridge Island 페리', a:'35분 항해. 배가 멀어지면서 보이는 시애틀 스카이라인이 이 도시 최고의 뷰. 시애틀에서 가장 싼 크루즈.', n:'왕복 $11.35, 65세+ $5.65. 갑판 뒤쪽에 서기', map:'Bainbridge Island Ferry Terminal, Winslow'},
       {i:'village', t:'11:20', p:'Winslow 거리 · 점심', a:'섬 입구의 작은 마을. 서점·카페·갤러리·작은 가게들이 한 길에.', n:'터미널에서 평지 10분. 1시간 반이면 충분', map:'Winslow Way E, Bainbridge Island'},
-      {i:'lock', t:'13:30', p:'Ballard Locks · 연어 사다리', b:[{u:'https://blog.naver.com/daeheely_/224375811186', t:'Ballard Locks에서 연어와 바다표범 구경하기', d:'2026.8'}, {u:'https://blog.naver.com/paupaubeach/224098862146', t:'발라드 록스 / 연어와 바다사자 구경', d:'2025.12'}], a:'바다와 호수 사이 수위 차를 조절하는 갑문. 배가 오르내리는 걸 보고, 지하 유리창으로 사다리를 오르는 연어를 봐요.', n:'무료. 10월 초 Coho 막바지. 버스 40번 or 우버 15분', map:'Ballard Locks, 3015 NW 54th St, Seattle'},
+      {i:'lock', t:'13:30', p:'Ballard Locks · 연어 사다리', a:'바다와 호수 사이 수위 차를 조절하는 갑문. 배가 오르내리는 걸 보고, 지하 유리창으로 사다리를 오르는 연어를 봐요.', n:'무료. 10월 초 Coho 막바지. 버스 40번 or 우버 15분', map:'Ballard Locks, 3015 NW 54th St, Seattle'},
       {i:'shop', t:'16:00', p:'Ballard Ave · 저녁', a:'1900년대 벽돌 건물이 남은 옛 항구 거리. 시애틀에서 가장 예쁜 상점가.', n:'내일 새벽 기차라 너무 늦지 않게. 귀가는 우버 30분', map:'Ballard Ave NW, Seattle'}
      ]},
     {n:7, ov:'포틀랜드', oi:'shop', date:'10.07', w:'수', theme:'포틀랜드 당일치기 · 아울렛 쇼핑', who:'이모 동행 가능', how:'편도 3h~3h30', leaf:'일본정원 단풍 초입', fixed:true,
      items:[
-      {i:'car', t:'06:30', p:'출발 → I-5 남쪽 → Woodburn', a:'Tacoma·Olympia를 지나 포틀랜드를 통과해 30분 더 남쪽.', n:'약 335 km, 3시간 반 + 휴게소 한 번. 시애틀 출근 정체 전에 빠져나가기', map:'Woodburn Premium Outlets, 1001 N Arney Rd, Woodburn, OR'},
-      {i:'shop', t:'10:00', p:'Woodburn Premium Outlets · 점심', a:'오리건은 소비세 0% — 110여 개 브랜드 매장(나이키·코치·노스페이스·컬럼비아 등)을 세금 없이. 지붕 덮인 통로라 비 와도 괜찮아요.', n:'10~19시. 무료 주차. 점심은 아울렛에서 해결. 2시간 반', map:'Woodburn Premium Outlets, 1001 N Arney Rd, Woodburn, OR'},
-      {i:'garden', t:'13:15', p:'Portland Japanese Garden + 장미 정원', b:[{u:'https://blog.naver.com/dbeods/224074170103', t:'포틀랜드 일본정원 가을 풍경, 중국정원과 비교', d:'2025.11'}], a:'일본 밖에서 가장 정통이라 평가받는 일본정원. 다섯 가지 정원 양식, 언덕에서 내려다보는 후드산. 단풍은 시작 단계지만 정원 자체가 볼 것.', n:'약 $22, 65세+ 할인. 바로 옆 장미 정원(International Rose Test Garden)은 무료 — 10월 초는 끝물이지만 꽃이 조금 남아 있어요. 공원 주차장 유료. 아울렛에서 45분', map:'Portland Japanese Garden, 611 SW Kingston Ave'},
-      {i:'book', t:'15:15', p:'Powell\'s City of Books → Pearl District 쇼핑', b:[{u:'https://blog.naver.com/umhuh_bbu/224409416298', t:'포틀랜드 Day 1 — 브런치 카페부터 파웰스 북스까지', d:'2026.9'}, {u:'https://blog.naver.com/yujuroad/224262875161', t:'포틀랜드 여행 파웰스 서점 포함 가볼만한곳 5', d:'2026.4'}], a:'한 블록을 통째로 쓰는 세계 최대 독립서점. 색깔로 나눈 방 9개. 오리건은 소비세 0%라 옷·화장품·신발 사기 좋아요.', n:'', map:'Powell\'s City of Books, 1005 W Burnside St, Portland'},
+      {i:'car', t:'06:30', p:'출발 → I-5 남쪽 → Woodburn', a:'Tacoma·Olympia를 지나 포틀랜드를 통과해 30분 더 남쪽.', n:'약 335 km, 3시간 반 + 휴게소 한 번. 시애틀 출근 정체 전에 빠져나가기. ⚡ 완충 출발', map:'Woodburn Premium Outlets, 1001 N Arney Rd, Woodburn, OR'},
+      {i:'shop', t:'10:00', p:'Woodburn Premium Outlets · 점심', a:'오리건은 소비세 0% — 110여 개 브랜드 매장(나이키·코치·노스페이스·컬럼비아 등)을 세금 없이. 지붕 덮인 통로라 비 와도 괜찮아요.', n:'10~19시. 무료 주차. 점심은 아울렛에서 해결. 2시간 반. ⚡ 아울렛 옆 슈퍼차저(255 N Arney Rd)에서 쇼핑하는 동안 충전 — 돌아갈 만큼 80~90%까지', map:'Woodburn Premium Outlets, 1001 N Arney Rd, Woodburn, OR'},
+      {i:'garden', t:'13:15', p:'Portland Japanese Garden + 장미 정원', a:'일본 밖에서 가장 정통이라 평가받는 일본정원. 다섯 가지 정원 양식, 언덕에서 내려다보는 후드산. 단풍은 시작 단계지만 정원 자체가 볼 것.', n:'약 $22, 65세+ 할인. 바로 옆 장미 정원(International Rose Test Garden)은 무료 — 10월 초는 끝물이지만 꽃이 조금 남아 있어요. 공원 주차장 유료. 아울렛에서 45분', map:'Portland Japanese Garden, 611 SW Kingston Ave'},
+      {i:'book', t:'15:15', p:'Powell\'s City of Books → Pearl District 쇼핑', a:'한 블록을 통째로 쓰는 세계 최대 독립서점. 색깔로 나눈 방 9개. 오리건은 소비세 0%라 옷·화장품·신발 사기 좋아요.', n:'', map:'Powell\'s City of Books, 1005 W Burnside St, Portland'},
       {i:'shop', t:'17:00', p:'NW 23rd Ave · Salt & Straw → 저녁', a:'가로수 길에 부티크·카페가 늘어선 거리. Salt & Straw는 포틀랜드에서 시작한 수제 아이스크림.', n:'저녁까지 먹고 나오기 — 퇴근길(16~18시) 다리 정체 피하기', map:'NW 23rd Ave, Portland'},
       {i:'car', t:'19:00', p:'출발 → Bothell (도착 22:00)', a:'', n:'', map:'', opt:'<b>힘들면</b> 15시 전에 출발 → 귀가 18:30~19:00 (시애틀 퇴근길 조금 막힘). 서점 이후는 빼기.'}
      ]},
-    {n:8, ov:'쉬는 날', oi:'home', date:'10.08', w:'목', theme:'쉬는 날 · 이모네 동네 구경', who:'이모부 차 or 걸어서', how:'다 10분 안',
+    {n:8, ov:'벨뷰·동네', oi:'shop', date:'10.08', w:'목', theme:'여유로운 날 · 동네 산책 + 벨뷰 쇼핑', who:'이모부 차', how:'다 25분 안',
      items:[
       {i:'tree', t:'10:00', p:'North Creek Park 데크 산책', a:'습지 위로 나무 데크길이 이어진 평지 공원. 새·오리 구경하며 30~40분 천천히.', n:'무료, 07~18시. 화장실은 간이화장실뿐 — 집에서 다녀오기', map:'North Creek Park, 1011 183rd St SE, Bothell'},
       {i:'coffee', t:'11:00', p:'Mon Amie Bakery · 브런치', a:'크루아상으로 유명한 동네 프랑스식 빵집.', n:'목 08~16시(월 휴무). 자리 좁음 — 포장해서 집에서 먹어도 좋아요', map:'Mon Amie Bakery & Cafe, 914 164th St SE, Mill Creek'},
-      {i:'shop', t:'13:30', p:'이모네 가게 구경', a:'', n:'집에서 걸어서 16분 · 차 5분', map:'19905 40th Dr SE, Bothell, WA 98012'},
-      {i:'market', t:'15:00', p:'PCC 마켓 구경 · 기념품 장보기', a:'워싱턴 로컬 유기농 마트. 커피원두·잼·초콜릿 같은 선물 사기 좋아요.', n:'06~23시. 가게 근처', map:'PCC Community Markets, 22621 Bothell Everett Hwy, Bothell'},
+      {i:'shop', t:'12:30', p:'Bellevue Square 쇼핑 · 점심', a:'벨뷰 시내 한가운데 있는 이 지역 대표 쇼핑몰. 백화점(노드스트롬·메이시스)과 브랜드 매장 200여 개, 스카이브리지로 옆 Lincoln Square와 이어져 있어 실내로만 다녀요.', n:'평일 10~21시. 주차 무료. 집에서 I-405로 25분. 15시 전에 나와야 퇴근길 정체 피함', map:'Bellevue Square, 575 Bellevue Square, Bellevue, WA'},
+      {i:'shop', t:'15:30', p:'이모네 가게 구경', a:'', n:'벨뷰에서 25분. 집에서 걸어서 16분 · 차 5분', map:'19905 40th Dr SE, Bothell, WA 98012'},
       {i:'home', t:'17:00', p:'집에서 쉬기 · 이모 가족과 저녁', a:'', n:'내일 레이니어라 일찍 자기', map:''}
      ]},
     {n:9, ov:'Rainier', oi:'mountain', date:'10.09', w:'금', theme:'Mt. Rainier · Paradise', who:'이모부 차', how:'편도 2h45', leaf:'Paradise 초원 단풍', fixed:true,
      items:[
-      {i:'mountain', t:'07:30', p:'출발 → Longmire → Paradise', b:[{u:'https://blog.naver.com/greatkelly/224356965518', t:'레이니어산 파라다이스 만년설 당일치기 드라이브 후기', d:'2026.7'}, {u:'https://blog.naver.com/daeheely_/224357181317', t:'마운트 레이니어 파라다이스 — 방문 전 꼭 알아야 할 팁', d:'2026.7'}, {u:'https://blog.naver.com/yuyeon4145/224209292056', t:'레이니어 당일치기, 파라다이스 스카이라인 트레일 후기', d:'2026.3'}], a:'시애틀 어디서든 보이는 4,392m 활화산. Paradise(해발 1,650m)까지 차로 올라가면 설산 바로 아래 초원이 펼쳐져요.', n:'입장 $30/차량, 예약 불필요. Sunrise 도로는 산불로 폐쇄 — Paradise만. 아침에 NPS 도로 상태 확인', map:'Paradise, Mount Rainier National Park'},
+      {i:'mountain', t:'07:30', p:'출발 → Longmire → Paradise', a:'시애틀 어디서든 보이는 4,392m 활화산. Paradise(해발 1,650m)까지 차로 올라가면 설산 바로 아래 초원이 펼쳐져요.', n:'⚡ 완충 출발 — 공원 안엔 충전소 없다고 보기. 입장 $30/차량, 예약 불필요. Sunrise 도로는 산불로 폐쇄 — Paradise만. 아침에 NPS 도로 상태 확인', map:'Paradise, Mount Rainier National Park'},
       {i:'tree', t:'10:30', p:'Myrtle Falls 산책 (왕복 1.6km, 포장)', a:'폭포 뒤로 레이니어 정상이 딱 들어오는 사진 포인트. 10월 초원은 진홍색으로 물들어요.', n:'힘 남으면 Nisqually Vista 순환 1.9km', map:'Myrtle Falls Trailhead, Paradise'},
       {i:'food', t:'12:30', p:'점심 · 도시락', a:'Paradise Inn은 9/30 폐관. Jackson 비지터센터 매점은 간단한 것만.', n:'집에서 김밥 싸 가기 추천', map:'Henry M. Jackson Memorial Visitor Center'},
       {i:'falls', t:'14:00', p:'Reflection Lakes → Narada Falls → Christine Falls', a:'차로 세우고 5분씩 보는 포인트들. Reflection Lakes는 바람 없을 때 레이니어가 물에 그대로 비쳐요.', n:'', map:'Reflection Lakes, Mount Rainier'},
@@ -538,26 +540,26 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
 
   /* ---------- 투어 ---------- */
   var TOURS = [
-    {rank:'확정', i:'beer', name:'Leavenworth Oktoberfest (10/3 토)', b:[{u:'https://blog.naver.com/choijs1021/224158988181', t:'미국 리븐워스 독일 마을 여행', d:'2026.2'}], price:'$40', ps:'토요일 입장 · 금 $20 · Starline 버스 왕복 $89',
+    {rank:'확정', i:'beer', name:'Leavenworth Oktoberfest (10/3 토)', b:[{u:'https://blog.naver.com/yuyeon4145/224342144808', t:'리븐워스 옥토버페스트 후기', d:''}], price:'$40', ps:'토요일 입장 · 금 $20 · Starline 버스 왕복 $89',
      why:'캐스케이드 산속 마을 전체가 바바리아풍. 미국에서 손꼽히는 옥토버페스트가 딱 여행 기간 두 주말에 열려요. 가는 길 Tumwater Canyon 단풍이 보너스.',
      walk:'●●○', time:'하루 종일 · 차 2h15 / 버스 09:00 다운타운 출발', where:'Front Street Park, Leavenworth', caveat:'티켓은 leavenworth.org(EventIM)에서만. 토요일 오후~밤 인파·주취 — 5시 전 나오기.',
      url:'https://leavenworth.org/oktoberfest/', day:'10/3 확정 — 토요권 $40 예매'},
-    {rank:'추천 1', i:'mountain', name:'Mt. Rainier 당일 · 이모부 차 or Tours Northwest', b:[{u:'https://blog.naver.com/jhj2291/224308198057', t:'시애틀 레이니어 국립공원 투어 후기 (버스 투어)', d:'2026.6'}, {u:'https://blog.naver.com/greatkelly/224356965518', t:'레이니어산 파라다이스 당일치기 드라이브 후기', d:'2026.7'}], price:'$211', ps:'투어 기준 · 차로 가면 입장 $30/차량',
+    {rank:'추천 1', i:'mountain', name:'Mt. Rainier 당일 · 이모부 차 or Tours Northwest', price:'$211', ps:'투어 기준 · 차로 가면 입장 $30/차량',
      why:'워싱턴을 상징하는 4,392m 화산. Paradise의 포장된 짧은 트레일(Myrtle Falls 1.6km)만 걸어도 설산·폭포·야생화 초원이 한 번에 나와요. 시즌 막바지라 맑은 날 가는 게 핵심.',
      walk:'●●○', time:'10~11시간 (06:45 다운타운 픽업)', where:'1900 4th Ave (Urban Coffeehouse) 또는 MoPOP 06:55', caveat:'Sunrise 도로는 산불로 폐쇄, Paradise만 운행. 코드 JIMOTHY 10%. Viator 소그룹 $148~175도 있음.',
      url:'https://www.toursnorthwest.com/tours/mt-rainier/', day:'10/9 (금) 이모부 차 — 날씨 나쁘면 6·8일과 교체'},
-    {rank:'추천 2', i:'market', name:'Pike Place 푸드투어 · Savor Seattle', b:[{u:'https://blog.naver.com/cindylog-/224397965543', t:'파이크 플레이스 마켓 쇼핑 추천 기념품까지', d:'2026.9'}], price:'$78', ps:'팁 불필요 · 세금 포함',
+    {rank:'추천 2', i:'market', name:'Pike Place 푸드투어 · Savor Seattle', price:'$78', ps:'팁 불필요 · 세금 포함',
      why:'시장 상인들 스토리 들으면서 14가지 시식 — 클램차우더, 훈제연어, 도넛, 치즈. 2시간 15분에 점심까지 해결되고, 어머니가 "뭘 먹어야 하지" 고민 안 하셔도 돼요.',
      walk:'●●○', time:'2시간 15분 · 오전 슬롯 추천', where:'2004 1st Ave, Seattle', caveat:'약 1.6km 천천히 걷기 + 서 있는 시간 많음. 최대 16명.',
      url:'https://www.savorseattletours.com/food-tours/the-original-food-and-culture-tour-of-pike-place-market/', day:'10/5 오전'},
-    {rank:'추천 3', i:'plane', name:'Boeing Future of Flight 공장투어 (Mukilteo)', b:[{u:'https://blog.naver.com/tmdnpepsr089/224301694802', t:'항덕이세요? 시애틀 보잉 퓨처 오브 플라이트 후기', d:'2026.5'}, {u:'https://blog.naver.com/lady_favourite/224147865114', t:'보잉 팩토리 투어 (2025.10 방문)', d:'2026.1'}, {u:'https://blog.naver.com/paupaubeach/224108068481', t:'대실망한 보잉 공장 견학 — 솔직 후기', d:'2025.12'}], price:'$42~', ps:'일반입장은 $14~ · 공식가 재확인 필요',
+    {rank:'추천 3', i:'plane', name:'Boeing Future of Flight 공장투어 (Mukilteo)', price:'$42~', ps:'일반입장은 $14~ · 공식가 재확인 필요',
      why:'세계에서 가장 큰 건물 안에서 777 여객기가 조립되는 걸 위에서 내려다봐요. 여기 아니면 못 보는 경험이고 집에서 25분.',
      walk:'●●○', time:'80분 · 매일 08:30~17:30', where:'8415 Paine Field Blvd, Mukilteo', caveat:'몇 주 전 매진 흔함 — 지금 예약. 계단 있음, 사진 금지, 가방 반입 제한.',
      url:'https://www.boeingfutureofflight.com/tour', day:'10/2 오후 (이모부 차, 집에서 25분)'},
-    {rank:'추천 4', i:'falls', name:'Snoqualmie Falls + Issaquah Salmon Days', b:[{u:'https://blog.naver.com/murphy1222/224008534060', t:'시애틀 근교: 스노퀄미 폭포', d:'2025.9'}, {u:'https://blog.naver.com/wony318/224056336278', t:'시애틀 연어축제 (이사콰)', d:'2026.1'}], price:'무료', ps:'폭포 주차 $7 (길 건너 무료) · 축제 무료',
+    {rank:'추천 4', i:'falls', name:'Snoqualmie Falls + Issaquah Salmon Days', price:'무료', ps:'폭포 주차 $7 (길 건너 무료) · 축제 무료',
      why:'82m 폭포가 주차장 옆 전망대에서 바로 보이고, 같은 날 Issaquah에선 연어가 강을 거슬러 오르는 걸 다리 위에서 봐요. 10/3~4 주말에만 하는 축제라 시기가 딱 맞아요.',
      walk:'●○○', time:'반나절 · 차 45분', where:'Issaquah Salmon Hatchery → Snoqualmie Falls', caveat:'차 없으면 Tours Northwest 폭포 투어 $74 (3시간, 다운타운 출발).',
-     url:'https://www.salmondays.org/', day:'10/4'}
+     url:'https://www.salmondays.org/', day:'일정에서 뺌 (10/4는 노스캐스케이드)'}
   ];
   var SMALL = [
     {name:'Bainbridge Island 페리', price:'$11.35', ps:'65세+ $5.65 · 왕복 요금', why:'35분 항해, 스카이라인 뷰 최고. 시애틀에서 가장 싼 "크루즈".', url:'https://www.wsdot.wa.gov/ferries/fares/faresdetail.aspx?departingterm=7&arrivingterm=3'},
@@ -570,7 +572,7 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
   var HOLD = [
     {name:'고래관측 · Puget Sound Express (Edmonds)', price:'$155', why:'뺐음. 10월이 범고래·혹등고래 시즌이고 못 보면 재탑승 보장이 있지만, $155에 4~5시간 배 + 멀미 위험. 바다 뷰는 10/6 Bainbridge 페리($11)로 대체.'},
     {name:'Olympic National Park 당일투어', price:'$188~315', why:'12시간 이동, Hoh 우림은 미포함. 60대에겐 가장 피로한 옵션. Rainier와 둘 중 하나면 Rainier.'},
-    {name:'North Cascades 단풍(낙엽송) 투어', price:'$426', why:'시애틀 픽업 없고 가격도 초과. 이모부 차로 Diablo Lake 전망대 드라이브(왕복 5시간)가 대안.'},
+    {name:'North Cascades 단풍(낙엽송) 투어', price:'$426', why:'시애틀 픽업 없고 가격도 초과. 이모부 차로 Diablo Lake 드라이브(10/4)로 대체.'},
     {name:'Seattle Coffee Crawl 패스', price:'매진', why:'9/15~10/15 패스 매진. Viator 커피 투어로 대체.'}
   ];
 
@@ -615,7 +617,7 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
     dh += '<article class="day" id="d'+d.n+'">'
       + '<div class="day-head"><div class="date'+wk+'"><b>'+d.date.slice(3)+'</b><span>'+d.w+'요일</span></div>'
       + '<div class="head-main"><h3 class="theme">'+esc(d.theme)+'</h3><div class="meta">'+meta+'</div></div>'
-      + '<div class="wx">'+svg(WI[wx.ic])+'<div class="temps">'+wx.hi+'° <span>'+wx.lo+'°</span></div></div></div>'
+      + '<div class="wx">'+svg(WI[wx.ic])+'<div class="temps">'+wx.hi+'° <span>'+wx.lo+'°</span></div><div class="wl">'+esc(wx.loc)+'</div></div></div>'
       + '<div class="wear"><span class="k">옷</span><span>'+esc(wx.wear)+'</span></div>'
       + '<ul class="its">'+items+'</ul></article>';
   });
@@ -641,7 +643,7 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
 
   document.getElementById('wxrows').innerHTML = WX.map(function(w){
     var wk = (w.w==='토'||w.w==='일') ? ' wknd' : '';
-    return '<tr><td class="d'+wk+'">'+w.d.slice(3)+' '+w.w+'</td><td>'+svg(WI[w.ic])+esc(w.tx)+'</td><td class="tp2">'+w.hi+'° <span>'+w.lo+'°</span></td><td>'+esc(w.wear)+'</td></tr>';
+    return '<tr><td class="d'+wk+'">'+w.d.slice(3)+' '+w.w+'<br><small class="wl">'+esc(w.loc)+'</small></td><td>'+svg(WI[w.ic])+esc(w.tx)+'</td><td class="tp2">'+w.hi+'° <span>'+w.lo+'°</span></td><td>'+esc(w.wear)+'</td></tr>';
   }).join('');
 
   document.getElementById('dist').innerHTML = DIST.map(function(r){
@@ -683,8 +685,12 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
     mon:['Mon Amie',47.8487,-122.2199,'Mon Amie Bakery & Cafe, Mill Creek'],
     shop:['이모네 가게',47.8105,-122.1805,'19905 40th Dr SE, Bothell, WA 98012'],
     pcc:['PCC 마켓',47.7927,-122.2146,'PCC Community Markets Bothell'],
+    bsq:['Bellevue Square',47.6159,-122.2036,'Bellevue Square, Bellevue, WA'],
     lunch:['푸드카트',45.5185,-122.6790,'Downtown Portland food carts'],
     wood:['Woodburn 아울렛',45.1557,-122.8812,'Woodburn Premium Outlets, Woodburn, OR'],
+    gorge:['Gorge Creek 폭포',48.6973,-121.2095,'Gorge Creek Falls Overlook, WA'],
+    diablo:['Diablo Lake',48.7097,-121.1150,'Diablo Lake Vista Point, WA'],
+    wpass:['Washington Pass',48.5245,-120.6529,'Washington Pass Overlook, WA'],
     par:['Paradise',46.7865,-121.7353,'Paradise, Mount Rainier National Park'],
     refl:['Reflection Lakes',46.7686,-121.7295,'Reflection Lakes, Mount Rainier'],
     nar:['Narada 폭포',46.7753,-121.7455,'Narada Falls, Mount Rainier'],
@@ -730,11 +736,11 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
        {k:'tum',t:'10:10',nm:'Tumwater Canyon 단풍길 (차창)',s:'단풍길',m:'car',d:'165 km · 약 2시간',wp:US2},
        {k:'lvw',t:'10:30',nm:'Leavenworth 마을 → 12:00 옥토버페스트',s:'Leavenworth 옥토버페스트',m:'car',d:'10 km · 10분'},
        {k:'home',t:'19:30',nm:'귀가 (17:00 출발)',m:'car',d:'175 km · 2h30',wp:US2R}],
-    4:[{k:'home',t:'09:15',nm:'출발'},
-       {k:'iss',t:'10:00',nm:'Issaquah 연어 축제',s:'Issaquah 연어축제',m:'car',d:'48 km · 35~45분',wp:[[47.62,-122.19]]},
-       {k:'snq',t:'13:30',nm:'Snoqualmie 폭포 · Salish Lodge 카페',s:'Snoqualmie 폭포',m:'car',d:'20 km · 20분'},
-       {k:'home',nm:'귀가',m:'car',d:'56 km · 45~50분'},
-       {note:1,warn:1,nm:'이날 시애틀 다운타운 피하기',sub:'시호크스 + 크라켄 경기 겹침'}],
+    4:[{k:'home',t:'08:30',nm:'출발 (이모부 차)'},
+       {k:'gorge',t:'10:45',nm:'Gorge Creek 폭포',s:'협곡 폭포',m:'car',d:'175 km · 2시간 15분 · ⚡ Burlington 충전',wp:[[48.475,-122.33],[48.54,-121.75],[48.528,-121.43],[48.673,-121.245]]},
+       {k:'diablo',t:'11:15',nm:'Diablo Lake 전망대 · 도시락',s:'Diablo Lake',m:'car',d:'15 km · 20분'},
+       {k:'wpass',t:'12:45',nm:'Washington Pass 전망대 (선택)',s:'Washington Pass',m:'car',d:'50 km · 45분'},
+       {k:'home',t:'17:00',nm:'귀가 (13:30 출발)',m:'car',d:'240 km · 3시간 15분 · ⚡ Burlington 충전',wp:[[48.673,-121.245],[48.528,-121.43],[48.54,-121.75],[48.475,-122.33]]}],
     5:[{k:'home',t:'08:40',nm:'출발 (이모부 차)'},
        {k:'pike',t:'10:00',nm:'Pike Place 푸드투어',s:'Pike Place',m:'car',d:'35 km · 40~50분 · 주차 $36'},
        {k:'sbx',t:'12:30',nm:'원조 스타벅스 · Gum Wall · 워터프론트',s:'스타벅스 1호점',m:'walk',d:'150 m · 2분'},
@@ -751,7 +757,7 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
        {k:'bave',t:'16:00',nm:'Ballard Ave · 저녁',s:'Ballard 저녁',m:'walk',d:'1.2 km · 15분'},
        {k:'home',nm:'귀가',m:'uber',d:'25 km · 30분 · 대중교통 1시간'}],
     7:[{k:'home',t:'06:30',nm:'출발 (이모부 차)'},
-       {k:'wood',t:'10:00',nm:'Woodburn 아울렛 · 점심',s:'아울렛 쇼핑',m:'car',d:'335 km · 3시간 반 + 휴게소',wp:AMT},
+       {k:'wood',t:'10:00',nm:'Woodburn 아울렛 · 점심 · ⚡ 옆 슈퍼차저 충전',s:'아울렛 쇼핑',m:'car',d:'335 km · 3시간 반 + 휴게소',wp:AMT},
        {k:'jgar',t:'13:15',nm:'일본정원 + 장미 정원',s:'일본정원',m:'car',d:'50 km · 45분'},
        {k:'powell',t:'15:15',nm:"Powell's 서점 · Pearl 쇼핑",s:"Powell's",m:'car',d:'3 km · 10분'},
        {k:'nw23',t:'17:00',nm:'NW 23rd · Salt & Straw · 저녁',s:'NW 23rd 저녁',m:'car',d:'2 km · 7분'},
@@ -759,9 +765,9 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
     8:[{k:'home',nm:'이모 댁'},
        {k:'ncp',t:'10:00',nm:'North Creek Park 데크 산책',s:'습지 데크 산책',m:'car',d:'3 km · 5분'},
        {k:'mon',t:'11:00',nm:'Mon Amie Bakery 브런치',s:'빵집 브런치',m:'car',d:'2 km · 5분'},
-       {k:'shop',t:'13:30',nm:'이모네 가게 구경',s:'이모네 가게',m:'car',d:'6 km · 10분'},
-       {k:'pcc',t:'15:00',nm:'PCC 마켓 · 기념품 장보기',s:'마트 구경',m:'car',d:'3 km · 5분'},
-       {k:'home',t:'17:00',nm:'집에서 쉬기 · 이모 가족과 저녁',m:'car',d:'4 km · 8분'}],
+       {k:'bsq',t:'12:30',nm:'Bellevue Square 쇼핑 · 점심',s:'벨뷰 쇼핑',m:'car',d:'28 km · 25분 (I-405)'},
+       {k:'shop',t:'15:30',nm:'이모네 가게 구경',s:'이모네 가게',m:'car',d:'25 km · 25분'},
+       {k:'home',t:'17:00',nm:'집에서 쉬기 · 이모 가족과 저녁',m:'car',d:'차 5분 · 걸어서 16분'}],
     9:[{k:'home',t:'07:30',nm:'출발'},
        {k:'par',t:'10:15',nm:'Paradise · Myrtle Falls 산책 · 도시락',s:'Paradise',m:'car',d:'180 km · 2h45',wp:RAIN},
        {k:'refl',t:'14:00',nm:'Reflection Lakes',s:'Reflection Lakes',m:'car',d:'5 km · 10분'},
