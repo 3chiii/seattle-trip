@@ -32,6 +32,17 @@ a{color:var(--accent)}
 
 /* header */
 header{padding:26px 0 12px}
+.hdtop{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.lang{display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--muted);flex:0 0 auto}
+.lang [data-l]{cursor:pointer;user-select:none}
+.lang [data-l].on{color:var(--ink)}
+.lang .sw{position:relative;width:44px;height:24px;border-radius:999px;border:0;padding:0;background:var(--line);cursor:pointer;flex:0 0 auto}
+.lang .sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--accent);box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.lang .sw[aria-checked="true"]::after{transform:translateX(20px)}
+.lang .sw:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.lang .sw::after{transition:transform .22s ease}}
+.langsw{font-size:13px;font-weight:600;text-decoration:none;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--surface);white-space:nowrap;font-family:var(--sans)}
+.langsw:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .eyebrow{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-family:var(--mono)}
 h1{font-family:var(--serif);font-size:32px;line-height:1.2;margin:6px 0 10px;text-wrap:balance}
 .sub{color:var(--muted);margin:0;font-size:15.5px;line-height:1.55}
@@ -299,9 +310,10 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
   <symbol id="p-bed" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 18v-7h18v7"/><path d="M3 11V7h8v4"/><path d="M3 18v1M21 18v1"/></g></symbol>
 </svg>
 
-<div class="wrap">
+<div class="wrap" id="app"></div>
+<template id="tpl-ko">
 <header>
-  <div class="eyebrow">2026.10.01 – 10.11 · Bothell 베이스</div>
+  <div class="hdtop"><div class="eyebrow">2026.10.01 – 10.11 · Bothell 베이스</div><div class="lang"><span data-l="ko">한국어</span><button class="sw" type="button" role="switch" aria-checked="false" aria-label="English"></button><span data-l="en">EN</span></div></div>
   <h1>시애틀 모녀 여행</h1>
   <p class="sub">이모 댁(Bothell)에 머물며 시애틀·근교 + 포틀랜드 당일. 월·수는 이모와. 이동은 대부분 이모부 차로. 하루에 큰 것 하나만.</p>
   <div class="flights">
@@ -429,11 +441,143 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
   <p>이모네 가게: 19905 40th Dr SE, Bothell, WA 98012 · <a href="https://www.google.com/maps/search/?api=1&query=19905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">지도</a> · 집에서 걸어서 16분, 차 5분</p>
   <p>시애틀은 한국보다 16시간 늦음(PDT). 시애틀 오전 9시 = 한국 다음날 새벽 1시.</p>
   <p>정보 확인일 2026.09.22 (날씨 AccuWeather 9.29) · 가격·운행은 예약 전 한 번 더 확인.</p>
-</footer>
-</div>
+</footer></template>
+<template id="tpl-en">
+<header>
+  <div class="hdtop"><div class="eyebrow">2026.10.01 – 10.11 · Bothell base</div><div class="lang"><span data-l="ko">한국어</span><button class="sw" type="button" role="switch" aria-checked="false" aria-label="English"></button><span data-l="en">EN</span></div></div>
+  <h1>Mom &amp; Me in Seattle</h1>
+  <p class="sub">Staying at Aunt's house in Bothell: Seattle, nearby trips + a Portland day trip. Aunt joins Mon &amp; Wed. Most driving by Uncle. One big thing a day.</p>
+  <div class="flights">
+    <div class="flight"><div class="k">OZ272 · outbound</div><div class="t">10.01 Thu 21:20 → 15:15</div><div class="d">Incheon T2 → Seattle, nonstop</div></div>
+    <div class="flight"><div class="k">OZ271 · return</div><div class="t">10.11 Sun 00:10 → 04:30</div><div class="d">At the airport 10.10 Sat 21:00 · lands Incheon 10.12 Mon early morning</div></div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Choose view">
+  <button class="tab" role="tab" aria-selected="true" data-tab="glance">Overview</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="plan">Days</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="tours">Tours</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="weather">Weather</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="move">Travel</button>
+</nav>
+
+<section data-panel="glance">
+  <div class="note"><b>2 open slots left</b>: 10/2 (Fri) afternoon, 10/10 (Sat) morning<br>Company: Aunt Mon &amp; Wed / Jenny Fri, Sat, Sun</div>
+  <ul class="sum" id="sum"></ul>
+  <div class="mapcard" id="mapcard">
+    <div class="dchips" id="dchips" role="group" aria-label="Choose date"></div>
+    <div class="mhead"><div class="md" id="mdate"></div><h3 id="mtitle"></h3></div>
+    <div id="mapbox"></div>
+    <div class="mlegend">
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--accent);stroke-width:3"/></svg>Car · Uber</span>
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--rain);stroke-width:3;stroke-dasharray:6 3"/></svg>Bus · light rail</span>
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--cedar);stroke-width:3;stroke-dasharray:8 3"/></svg>Train</span>
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--rain);stroke-width:3;stroke-dasharray:.1 5"/></svg>Ferry</span>
+      <span><svg viewBox="0 0 24 8"><line x1="3" y1="4" x2="21" y2="4" style="stroke:var(--muted);stroke-width:3;stroke-dasharray:.1 5"/></svg>Walk</span>
+    </div>
+    <ol class="segs" id="segs"></ol>
+    <div class="mfoot"><a class="btn primary" id="gmap" href="#" target="_blank" rel="noopener">Open in Google Maps</a><button class="btn" type="button" id="todetail">See day details</button></div>
+  </div>
+  <p class="sub" style="margin-top:8px;font-size:13.5px">The map above is a sketch showing where places are. Use the Google Maps button for real routes. Distances and times assume no traffic.</p>
+</section>
+
+<section data-panel="plan" hidden>
+  <nav class="ov" id="ov" aria-label="10 days at a glance"></nav>
+  <div class="legend"><span><span class="dot"></span>With Aunt (Mon, Wed)</span><span><span class="wk">Sat·Sun</span>weekend</span><span><span class="leaf">Fall color</span> days</span><span>Otherwise Uncle's car</span></div>
+  <div id="days"></div>
+</section>
+
+<section data-panel="tours" hidden>
+  <div class="note">Prices checked on official sites on <b>9/22, logged out with no cookies</b>, per person (tax noted where extra). Book in a <b>private window</b> too. Walking is rated for Mom: ●○○ (almost none) to ●●● (2+ hours).</div>
+  <h2>1 confirmed + 4 picks</h2>
+  <div id="tours"></div>
+  <h2>City tickets · lighter options</h2>
+  <div id="tours-small"></div>
+  <h2>On hold this time</h2>
+  <div id="tours-hold"></div>
+</section>
+
+<section data-panel="weather" hidden>
+  <div class="note">Early October normals in Seattle: <b>15–18°C by day · 8–10°C in the morning</b>, often cloudy with showers. Below is the <b>AccuWeather forecast of 9/29</b> for <b>where we'll be each day</b>. <b>No rain forecast — sunny or partly cloudy</b> the whole trip, warmer than usual. In the mountains (Leavenworth, Rainier) <b>day–night swings exceed 15°C</b>, so bring layers. Later dates may change — check again the day before. Sunrise 07:07 → 07:20 / sunset 18:50 → 18:32.</div>
+  <div class="tscroll"><table>
+    <thead><tr><th>Date · place</th><th>Forecast</th><th>High/Low</th><th>What to wear</th></tr></thead>
+    <tbody id="wxrows"></tbody>
+  </table></div>
+
+  <h2>How to dress</h2>
+  <ul class="list">
+    <li><b>Three layers</b> — long-sleeve tee + light fleece (or cardigan) + <b>waterproof hooded jacket</b>. Seattleites use hoods more than umbrellas.</li>
+    <li><b>One pair of waterproof sneakers</b> for everything. Wet leaves and sidewalks get slippery. Hiking shoes are nice for Rainier day only.</li>
+    <li><b>Rainier (1,650 m)</b> is 8–10°C colder than Seattle and windy — feels near 0°C. Light puffer + beanie + gloves. First snow is possible this time of year.</li>
+    <li>On the <b>ferry</b>, it feels 3–4°C colder over the water. There's an indoor cabin, but bring a scarf and beanie for the deck.</li>
+    <li>Days reach 15–19°C, so <b>easy on/off layers</b> are key. Several thin layers beat one thick one.</li>
+  </ul>
+
+  <h2>Packing list</h2>
+  <div class="cols">
+    <div class="card"><h3>Clothes</h3><ul class="list">
+      <li>Waterproof hooded jacket (must)</li><li>2 light fleeces / cardigans</li><li>4–5 long-sleeve tees, 1–2 short-sleeve</li><li>3 pants (1 jeans, 1 quick-dry)</li><li>Waterproof sneakers + comfy indoor pair</li><li>Beanie, gloves, light scarf (Rainier &amp; ferry)</li><li>Light puffer (Rainier, evenings)</li>
+    </ul></div>
+    <div class="card"><h3>Other</h3><ul class="list">
+      <li>Power bank (photos &amp; maps drain batteries)</li><li>Phone: add a card to Apple Pay / Google Pay → ride Link and buses</li><li>Save the ESTA approval screen · bring passport to bars &amp; Oktoberfest (21+ ID)</li><li>Motion-sickness pills (for ferry/long drives)</li><li>1 small folding umbrella (optional)</li><li>Sunglasses (strong glare off the water on sunny days)</li>
+    </ul></div>
+  </div>
+</section>
+
+<section data-panel="move" hidden>
+  <div class="note">Aunt's house (Bothell 98012) is <b>30–35 min by car</b> north of downtown Seattle. For downtown, <b>light rail (Link)</b> is easier than driving; nearby towns (Edmonds, Snohomish, Woodinville, Mukilteo) are <b>15–25 min by car</b>, so Uncle's car or Uber works best.</div>
+
+  <h2>Our two bases</h2>
+  <ul class="dist">
+    <li><span><b>Aunt's house</b><br><span class="km">9905 40th Dr SE, Bothell 98012</span></span><span></span><a class="map" href="https://www.google.com/maps/search/?api=1&query=9905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">Map</a></li>
+    <li><span><b>Aunt's shop</b><br><span class="km">19905 40th Dr SE, Bothell 98012</span></span><span></span><a class="map" href="https://www.google.com/maps/search/?api=1&query=19905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">Map</a></li>
+    <li><span>House ↔ shop</span><span class="km">1.1 km · flat</span><span class="min">16 min walk · 5 min drive</span></li>
+  </ul>
+  <p class="sub" style="margin-top:8px;font-size:14px">Both are on 40th Dr SE, but by car you loop around the neighborhood (3.5 km); on foot it's a straight 1.1 km via 41st Ave SE. An easy walk with Mom.</p>
+
+  <h2>Distances (from Aunt's house, no traffic)</h2>
+  <ul class="dist" id="dist"></ul>
+  <p class="sub" style="margin-top:8px;font-size:14px">Weekdays 07–09 and 15:30–18:30, trips toward Seattle stretch to 45–60 min. Rainier and Leavenworth are 5 hours round trip — full-day trips.</p>
+
+  <h2>To Seattle without a car (about 55–65 min, $3)</h2>
+  <div class="card">
+    <div class="step"><span class="no">1</span><div>Aunt's house → <b>Canyon Park Park &amp; Ride</b> (8 min by car / Uber about $10)<div class="n">1800 228th St SE, Bothell · free parking</div></div></div>
+    <div class="step"><span class="no">2</span><div><b>ST Express 535</b> bus → Lynnwood City Center station (about 15 min)<div class="n">Mon–Sat only. On Sunday, CT 120 (35–40 min) or Uber to Lynnwood station</div></div></div>
+    <div class="step"><span class="no">3</span><div><b>Link 1 Line or 2 Line</b> → Westlake station (28–30 min, every 8–15 min)<div class="n">Both lines go through downtown. The 2 Line continues to Bellevue</div></div></div>
+    <div class="step"><span class="no">4</span><div>Fare <b>$3.00</b> — just <b>tap Apple Pay / Google Pay</b> at the reader<div class="n">Bus→Link transfer discount within 2 hrs (tap the same card). The $1 senior fare (65+) needs an ORCA Regional Reduced Fare card — issued at the CT Ride Store at Lynnwood station</div></div></div>
+    <div class="step"><span class="no">·</span><div>Uber Bothell → downtown direct is <b>about $60</b>, 33 min. Good for one late-night ride home.</div></div>
+  </div>
+
+  <h2>Portland day trip (10/7 Wed, Uncle's car)</h2>
+  <div class="card">
+    <div class="step"><span class="no">1</span><div><b>Leave 06:30</b> → I-5 south to Woodburn Outlets, about 335 km, <b>3.5 hrs</b> + one rest stop<div class="n">The key is getting through Seattle/Tacoma before rush hour (07–09)</div></div></div>
+    <div class="step"><span class="no">2</span><div>Free parking at the outlets → 45 min north to Portland. Paid lot at the Japanese Garden, <b>SmartPark garages</b> in the Pearl<div class="n">Oregon has 0% sales tax — do your shopping this day</div></div></div>
+    <div class="step"><span class="no">3</span><div>On the way back, <b>avoid leaving 16:00–18:00</b> — Portland bridge plus Tacoma/Seattle rush hour<div class="n">Dinner then leave 19:00 → home 22:00, or leave before 15:00 → home 18:30–19:00</div></div></div>
+    <div class="step"><span class="no">·</span><div>Prefer the train? Amtrak Cascades 07:10 → 10:35 / 17:55 → 21:20 (one way $28–60)</div></div>
+  </div>
+
+  <h2>Vancouver next time</h2>
+  <div class="note">Amtrak from Edmonds takes 4 hrs (08:56 → 12:30) and Korean passports need no eTA by train, but adding it to Portland would mean 4 of 9 days on the road, so we skipped it. Next time: Stanley Park, Granville Island, Capilano bridge.</div>
+
+  <h2>Save to your phone</h2>
+  <ul class="list">
+    <li><b>iPhone</b>: open this page in Safari → Share (□↑) → <b>Add to Home Screen</b>. Opens like an app.</li>
+    <li><b>Android</b>: open in Chrome → menu (⋮) → <b>Add to Home screen</b>.</li>
+    <li>Every <b>Map</b> button opens straight in the Google Maps app. Handy for copying addresses when calling an Uber.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Aunt's house: 9905 40th Dr SE, Bothell, WA 98012 · <a href="https://www.google.com/maps/search/?api=1&query=9905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">Map</a></p>
+  <p>Aunt's shop: 19905 40th Dr SE, Bothell, WA 98012 · <a href="https://www.google.com/maps/search/?api=1&query=19905%2040th%20Dr%20SE%2C%20Bothell%2C%20WA%2098012">Map</a> · 16 min walk / 5 min drive from the house</p>
+  <p>Seattle is 16 hours behind Korea (PDT). 9 AM in Seattle = 1 AM next day in Korea.</p>
+  <p>Info checked 2026.09.22 (weather: AccuWeather 9.29) · verify prices and schedules before booking.</p>
+</footer></template>
 
 <script>
 (function(){
+function runKO(){
+
   var M = function(q){ return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); };
   var WI = {sun:'w-sun', partly:'w-partly', cloud:'w-cloud', rain:'w-rain'};
   var svg = function(id){ return '<svg aria-hidden="true"><use href="#'+id+'"/></svg>'; };
@@ -503,7 +647,7 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
       {i:'ferry', t:'10:40', p:'Bainbridge Island 페리', a:'35분 항해. 배가 멀어지면서 보이는 시애틀 스카이라인이 이 도시 최고의 뷰. 시애틀에서 가장 싼 크루즈.', n:'왕복 $11.35, 65세+ $5.65. 갑판 뒤쪽에 서기', map:'Bainbridge Island Ferry Terminal, Winslow'},
       {i:'village', t:'11:20', p:'Winslow 거리 · 점심', a:'섬 입구의 작은 마을. 서점·카페·갤러리·작은 가게들이 한 길에.', n:'터미널에서 평지 10분. 1시간 반이면 충분', map:'Winslow Way E, Bainbridge Island'},
       {i:'lock', t:'13:30', p:'Ballard Locks · 연어 사다리', a:'바다와 호수 사이 수위 차를 조절하는 갑문. 배가 오르내리는 걸 보고, 지하 유리창으로 사다리를 오르는 연어를 봐요.', n:'무료. 10월 초 Coho 막바지. 버스 40번 or 우버 15분', map:'Ballard Locks, 3015 NW 54th St, Seattle'},
-      {i:'shop', t:'16:00', p:'Ballard Ave · 저녁', a:'1900년대 벽돌 건물이 남은 옛 항구 거리. 시애틀에서 가장 예쁜 상점가.', n:'내일 새벽 기차라 너무 늦지 않게. 귀가는 우버 30분', map:'Ballard Ave NW, Seattle'}
+      {i:'shop', t:'16:00', p:'Ballard Ave · 저녁', a:'1900년대 벽돌 건물이 남은 옛 항구 거리. 시애틀에서 가장 예쁜 상점가.', n:'내일 새벽 출발이라 너무 늦지 않게. 귀가는 우버 30분', map:'Ballard Ave NW, Seattle'}
      ]},
     {n:7, ov:'포틀랜드', oi:'shop', date:'10.07', w:'수', theme:'포틀랜드 당일치기 · 아울렛 쇼핑', who:'이모 동행 가능', how:'편도 3h~3h30', leaf:'일본정원 단풍 초입', fixed:true,
      items:[
@@ -902,7 +1046,7 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
 
   var cur=1;
   var pick = function(n, scroll){
-    cur=n; var d=DAYS[n-1];
+    cur=n; window.__day=n; var d=DAYS[n-1];
     document.querySelectorAll('.sum .row').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.n===n)); });
     var dc=document.getElementById('dchips');
     dc.querySelectorAll('.dchip').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.n===n)); });
@@ -938,8 +1082,545 @@ button.btn{font:inherit;font-size:14px;cursor:pointer}
   });
   var now=new Date(), def=1;
   if(now.getFullYear()===2026 && now.getMonth()===9 && now.getDate()<=10) def=now.getDate();
+  if(window.__day) def=window.__day;
   pick(def, false);
 
+}
+function runEN(){
+
+  var M = function(q){ return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); };
+  var WI = {sun:'w-sun', partly:'w-partly', cloud:'w-cloud', rain:'w-rain'};
+  var svg = function(id){ return '<svg aria-hidden="true"><use href="#'+id+'"/></svg>'; };
+  var esc = function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); };
+
+  /* ---------- 날씨 (AccuWeather 9/29, 그날 가는 곳 기준) ---------- */
+  var WX = [
+    {d:'10.01', w:'Thu', loc:'Bothell', hi:17, lo:9,  ic:'partly', tx:'Sun & clouds',          wear:'Long sleeves + cardigan. No rain forecast'},
+    {d:'10.02', w:'Fri', loc:'Bothell', hi:20, lo:9,  ic:'partly', tx:'Sun & clouds',          wear:'Long sleeves + cardigan. Extra layer for drinks in the evening'},
+    {d:'10.03', w:'Sat', loc:'Leavenworth', hi:25, lo:8, ic:'sun', tx:'Sunny · warm by day',  wear:'T-shirt weather by day, but drops to 8°C after sunset — bring a fleece + jacket. Sunglasses & hat'},
+    {d:'10.04', w:'Sun', loc:'North Cascades', hi:23, lo:10, ic:'sun', tx:'Sunny',            wear:'Warm, 23°C by day. Washington Pass (1,670 m) is much colder — bring a jacket. Sunglasses'},
+    {d:'10.05', w:'Mon', loc:'Seattle', hi:19, lo:10, ic:'partly', tx:'Sun & clouds',        wear:'Comfy sneakers. Lakeside breeze at Gas Works sunset — bring a layer'},
+    {d:'10.06', w:'Tue', loc:'Seattle · Bainbridge', hi:19, lo:11, ic:'partly', tx:'Clouds clearing to sun', wear:'Wind on the ferry deck — zip up, beanie'},
+    {d:'10.07', w:'Wed', loc:'Portland', hi:27, lo:14, ic:'sun', tx:'Sunny & hot',             wear:'T-shirt + light layer (morning, evening, car). Sunscreen & water'},
+    {d:'10.08', w:'Thu', loc:'Bothell · Bellevue', hi:20, lo:12, ic:'partly', tx:'Sun & clouds',     wear:'Long sleeves + cardigan'},
+    {d:'10.09', w:'Fri', loc:'Rainier · Paradise', hi:14, lo:4, ic:'sun', tx:'Sunny · on the mountain',  wear:'On the mountain: 14°C by day, 4°C in the morning — puffer, beanie, gloves, hiking shoes. Strong sun, bring sunglasses'},
+    {d:'10.10', w:'Sat', loc:'Bothell', hi:20, lo:11, ic:'sun', tx:'Sunny',                    wear:'Comfy clothes for the flight + cardigan for the cabin'}
+  ];
+
+  /* ---------- 일정 ----------
+     i: 아이콘, t: 시간, p: 장소, a: 장소 설명, n: 실용 메모, map: 지도 검색어, opt: 대안 */
+  var DAYS = [
+    {n:1, ov:'Depart·Arrive', oi:'plane', date:'10.01', w:'Thu', theme:'Leave Incheon · Arrive Seattle', who:'Uncle picks up', how:'Car',
+     items:[
+      {i:'shop', t:'16:00 (KST)', p:'Leave work', a:'', n:'Pack everything the night before', map:''},
+      {i:'car', t:'16:30 (KST)', p:'Airport bus → Incheon Airport Terminal 2 (T2)', a:'Asiana moved to Terminal 2 in January 2026.', n:'Make sure to get off at "Terminal 2". Rush hour — leave extra time', map:'Incheon International Airport Terminal 2'},
+      {i:'plane', t:'around 18:00', p:'Arrive T2 · check in at counters G–J · meet Mom', a:'', n:'Arriving 3 hours before departure is plenty. With mobile check-in, just use bag drop at row G', map:'Incheon International Airport Terminal 2'},
+      {i:'plane', t:'21:20 (KST)', p:'OZ272 departs → Seattle', a:'About a 10-hour flight. You cross the date line and land the same afternoon.', n:'Sleep and wake on Seattle time on the plane', map:''},
+      {i:'plane', t:'15:15', p:'Arrive SEA (OZ272)', a:'Seattle–Tacoma International Airport. 25 min south of downtown, 45–60 min to Aunt\'s house.', n:'Immigration 30–60 min — out around 16:30', map:'Seattle-Tacoma International Airport'},
+      {i:'home', t:'17:30', p:'Arrive at Aunt\'s house · unpack', a:'Quiet residential area next to Mill Creek, south Bothell. 30 min north of downtown Seattle.', n:'Rush hour — allow 1 hour from the airport', map:'9905 40th Dr SE, Bothell, WA 98012'},
+      {i:'food', t:'19:00', p:'Light dinner, early night', a:'Day one is all about jet lag. If you go out, Lynnwood H Mart food court (10 min) has Korean food.', n:'', map:'H Mart Lynnwood, 3301 184th St SW'}
+     ]},
+    {n:2, ov:'Local', oi:'tree', date:'10.02', w:'Fri', theme:'Settle in · riverside walk (afternoon free)', who:'Uncle\'s car or Uber', how:'All within 15 min',
+     items:[
+      {i:'tree', t:'09:30', p:'Bothell Landing · Sammamish River Trail', a:'Flat paved path along the river. In October, sockeye salmon run up nearby North Creek.', n:'An easy hour — Mom\'s warm-up', map:'Bothell Landing Park, 9919 NE 180th St, Bothell'},
+      {i:'coffee', t:'12:00', p:'Lunch · Mill Creek Town Center', a:'A small town center of cafés, bakeries and restaurants around a plaza. Nice to stroll.', n:'', map:'Mill Creek Town Center, 15224 Main St, Mill Creek'},
+      {i:'alert', empty:true, t:'14:30', p:'Afternoon — open (winery dropped)', a:'Fill in once decided. Somewhere within 15–25 min of home.', n:'', map:''},
+      {i:'beer', t:'17:30', p:'Early dinner · McMenamins Anderson School', a:'A 1931 junior high turned hotel & pub. Classrooms are bars, the gym is a theater, the pool is a heated soaking pool. Bothell\'s signature spot.', n:'Mom calls it a night here', map:'McMenamins Anderson School, 18607 Bothell Way NE, Bothell'},
+      {i:'drink', t:'20:00', p:'Drinks with my cousin\'s friends', a:'Cousin picks the place.', n:'Bring your passport (21+ ID check; Korean ID not accepted). 08:00 start tomorrow — not too late, Uber home', map:''}
+     ]},
+    {n:3, ov:'Leavenworth', oi:'beer', date:'10.03', w:'Sat', theme:'Leavenworth · Bavarian village Oktoberfest', who:'Uncle\'s car', how:'2h15 each way', leaf:'Tumwater Canyon foliage', fixed:true,
+     items:[
+      {i:'mountain', t:'08:00', p:'US-2 → Stevens Pass → Tumwater Canyon', a:'Mountain road over the Cascades. Tumwater Canyon, just before town, is one of Washington\'s best fall-color drives — peak in the first two weeks of October.', n:'About 5°C at the pass. ⚡ Leave fully charged — uphill drains the battery. Check chargers in the Tesla nav', map:'Tumwater Canyon, US-2, Leavenworth'},
+      {i:'village', t:'10:30', p:'Leavenworth Front Street', a:'A 1960s logging town that rebuilt itself in Bavarian style. Alpine-chalet buildings, sausages & pretzels, a nutcracker museum.', n:'Walking around town is free. German food for lunch', map:'Front Street Park, Leavenworth, WA'},
+      {i:'beer', t:'12:00', p:'Oktoberfest grounds', b:[{u:'https://blog.naver.com/yuyeon4145/224342144808', t:'Leavenworth Oktoberfest review', d:''}], a:'German beer + bands + yodeling + sausages. One of the biggest Oktoberfests in the US.', n:'Sat $40, 12:00–24:00. Tickets only at leavenworth.org (EventIM) — other sites are resellers. Leave around 17:00 to beat the crowds', map:'Leavenworth Oktoberfest, Front Street Park'},
+      {i:'car', t:'17:00', p:'Head home → Bothell (arrive 19:30)', a:'', n:'', map:'', opt:'<b>If Uncle is busy:</b> Starline bus round trip $89 — departs downtown 9th Ave &amp; Pine 09:00, back 18:30. Doable with the first Link train from Lynnwood. Same bus runs 10/10 (Sat).'}
+     ]},
+    {n:4, ov:'Diablo Lake', oi:'mountain', date:'10.04', w:'Sun', theme:'North Cascades · Diablo Lake drive', who:'Uncle\'s car', how:'2h30 each way', leaf:'Mountain foliage · larches',
+     items:[
+      {i:'car', t:'08:30', p:'Depart → I-5 north → SR-20 (North Cascades Hwy)', a:'Turn east at Burlington and follow the Skagit River into the mountains.', n:'⚡ Leave fully charged. No chargers in the mountains — charge 20–30 min at the Burlington Supercharger on the way in and out. Pack lunch (almost no restaurants). Marblemount is the last restroom', map:'Tesla Supercharger Burlington, WA'},
+      {i:'falls', t:'10:45', p:'Gorge Creek Falls', a:'Look down from the road bridge at the falls dropping through the gorge.', n:'A few minutes from the roadside parking. Quick photo stop', map:'Gorge Creek Falls Overlook, North Cascades Hwy'},
+      {i:'view', t:'11:15', p:'Diablo Lake Overlook', b:[{u:'https://blog.naver.com/thedailyhailey/223450296748', t:'North Cascades · Diablo Lake review', d:''}, {u:'https://blog.naver.com/common_kr_name/223447423914', t:'North Cascades · Diablo Lake review', d:''}], a:'A mountain lake colored emerald and turquoise by glacial flour. One of the most photographed views in Washington.', n:'Free. 1–2 min from the parking lot. Colors are best in sunshine — sunny forecast. Picnic lunch here', map:'Diablo Lake Vista Point, North Cascades Hwy'},
+      {i:'mountain', t:'12:45', p:'Washington Pass Overlook (optional)', a:'A 1,670 m pass. The spiky Liberty Bell peak and larches turning gold in early October.', n:'45 min past Diablo. 10-min paved loop. Chilly — bring a jacket', map:'Washington Pass Overlook, North Cascades Hwy'},
+      {i:'car', t:'13:30', p:'Head home → Bothell (arrive 16:45–17:00)', a:'', n:'Take breaks in Marblemount or Concrete on the way back', map:'', opt:'<b>If tired,</b> skip Washington Pass and turn back at Diablo Lake → home by 15:30'}
+     ]},
+    {n:5, ov:'Downtown · Gas Works', oi:'view', date:'10.05', w:'Mon', theme:'Downtown with Aunt · Gas Works sunset', who:'With Aunt', aunt:true, how:'Uncle\'s car',
+     items:[
+      {i:'car', t:'08:40', p:'Depart → Pike Place Market garage (arrive 09:30)', a:'', n:'Tail end of rush hour, 40–50 min. Parking 4–10 hrs $36 (the $17 all-day rate needs entry before 09:00, i.e. leaving at 07:50 — skipped)', map:'Pike Place Market Parking Garage, 1531 Western Ave, Seattle'},
+      {i:'market', t:'10:00', p:'Savor Seattle food tour · Pike Place Market', a:'The oldest public market in the US, opened 1907. Hear stories from the guide and vendors while tasting 14 bites — clam chowder, smoked salmon, donuts, cheese.', n:'$78, 2h15, no tipping. Meet at 2004 1st Ave. This covers lunch', map:'2004 1st Ave, Seattle'},
+      {i:'coffee', t:'12:30', p:'Original Starbucks · Gum Wall · Waterfront', a:'The first Starbucks, opened 1971 (original brown logo). Down the alley, the Gum Wall is covered in chewing gum. Take the new Overlook Walk down to the water.', n:'Starbucks line is long — photos only. Stroll for 1.5 hrs and rest at a café', map:'Original Starbucks, 1912 Pike Pl, Seattle'},
+      {i:'view', t:'15:00', p:'Gas Works Park · downtown skyline', b:[{u:'https://blog.naver.com/gallerysh/224412254507', t:'Gas Works Park review', d:''}], a:'Lakeside park that kept the old gas plant structures. Walk up the gentle grassy Kite Hill for a view of downtown and the Space Needle across Lake Union.', n:'Free, park parking lot. 15 min drive from the market. Tower ladders/catwalks were removed this spring, so fencing may remain. Dinner in Fremont (5 min drive), then sunset (18:40)', map:'Gas Works Park, 2101 N Northlake Way, Seattle'},
+      {i:'car', t:'19:00', p:'Head home → Bothell (arrive 19:30)', a:'', n:'Leaving after sunset avoids rush-hour traffic', map:''}
+     ]},
+    {n:6, ov:'Ferry · Ballard', oi:'ferry', date:'10.06', w:'Tue', theme:'Bainbridge ferry · Ballard', who:'Mom & me', how:'Light rail',
+     items:[
+      {i:'train', t:'09:30', p:'Link → Westlake → walk to Colman Dock', a:'', n:'15 min, downhill', map:'Colman Dock Seattle Ferry Terminal, 801 Alaskan Way'},
+      {i:'ferry', t:'10:40', p:'Bainbridge Island ferry', a:'35-min crossing. The Seattle skyline receding behind the boat is the best view in town — Seattle\'s cheapest cruise.', n:'Round trip $11.35, 65+ $5.65. Stand at the back of the deck', map:'Bainbridge Island Ferry Terminal, Winslow'},
+      {i:'village', t:'11:20', p:'Winslow Way · lunch', a:'Small town at the island\'s entrance. Bookstores, cafés, galleries and little shops on one street.', n:'10 min flat walk from the terminal. 1.5 hrs is enough', map:'Winslow Way E, Bainbridge Island'},
+      {i:'lock', t:'13:30', p:'Ballard Locks · fish ladder', a:'Locks that raise and lower boats between the sea and the lake. Watch boats go through, then see salmon climbing the ladder through underground windows.', n:'Free. Early October is the end of the coho run. Bus 40 or 15 min by Uber', map:'Ballard Locks, 3015 NW 54th St, Seattle'},
+      {i:'shop', t:'16:00', p:'Ballard Ave · dinner', a:'Old harbor street with 1900s brick buildings. Seattle\'s prettiest shopping street.', n:'Early start tomorrow — don\'t stay out late. Uber home, 30 min', map:'Ballard Ave NW, Seattle'}
+     ]},
+    {n:7, ov:'Portland', oi:'shop', date:'10.07', w:'Wed', theme:'Portland day trip · outlet shopping', who:'Aunt may join', how:'3h–3h30 each way', leaf:'Early fall color at the Japanese Garden', fixed:true,
+     items:[
+      {i:'car', t:'06:30', p:'Depart → I-5 south → Woodburn', a:'Past Tacoma and Olympia, through Portland, then 30 min further south.', n:'About 335 km, 3.5 hrs + one rest stop. Get out before Seattle rush hour. ⚡ Leave fully charged', map:'Woodburn Premium Outlets, 1001 N Arney Rd, Woodburn, OR'},
+      {i:'shop', t:'10:00', p:'Woodburn Premium Outlets · lunch', a:'Oregon has 0% sales tax — 110+ brand stores (Nike, Coach, North Face, Columbia…) tax-free. Covered walkways, fine even in rain.', n:'10:00–19:00. Free parking. Lunch at the outlets. 2.5 hrs. ⚡ Charge at the Supercharger next door (255 N Arney Rd) while shopping — to 80–90% for the trip home', map:'Woodburn Premium Outlets, 1001 N Arney Rd, Woodburn, OR'},
+      {i:'garden', t:'13:15', p:'Portland Japanese Garden + Rose Garden', a:'Considered the most authentic Japanese garden outside Japan. Five garden styles and a view of Mt. Hood from the hill. Fall color is just starting, but the garden itself is the draw.', n:'About $22, 65+ discount. The International Rose Test Garden next door is free — past peak in early October but some roses remain. Paid parking. 45 min from the outlets', map:'Portland Japanese Garden, 611 SW Kingston Ave'},
+      {i:'book', t:'15:15', p:'Powell\'s City of Books → Pearl District shopping', a:'The world\'s largest independent bookstore, a whole city block with 9 color-coded rooms. Oregon has no sales tax — good for clothes, cosmetics, shoes.', n:'', map:'Powell\'s City of Books, 1005 W Burnside St, Portland'},
+      {i:'shop', t:'17:00', p:'NW 23rd Ave · Salt & Straw → dinner', a:'Tree-lined street of boutiques and cafés. Salt & Straw is Portland-born craft ice cream.', n:'Stay through dinner — avoids the 16:00–18:00 bridge traffic', map:'NW 23rd Ave, Portland'},
+      {i:'car', t:'19:00', p:'Head home → Bothell (arrive 22:00)', a:'', n:'', map:'', opt:'<b>If tired,</b> leave before 15:00 → home 18:30–19:00 (some Seattle rush-hour traffic). Skip everything after the bookstore.'}
+     ]},
+    {n:8, ov:'Bellevue · local', oi:'shop', date:'10.08', w:'Thu', theme:'Easy day · local walk + Bellevue shopping', who:'Uncle\'s car', how:'All within 25 min',
+     items:[
+      {i:'tree', t:'10:00', p:'North Creek Park boardwalk', a:'Flat park with a wooden boardwalk over wetlands. 30–40 min slow walk watching birds and ducks.', n:'Free, 07:00–18:00. Portable toilets only — go before you leave', map:'North Creek Park, 1011 183rd St SE, Bothell'},
+      {i:'coffee', t:'11:00', p:'Mon Amie Bakery · brunch', a:'Neighborhood French bakery known for its croissants.', n:'Thu 08:00–16:00 (closed Mon). Small space — takeout to eat at home works too', map:'Mon Amie Bakery & Cafe, 914 164th St SE, Mill Creek'},
+      {i:'shop', t:'12:30', p:'Bellevue Square · shopping & lunch', a:'The area\'s main mall in downtown Bellevue. Department stores (Nordstrom, Macy\'s) and 200+ shops, linked by skybridge to Lincoln Square — all indoors.', n:'Weekdays 10:00–21:00. Free parking. 25 min via I-405. Leave before 15:00 to beat rush hour', map:'Bellevue Square, 575 Bellevue Square, Bellevue, WA'},
+      {i:'shop', t:'15:30', p:'Visit Aunt\'s shop', a:'', n:'25 min from Bellevue. 16 min walk / 5 min drive from home', map:'19905 40th Dr SE, Bothell, WA 98012'},
+      {i:'home', t:'17:00', p:'Rest at home · dinner with Aunt\'s family', a:'', n:'Rainier tomorrow — early night', map:''}
+     ]},
+    {n:9, ov:'Rainier', oi:'mountain', date:'10.09', w:'Fri', theme:'Mt. Rainier · Paradise', who:'Uncle\'s car', how:'2h45 each way', leaf:'Paradise meadow colors', fixed:true,
+     items:[
+      {i:'mountain', t:'07:30', p:'Depart → Longmire → Paradise', a:'The 4,392 m volcano you can see from all over Seattle. Drive up to Paradise (1,650 m) where meadows spread right below the snowy peak.', n:'⚡ Leave fully charged — assume no chargers in the park. $30 per car, no reservation needed. Sunrise road closed by wildfire — Paradise only. Check NPS road status in the morning', map:'Paradise, Mount Rainier National Park'},
+      {i:'tree', t:'10:30', p:'Myrtle Falls walk (1.6 km round trip, paved)', a:'Photo spot with Rainier\'s summit right behind the falls. The October meadows turn crimson.', n:'If you have energy, the 1.9 km Nisqually Vista loop', map:'Myrtle Falls Trailhead, Paradise'},
+      {i:'food', t:'12:30', p:'Lunch · packed', a:'Paradise Inn closed 9/30. The Jackson Visitor Center snack bar has basics only.', n:'Pack gimbap from home', map:'Henry M. Jackson Memorial Visitor Center'},
+      {i:'falls', t:'14:00', p:'Reflection Lakes → Narada Falls → Christine Falls', a:'Pull-over viewpoints, 5 min each. On calm days Reflection Lakes mirror Rainier perfectly.', n:'', map:'Reflection Lakes, Mount Rainier'},
+      {i:'car', t:'15:30', p:'Head home → Bothell (arrive 18:30)', a:'', n:'', map:'', opt:'<b>If the weather is bad,</b> swap with the 6th (Tue) or 8th (Thu) — decide from the forecast two days ahead. Check the NPS Paradise webcam that morning.'}
+     ]},
+    {n:10, ov:'Depart', oi:'plane', date:'10.10', w:'Sat', theme:'Free morning · evening departure', who:'TBD', how:'—',
+     items:[
+      {i:'alert', empty:true, t:'09:30', p:'Morning — open (apple picking & Snohomish dropped)', a:'Departure day — morning only, home by 14:00. Somewhere close.', n:'', map:''},
+      {i:'home', t:'14:00', p:'Home · pack · last dinner with Aunt\'s family', a:'', n:'', map:''},
+      {i:'plane', t:'20:00', p:'Depart → SEA airport', a:'', n:'Saturday night, 50 min. Arrive 21:00 → OZ271 departs 00:10', map:'Seattle-Tacoma International Airport'}
+     ]}
+  ];
+
+  /* ---------- 투어 ---------- */
+  var TOURS = [
+    {rank:'Confirmed', i:'beer', name:'Leavenworth Oktoberfest (10/3 Sat)', b:[{u:'https://blog.naver.com/yuyeon4145/224342144808', t:'Leavenworth Oktoberfest review', d:''}], price:'$40', ps:'Saturday entry · Fri $20 · Starline bus round trip $89',
+     why:'The whole Cascade mountain village is Bavarian-style. One of America\'s top Oktoberfests runs on exactly two weekends of our trip. Tumwater Canyon colors on the way are a bonus.',
+     walk:'●●○', time:'All day · 2h15 by car / bus leaves downtown 09:00', where:'Front Street Park, Leavenworth', caveat:'Tickets only at leavenworth.org (EventIM). Saturday afternoon–night gets crowded and rowdy — leave before 17:00.',
+     url:'https://leavenworth.org/oktoberfest/', day:'10/3 confirmed — buy Saturday ticket $40'},
+    {rank:'Pick 1', i:'mountain', name:'Mt. Rainier day trip · Uncle\'s car or Tours Northwest', price:'$211', ps:'Tour price · by car it\'s $30 per vehicle',
+     why:'Washington\'s iconic 4,392 m volcano. Just Paradise\'s short paved trail (Myrtle Falls 1.6 km) gives you snowy peak, waterfall and wildflower meadow at once. End of season — go on a clear day.',
+     walk:'●●○', time:'10–11 hrs (06:45 downtown pickup)', where:'1900 4th Ave (Urban Coffeehouse) or MoPOP 06:55', caveat:'Sunrise road closed by wildfire, Paradise only. Code JIMOTHY 10% off. Viator small groups $148–175 also available.',
+     url:'https://www.toursnorthwest.com/tours/mt-rainier/', day:'10/9 (Fri) Uncle\'s car — swap with the 6th/8th if weather is bad'},
+    {rank:'Pick 2', i:'market', name:'Pike Place food tour · Savor Seattle', price:'$78', ps:'No tipping · tax included',
+     why:'14 tastings while hearing vendors\' stories — clam chowder, smoked salmon, donuts, cheese. Lunch is done in 2h15 and Mom doesn\'t have to wonder what to eat.',
+     walk:'●●○', time:'2h15 · morning slot recommended', where:'2004 1st Ave, Seattle', caveat:'About 1.6 km slow walking + lots of standing. Max 16 people.',
+     url:'https://www.savorseattletours.com/food-tours/the-original-food-and-culture-tour-of-pike-place-market/', day:'10/5 morning'},
+    {rank:'Pick 3', i:'plane', name:'Boeing Future of Flight factory tour (Mukilteo)', price:'$42~', ps:'General admission from $14 · verify official price',
+     why:'Watch 777 jets being assembled from above, inside the world\'s largest building. Only here — 25 min from home.',
+     walk:'●●○', time:'80 min · daily 08:30–17:30', where:'8415 Paine Field Blvd, Mukilteo', caveat:'Often sold out weeks ahead — book now. Stairs, no photos, bag restrictions.',
+     url:'https://www.boeingfutureofflight.com/tour', day:'10/2 afternoon (Uncle\'s car, 25 min from home)'},
+    {rank:'Pick 4', i:'falls', name:'Snoqualmie Falls + Issaquah Salmon Days', price:'Free', ps:'Falls parking $7 (free lot across the road) · festival free',
+     why:'The 82 m falls are right by the parking-lot overlook, and the same day in Issaquah you watch salmon swim upstream from a bridge. The festival is only on the 10/3–4 weekend.',
+     walk:'●○○', time:'Half day · 45 min drive', where:'Issaquah Salmon Hatchery → Snoqualmie Falls', caveat:'No car? Tours Northwest falls tour $74 (3 hrs, from downtown).',
+     url:'https://www.salmondays.org/', day:'Dropped (10/4 is North Cascades)'}
+  ];
+  var SMALL = [
+    {name:'Bainbridge Island ferry', price:'$11.35', ps:'65+ $5.65 · round trip', why:'35-min crossing, best skyline view. Seattle\'s cheapest "cruise".', url:'https://www.wsdot.wa.gov/ferries/fares/faresdetail.aspx?departingterm=7&arrivingterm=3'},
+    {name:'Chihuly Garden and Glass', price:'$37~45', ps:'Price by time slot', why:'Glass sculpture garden + glasshouse. Likely Mom\'s #1.', url:'https://www.chihulygardenandglass.com/visit/plan-your-visit'},
+    {name:'Space Needle', price:'$37.50~49', ps:'Chihuly combo available', why:'Only worth it on clear days. If cloudy, Kerry Park\'s view instead.', url:'https://www.spaceneedle.com/'},
+    {name:'Seattle CityPASS C3', price:'$108', ps:'Pick 3 · valid 9 days', why:'Saves $20–30 if you do Chihuly + Space Needle + Argosy (or MoPOP).', url:'https://www.citypass.com/seattle'},
+    {name:'Underground Tour (Bill Speidel)', price:'$30', ps:'Seniors $27 · 75 min', why:'A humorous tour of streets buried after the 1889 fire. Mostly English jokes — may be less fun for Mom.', url:'https://www.undergroundtour.com/'},
+    {name:'Capitol Hill coffee tour (Viator)', price:'$49', ps:'2 hrs', why:'Seattle coffee culture — 3–4 roasteries. If you love coffee, fit it in on 10/5 morning.', url:'https://www.viator.com/Seattle-tours/Coffee-and-Tea-Tours/d704-g6-c5325'}
+  ];
+  var HOLD = [
+    {name:'Whale watching · Puget Sound Express (Edmonds)', price:'$155', why:'Dropped. October is orca & humpback season with a see-whales-or-ride-again guarantee, but $155 for 4–5 hrs on a boat + seasickness risk. The 10/6 Bainbridge ferry ($11) covers the sea view.'},
+    {name:'Olympic National Park day tour', price:'$188~315', why:'12 hrs of travel, Hoh Rain Forest not included. The most tiring option for someone in their 60s. If only one, pick Rainier.'},
+    {name:'North Cascades fall larch tour', price:'$426', why:'No Seattle pickup and over budget. Replaced by the Diablo Lake drive in Uncle\'s car (10/4).'},
+    {name:'Seattle Coffee Crawl pass', price:'Sold out', why:'9/15–10/15 pass sold out. Replaced by the Viator coffee tour.'}
+  ];
+
+  /* ---------- 거리 ---------- */
+  var DIST = [
+    ['grp','Within 30 min'],
+    ['Woodinville wineries','14 km','15–20 min'],['Lynnwood (Link station · H Mart)','10 km','12 min'],['Snohomish antique town','21 km','25 min'],['Edmonds waterfront · Amtrak station','21 km','25 min'],['Mukilteo (Boeing)','22 km','25 min'],['Bellevue','27 km','25 min'],['Downtown Seattle','32 km','30–35 min'],
+    ['grp','About 1 hour'],
+    ['Issaquah','48 km','35–45 min'],['Snoqualmie Falls','56 km','45–50 min'],['SEA airport','45 km','45–60 min'],['Tacoma','80 km','1 hr'],['La Conner (tulip town)','90 km','1h10'],['Deception Pass · Whidbey','105 km','1h20~30'],
+    ['grp','Day trips (5 hrs round trip)'],
+    ['Leavenworth','175 km','2h15~30'],['Mt. Rainier Paradise','180 km','2h45~3h'],['Hurricane Ridge (Olympic)','150 km + ferry','3~3.5h'],
+    ['grp','Overnight distance'],
+    ['Vancouver BC','210 km','2h30 + border'],['Portland OR','305 km','3~3.5h']
+  ];
+
+  /* ---------- render ---------- */
+  var blogs = function(arr){
+    if(!arr || !arr.length) return '';
+    return '<div class="blogs"><span class="bk">Naver blog reviews (Korean)</span>'+arr.map(function(b){
+      return '<a class="bl" href="'+b.u+'" target="_blank" rel="noopener"><span>'+esc(b.t)+'</span><small>'+b.d+'</small></a>';
+    }).join('')+'</div>';
+  };
+  var mapLink = function(q){ return q ? '<a class="map" href="'+M(q)+'" target="_blank" rel="noopener">Map</a>' : ''; };
+
+  var daysEl = document.getElementById('days');
+  var dh = '';
+  DAYS.forEach(function(d, i){
+    var wx = WX[i]; var wk = (d.w==='Sat'||d.w==='Sun') ? ' wknd' : '';
+    var meta = (d.aunt ? '<span class="pill">With Aunt</span>' : esc(d.who)) + '<span class="sep">·</span>' + esc(d.how)
+      + (d.leaf ? '<span class="sep">·</span><span class="leaf">Fall color · '+esc(d.leaf)+'</span>' : '')
+      + (d.fixed ? '<span class="sep">·</span>Confirmed' : '');
+    var items = d.items.map(function(it){
+      return '<li class="it'+(it.warn?' warn':'')+(it.empty?' empty':'')+'"><div class="ic">'+svg('p-'+it.i)+'</div><div class="bd">'
+        + (it.t ? '<div class="tm">'+it.t+'</div>' : '')
+        + '<p class="nm">'+esc(it.p)+mapLink(it.map)+'</p>'
+        + (it.a ? '<p class="ab">'+esc(it.a)+'</p>' : '')
+        + (it.n ? '<p class="tp">'+esc(it.n)+'</p>' : '')
+        + blogs(it.b)
+        + (it.opt ? '<div class="opt">'+it.opt+'</div>' : '')
+        + '</div></li>';
+    }).join('');
+    dh += '<article class="day" id="d'+d.n+'">'
+      + '<div class="day-head"><div class="date'+wk+'"><b>'+d.date.slice(3)+'</b><span>'+d.w+'</span></div>'
+      + '<div class="head-main"><h3 class="theme">'+esc(d.theme)+'</h3><div class="meta">'+meta+'</div></div>'
+      + '<div class="wx">'+svg(WI[wx.ic])+'<div class="temps">'+wx.hi+'° <span>'+wx.lo+'°</span></div><div class="wl">'+esc(wx.loc)+'</div></div></div>'
+      + '<div class="wear"><span class="k">Wear</span><span>'+esc(wx.wear)+'</span></div>'
+      + '<ul class="its">'+items+'</ul></article>';
+  });
+  daysEl.innerHTML = dh;
+  document.getElementById('ov').innerHTML = DAYS.map(function(d){
+    var wk = (d.w==='Sat'||d.w==='Sun') ? ' wknd' : '';
+    return '<a href="#d'+d.n+'" class="'+(d.aunt?'aunt':'')+wk+'"><div class="d">'+d.date.slice(3)+'<small>'+d.w+'</small></div>'+svg('p-'+d.oi)+'<div class="l">'+esc(d.ov)+'</div></a>';
+  }).join('');
+
+  document.getElementById('tours').innerHTML = TOURS.map(function(t){
+    return '<article class="tour"><div class="tour-top"><div class="ic">'+svg('p-'+t.i)+'</div><div><div class="rank">'+t.rank+'</div><h3>'+esc(t.name)+'</h3></div><div class="price">'+esc(t.price)+'<small>'+esc(t.ps)+'</small></div></div>'
+      + '<p class="why">'+esc(t.why)+'</p>'
+      + '<ul class="facts"><li><b>Walking</b> <span class="walk">'+t.walk+'</span></li><li><b>Time</b> '+esc(t.time)+'</li><li><b>Where</b> '+esc(t.where)+'</li><li><b>Day</b> '+esc(t.day)+'</li><li><b>Note</b> '+esc(t.caveat)+'</li></ul>'
+      + blogs(t.b)
+      + '<div class="tour-foot"><a class="btn primary" href="'+t.url+'" target="_blank" rel="noopener">Booking page</a><a class="btn" href="'+M(t.where)+'" target="_blank" rel="noopener">Map</a></div></article>';
+  }).join('');
+  document.getElementById('tours-small').innerHTML = SMALL.map(function(t){
+    return '<article class="tour small"><div class="tour-top"><h3>'+esc(t.name)+'</h3><div class="price">'+esc(t.price)+'<small>'+esc(t.ps)+'</small></div></div><p class="why">'+esc(t.why)+'</p><div class="tour-foot"><a class="btn" href="'+t.url+'" target="_blank" rel="noopener">Details</a></div></article>';
+  }).join('');
+  document.getElementById('tours-hold').innerHTML = HOLD.map(function(t){
+    return '<article class="tour small hold"><div class="tour-top"><h3>'+esc(t.name)+'</h3><div class="price">'+esc(t.price)+'</div></div><p class="why">'+esc(t.why)+'</p></article>';
+  }).join('');
+
+  document.getElementById('wxrows').innerHTML = WX.map(function(w){
+    var wk = (w.w==='Sat'||w.w==='Sun') ? ' wknd' : '';
+    return '<tr><td class="d'+wk+'">'+w.d.slice(3)+' '+w.w+'<br><small class="wl">'+esc(w.loc)+'</small></td><td>'+svg(WI[w.ic])+esc(w.tx)+'</td><td class="tp2">'+w.hi+'° <span>'+w.lo+'°</span></td><td>'+esc(w.wear)+'</td></tr>';
+  }).join('');
+
+  document.getElementById('dist').innerHTML = DIST.map(function(r){
+    if(r[0]==='grp') return '<li class="hdr"><div class="grp">'+r[1]+'</div></li>';
+    return '<li><span>'+esc(r[0])+'</span><span class="km">'+r[1]+'</span><span class="min">'+r[2]+'</span></li>';
+  }).join('');
+
+  /* tabs */
+  var tabs = document.querySelectorAll('.tab'), panels = document.querySelectorAll('section[data-panel]');
+  var show = function(name){
+    tabs.forEach(function(b){ b.setAttribute('aria-selected', String(b.dataset.tab===name)); });
+    panels.forEach(function(p){ p.hidden = p.dataset.panel!==name; });
+    try{ localStorage.setItem('sea-tab2', name); }catch(e){}
+  };
+  tabs.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.tab); window.scrollTo({top:0}); }); });
+  var saved = null; try{ saved = localStorage.getItem('sea-tab2'); }catch(e){}
+  if(saved && saved!=='glance' && document.querySelector('.tab[data-tab="'+saved+'"]')) show(saved);
+
+  /* ---------- 한눈에: 10일 요약 + 날짜별 동선 지도 ---------- */
+  var PL = {
+    home:['Aunt\'s house',47.818,-122.176,'9905 40th Dr SE, Bothell, WA 98012'],
+    sea:['SEA airport',47.4436,-122.3016,'Seattle-Tacoma International Airport'],
+    bl:['Bothell Landing',47.7597,-122.2069,'Bothell Landing Park, Bothell, WA'],
+    mc:['Mill Creek',47.859,-122.2168,'Mill Creek Town Center, Mill Creek, WA'],
+    mcm:['McMenamins',47.7625,-122.2053,'McMenamins Anderson School, Bothell, WA'],
+    tum:['Tumwater Canyon',47.644,-120.743,'Tumwater Canyon, Leavenworth, WA'],
+    lvw:['Leavenworth',47.5962,-120.6615,'Front Street Park, Leavenworth, WA'],
+    iss:['Issaquah',47.5301,-122.0386,'Issaquah Salmon Hatchery, Issaquah, WA'],
+    snq:['Snoqualmie Falls',47.5417,-121.8377,'Snoqualmie Falls, Snoqualmie, WA'],
+    cp:['Canyon Park',47.796,-122.2105,'Canyon Park Park & Ride, Bothell, WA'],
+    lyn:['Lynnwood Stn',47.8158,-122.2946,'Lynnwood City Center Station'],
+    wl:['Westlake Stn',47.6116,-122.337,'Westlake Station, Seattle'],
+    pike:['Pike Place',47.6107,-122.3423,'Pike Place Market, Seattle'],
+    sbx:['1st Starbucks',47.6101,-122.3426,'Original Starbucks, 1912 Pike Pl, Seattle'],
+    chi:['Chihuly',47.6205,-122.3504,'Chihuly Garden and Glass, Seattle'],
+    kerry:['Kerry Park',47.6295,-122.3599,'Kerry Park, Seattle'],
+    gas:['Gas Works Park',47.6456,-122.3344,'Gas Works Park, Seattle'],
+    ncp:['North Creek Park',47.8329,-122.2186,'North Creek Park, 1011 183rd St SE, Bothell'],
+    mon:['Mon Amie',47.8487,-122.2199,'Mon Amie Bakery & Cafe, Mill Creek'],
+    shop:['Aunt\'s shop',47.8105,-122.1805,'19905 40th Dr SE, Bothell, WA 98012'],
+    pcc:['PCC Market',47.7927,-122.2146,'PCC Community Markets Bothell'],
+    bsq:['Bellevue Square',47.6159,-122.2036,'Bellevue Square, Bellevue, WA'],
+    lunch:['Food carts',45.5185,-122.6790,'Downtown Portland food carts'],
+    wood:['Woodburn Outlets',45.1557,-122.8812,'Woodburn Premium Outlets, Woodburn, OR'],
+    gorge:['Gorge Creek Falls',48.6973,-121.2095,'Gorge Creek Falls Overlook, WA'],
+    diablo:['Diablo Lake',48.7097,-121.1150,'Diablo Lake Vista Point, WA'],
+    wpass:['Washington Pass',48.5245,-120.6529,'Washington Pass Overlook, WA'],
+    par:['Paradise',46.7865,-121.7353,'Paradise, Mount Rainier National Park'],
+    refl:['Reflection Lakes',46.7686,-121.7295,'Reflection Lakes, Mount Rainier'],
+    nar:['Narada Falls',46.7753,-121.7455,'Narada Falls, Mount Rainier'],
+    chr:['Christine Falls',46.7818,-121.781,'Christine Falls, Mount Rainier'],
+    colman:['Colman Dock',47.6025,-122.3386,'Seattle Ferry Terminal Colman Dock'],
+    win:['Bainbridge',47.6247,-122.5165,'Winslow Way E, Bainbridge Island, WA'],
+    locks:['Ballard Locks',47.6655,-122.3972,'Ballard Locks, Seattle'],
+    bave:['Ballard Ave',47.6677,-122.3843,'Ballard Ave NW, Seattle'],
+    kss:['King Street Stn',47.5983,-122.3301,'King Street Station, Seattle'],
+    pdx:['Portland Stn',45.529,-122.6765,'Portland Union Station'],
+    pearl:['Pearl hotel',45.5275,-122.6825,'Pearl District, Portland'],
+    powell:["Powell's",45.5231,-122.6813,"Powell's City of Books, Portland"],
+    nw23:['NW 23rd',45.527,-122.6985,'NW 23rd Ave, Portland'],
+    jgar:['Japanese Garden',45.519,-122.708,'Portland Japanese Garden'],
+    lansu:['Chinese Garden',45.5255,-122.6735,'Lan Su Chinese Garden, Portland']
+  };
+  var US2=[[47.8565,-121.971],[47.71,-121.36],[47.745,-121.088]];
+  var US2R=[[47.644,-120.743],[47.745,-121.088],[47.71,-121.36],[47.8565,-121.971]];
+  var RAIN=[[47.48,-122.19],[47.19,-122.29],[46.77,-122.2],[46.758,-121.98],[46.75,-121.813]];
+  var RAINR=RAIN.slice().reverse();
+  var LINK=[[47.705,-122.325],[47.66,-122.312]];
+  var LINKH=[[47.66,-122.312],[47.705,-122.325],[47.8158,-122.2946]];
+  var AMT=[[47.24,-122.43],[47.0,-122.8],[46.72,-122.96],[46.14,-122.91],[45.63,-122.68]];
+  var AMTR=AMT.slice().reverse();
+  var MODE={car:'Car',uber:'Uber',walk:'Walk',bus:'Bus',link:'Light rail',mono:'Monorail',train:'Amtrak',ferry:'Ferry'};
+  var MC={car:'car',uber:'car',walk:'walk',bus:'tr',link:'tr',mono:'tr',train:'train',ferry:'ferry'};
+  var JENNY={2:1,3:1,4:1,10:1};
+
+  /* k: 장소, t: 시간, nm: 이름, s: 요약용 짧은 이름, m/d/wp: 앞 장소에서 오는 이동수단/거리·시간/경유 좌표 */
+  var RT = {
+    1:[{note:1,t:'16:30',nm:'Leave work → airport bus (KST)',sub:'Get off at Incheon Airport Terminal 2 (T2)',s:'Airport bus'},
+       {note:1,t:'21:20',nm:'Incheon T2 · OZ272 departs',sub:'Arrive ~18:00 · counters G–J',s:'Leave Incheon'},
+       {k:'sea',t:'15:15',nm:'Arrive SEA (OZ272)',s:'SEA airport'},
+       {k:'home',t:'17:30',nm:'Arrive at Aunt\'s house',s:'Aunt\'s house',m:'car',d:'45 km · 45–60 min (rush hour)'}],
+    2:[{k:'home',t:'09:15',nm:'Leave Aunt\'s house'},
+       {k:'bl',t:'09:30',nm:'Bothell Landing riverside walk',s:'Riverside walk',m:'car',d:'9 km · 15 min'},
+       {k:'mc',t:'12:00',nm:'Lunch at Mill Creek Town Center',s:'Mill Creek lunch',m:'car',d:'13 km · 18 min'},
+       {gap:1,t:'14:30',nm:'Afternoon open',sub:'Somewhere 15–25 min from home',s:'Open afternoon'},
+       {k:'mcm',t:'17:30',nm:'Early dinner at McMenamins Anderson School',s:'McMenamins dinner',m:'car',d:'12 km · 18 min'},
+       {note:1,t:'20:00',nm:'Drinks with Jenny\'s friends',sub:'Place TBD · bring passport',s:'Drinks with Jenny\'s friends'},
+       {k:'home',nm:'Home',m:'uber',d:'10–20 min depending on place'}],
+    3:[{k:'home',t:'08:00',nm:'Depart (US-2 · Stevens Pass)'},
+       {k:'tum',t:'10:10',nm:'Tumwater Canyon foliage (from the car)',s:'Foliage drive',m:'car',d:'165 km · about 2 hrs',wp:US2},
+       {k:'lvw',t:'10:30',nm:'Leavenworth village → 12:00 Oktoberfest',s:'Leavenworth Oktoberfest',m:'car',d:'10 km · 10 min'},
+       {k:'home',t:'19:30',nm:'Home (leave 17:00)',m:'car',d:'175 km · 2h30',wp:US2R}],
+    4:[{k:'home',t:'08:30',nm:'Depart (Uncle\'s car)'},
+       {k:'gorge',t:'10:45',nm:'Gorge Creek Falls',s:'Gorge falls',m:'car',d:'175 km · 2h15 · ⚡ charge at Burlington',wp:[[48.475,-122.33],[48.54,-121.75],[48.528,-121.43],[48.673,-121.245]]},
+       {k:'diablo',t:'11:15',nm:'Diablo Lake Overlook · picnic lunch',s:'Diablo Lake',m:'car',d:'15 km · 20 min'},
+       {k:'wpass',t:'12:45',nm:'Washington Pass Overlook (optional)',s:'Washington Pass',m:'car',d:'50 km · 45 min'},
+       {k:'home',t:'17:00',nm:'Home (leave 13:30)',m:'car',d:'240 km · 3h15 · ⚡ charge at Burlington',wp:[[48.673,-121.245],[48.528,-121.43],[48.54,-121.75],[48.475,-122.33]]}],
+    5:[{k:'home',t:'08:40',nm:'Depart (Uncle\'s car)'},
+       {k:'pike',t:'10:00',nm:'Pike Place food tour',s:'Pike Place',m:'car',d:'35 km · 40–50 min · parking $36'},
+       {k:'sbx',t:'12:30',nm:'Original Starbucks · Gum Wall · Waterfront',s:'1st Starbucks',m:'walk',d:'150 m · 2 min'},
+       {k:'gas',t:'15:00',nm:'Gas Works Park · dinner · sunset 18:40',s:'Gas Works sunset',m:'car',d:'5 km · 15 min'},
+       {k:'home',t:'19:30',nm:'Home (leave 19:00)',m:'car',d:'28 km · 30 min'}],
+    6:[{k:'home',t:'09:30',nm:'Depart'},
+       {k:'cp',via:1,nm:'Canyon Park P&R',m:'car',d:'4 km · 8 min'},
+       {k:'lyn',via:1,nm:'Lynnwood Stn',m:'bus',d:'Bus 535 · 15 min'},
+       {k:'wl',via:1,nm:'Westlake Stn',m:'link',d:'30 min',wp:LINK},
+       {k:'colman',t:'10:40',nm:'Colman Dock ferry terminal',m:'walk',d:'1 km · 15 min (downhill)'},
+       {k:'win',t:'11:20',nm:'Bainbridge · Winslow Way · lunch',s:'Ferry · Bainbridge',m:'ferry',d:'14 km · 35 min · round trip $11.35'},
+       {k:'colman',via:1,nm:'Back to Seattle',m:'ferry',d:'35 min'},
+       {k:'locks',t:'13:30',nm:'Ballard Locks · fish ladder',s:'Ballard Locks',m:'uber',d:'9 km · 15 min (bus 40 works too)'},
+       {k:'bave',t:'16:00',nm:'Ballard Ave · dinner',s:'Ballard dinner',m:'walk',d:'1.2 km · 15 min'},
+       {k:'home',nm:'Home',m:'uber',d:'25 km · 30 min · 1 hr by transit'}],
+    7:[{k:'home',t:'06:30',nm:'Depart (Uncle\'s car)'},
+       {k:'wood',t:'10:00',nm:'Woodburn Outlets · lunch · ⚡ Supercharger next door',s:'Outlet shopping',m:'car',d:'335 km · 3.5 hrs + rest stop',wp:AMT},
+       {k:'jgar',t:'13:15',nm:'Japanese Garden + Rose Garden',s:'Japanese Garden',m:'car',d:'50 km · 45 min'},
+       {k:'powell',t:'15:15',nm:"Powell's Books · Pearl shopping",s:"Powell's",m:'car',d:'3 km · 10 min'},
+       {k:'nw23',t:'17:00',nm:'NW 23rd · Salt & Straw · dinner',s:'NW 23rd dinner',m:'car',d:'2 km · 7 min'},
+       {k:'home',t:'22:00',nm:'Home (leave 19:00)',m:'car',d:'305 km · 3 hrs',wp:AMTR}],
+    8:[{k:'home',nm:'Aunt\'s house'},
+       {k:'ncp',t:'10:00',nm:'North Creek Park boardwalk',s:'Wetland boardwalk',m:'car',d:'3 km · 5 min'},
+       {k:'mon',t:'11:00',nm:'Mon Amie Bakery brunch',s:'Bakery brunch',m:'car',d:'2 km · 5 min'},
+       {k:'bsq',t:'12:30',nm:'Bellevue Square · shopping & lunch',s:'Bellevue shopping',m:'car',d:'28 km · 25 min (I-405)'},
+       {k:'shop',t:'15:30',nm:'Visit Aunt\'s shop',s:'Aunt\'s shop',m:'car',d:'25 km · 25 min'},
+       {k:'home',t:'17:00',nm:'Rest at home · dinner with Aunt\'s family',m:'car',d:'5 min drive · 16 min walk'}],
+    9:[{k:'home',t:'07:30',nm:'Depart'},
+       {k:'par',t:'10:15',nm:'Paradise · Myrtle Falls walk · picnic',s:'Paradise',m:'car',d:'180 km · 2h45',wp:RAIN},
+       {k:'refl',t:'14:00',nm:'Reflection Lakes',s:'Reflection Lakes',m:'car',d:'5 km · 10 min'},
+       {k:'nar',nm:'Narada Falls',s:'Narada Falls',m:'car',d:'2 km · 5 min'},
+       {k:'chr',nm:'Christine Falls',s:'Christine Falls',m:'car',d:'8 km · 12 min'},
+       {k:'home',t:'18:30',nm:'Home (leave 15:30)',m:'car',d:'185 km · about 3 hrs',wp:RAINR}],
+    10:[{k:'home',nm:'Aunt\'s house'},
+       {gap:1,t:'09:30',nm:'Morning open',sub:'Home by 14:00 · stay close',s:'Open morning'},
+       {note:1,t:'14:00',nm:'Home · pack · last dinner with Aunt\'s family',s:'Packing'},
+       {k:'sea',t:'21:00',nm:'Arrive SEA (OZ271 departs 00:10)',s:'Airport',m:'car',d:'45 km · 50 min (leave 20:00)'}]
+  };
+  var CITY=[['Seattle',47.6062,-122.3321],['Bellevue',47.6101,-122.2015],['Everett',47.979,-122.2021],['Tacoma',47.2529,-122.4443],['Olympia',47.0379,-122.9007],['Portland',45.5152,-122.6784],['Mt. Rainier',46.8523,-121.7603],['Stevens Pass',47.745,-121.088],['Monroe',47.8565,-121.971]];
+
+  var MW=340, MH=260, PAD=32;
+  var tw = function(t){ var w=0; for(var i=0;i<t.length;i++){ var c=t.charCodeAt(i); w += c>0x2E80 ? 11 : (c===32 ? 3.2 : 6.4); } return w; };
+  var hit = function(a,b){ return a.x<b.x+b.w && b.x<a.x+a.w && a.y<b.y+b.h && b.y<a.y+a.h; };
+
+  var drawMap = function(n){
+    var items=RT[n], pts=[];
+    items.forEach(function(it){ if(it.k){ pts.push([PL[it.k][1],PL[it.k][2]]); } });
+    var la0=Infinity,la1=-Infinity,lo0=Infinity,lo1=-Infinity;
+    pts.forEach(function(p){ la0=Math.min(la0,p[0]);la1=Math.max(la1,p[0]);lo0=Math.min(lo0,p[1]);lo1=Math.max(lo1,p[1]); });
+    var kx=Math.cos((la0+la1)/2*Math.PI/180);
+    var w=Math.max((lo1-lo0)*kx,0.02), h=Math.max(la1-la0,0.02);
+    var sc=Math.min((MW-2*PAD)/w,(MH-2*PAD)/h);
+    var cx=(lo0+lo1)/2*kx, cy=(la0+la1)/2;
+    var P=function(la,lo){ return [MW/2+(lo*kx-cx)*sc, MH/2-(la-cy)*sc]; };
+    var f=function(v){ return Math.round(v*10)/10; };
+
+    var paths='', prev=null;
+    items.forEach(function(it){
+      if(!it.k) return;
+      var cur=[PL[it.k][1],PL[it.k][2]];
+      if(prev && it.m){
+        var seq=[prev].concat(it.wp||[]).concat([cur]);
+        paths+='<path class="r r-'+MC[it.m]+'" d="'+seq.map(function(q,i){ var xy=P(q[0],q[1]); return (i?'L':'M')+f(xy[0])+' '+f(xy[1]); }).join('')+'"/>';
+      }
+      prev=cur;
+    });
+
+    var M=[], vias='', seen={}, num=0;
+    items.forEach(function(it){
+      if(!it.k) return;
+      var xy=P(PL[it.k][1],PL[it.k][2]);
+      if(it.via){ vias+='<circle class="vd" cx="'+f(xy[0])+'" cy="'+f(xy[1])+'" r="4"/>'; return; }
+      if(it.k==='home'){ if(seen.home) return; seen.home=1; M.push({x:xy[0],y:xy[1],x0:xy[0],y0:xy[1],home:1,lb:PL.home[0]}); return; }
+      num++; M.push({x:xy[0],y:xy[1],x0:xy[0],y0:xy[1],num:num,lb:PL[it.k][0]});
+    });
+    for(var iter=0; iter<60; iter++){
+      var moved=false;
+      for(var i=0;i<M.length;i++) for(var j=i+1;j<M.length;j++){
+        var dx=M[j].x-M[i].x, dy=M[j].y-M[i].y, d=Math.sqrt(dx*dx+dy*dy);
+        if(d<25){ if(d<0.01){ dx=Math.cos(j*2.4); dy=Math.sin(j*2.4); d=1; } var pu=(25-d)/2, ux=dx/d, uy=dy/d;
+          M[i].x-=ux*pu; M[i].y-=uy*pu; M[j].x+=ux*pu; M[j].y+=uy*pu; moved=true; }
+      }
+      M.forEach(function(m){ m.x=Math.max(14,Math.min(MW-14,m.x)); m.y=Math.max(14,Math.min(MH-30,m.y)); });
+      if(!moved) break;
+    }
+
+    var pxkm=sc/111, nice=[0.5,1,2,5,10,20,50,100], km=nice[0];
+    nice.forEach(function(v){ if(v*pxkm<=80) km=v; });
+    var bl=f(km*pxkm);
+    var boxes=M.map(function(m){ return {x:m.x-12,y:m.y-12,w:24,h:24}; });
+    boxes.push({x:6,y:MH-22,w:bl+50,h:20});
+    var lead='', marks='', labels='';
+    M.forEach(function(m){
+      if(Math.abs(m.x-m.x0)+Math.abs(m.y-m.y0)>4){
+        lead+='<line class="ld" x1="'+f(m.x0)+'" y1="'+f(m.y0)+'" x2="'+f(m.x)+'" y2="'+f(m.y)+'"/><circle class="od" cx="'+f(m.x0)+'" cy="'+f(m.y0)+'" r="2.2"/>';
+      }
+      if(m.home){
+        marks+='<g transform="translate('+f(m.x)+' '+f(m.y)+')"><rect class="mh" x="-11" y="-11" width="22" height="22" rx="6"/><use class="mhi" href="#p-home" x="-8" y="-8" width="16" height="16"/></g>';
+      } else {
+        marks+='<circle class="mk" cx="'+f(m.x)+'" cy="'+f(m.y)+'" r="11"/><text class="mn" x="'+f(m.x)+'" y="'+f(m.y)+'">'+m.num+'</text>';
+      }
+    });
+    M.forEach(function(m){
+      var wd=tw(m.lb), ht=13;
+      var cands=[{x:m.x+15,y:m.y-ht/2},{x:m.x-15-wd,y:m.y-ht/2},{x:m.x-wd/2,y:m.y-15-ht},{x:m.x-wd/2,y:m.y+15},{x:m.x-wd+4,y:m.y+14},{x:m.x-wd+4,y:m.y-14-ht},{x:m.x-4,y:m.y+14},{x:m.x-4,y:m.y-14-ht}];
+      for(var c=0;c<cands.length;c++){
+        var b={x:cands[c].x,y:cands[c].y,w:wd,h:ht};
+        if(b.x<4||b.y<4||b.x+b.w>MW-4||b.y+b.h>MH-4) continue;
+        if(boxes.some(function(o){ return hit(b,o); })) continue;
+        boxes.push(b);
+        labels+='<text class="lb" x="'+f(b.x)+'" y="'+f(b.y+10)+'">'+esc(m.lb)+'</text>';
+        break;
+      }
+    });
+    var cities='';
+    CITY.forEach(function(c){
+      var xy=P(c[1],c[2]), wd=tw(c[0])*0.95, b={x:xy[0]-wd/2,y:xy[1]-7,w:wd,h:13};
+      if(b.x<6||b.y<6||b.x+b.w>MW-6||b.y+b.h>MH-24) return;
+      if(boxes.some(function(o){ return hit(b,o); })) return;
+      if(M.some(function(m){ return Math.abs(m.x0-xy[0])<16 && Math.abs(m.y0-xy[1])<16; })) return;
+      boxes.push(b);
+      cities+='<text class="ct" x="'+f(b.x)+'" y="'+f(b.y+10)+'">'+esc(c[0])+'</text>';
+    });
+
+    var scale='<line class="sc" x1="12" y1="'+(MH-12)+'" x2="'+(12+bl)+'" y2="'+(MH-12)+'"/><line class="sc" x1="12" y1="'+(MH-16)+'" x2="12" y2="'+(MH-8)+'"/><line class="sc" x1="'+(12+bl)+'" y1="'+(MH-16)+'" x2="'+(12+bl)+'" y2="'+(MH-8)+'"/><text class="st" x="'+(16+bl)+'" y="'+(MH-9)+'">'+km+' km</text>';
+    var north='<text class="st" x="'+(MW-16)+'" y="16" text-anchor="middle">N</text><path class="sc" d="M'+(MW-16)+' 20v10" fill="none"/>';
+
+    document.getElementById('mapbox').innerHTML='<svg class="mp" viewBox="0 0 '+MW+' '+MH+'" role="img" aria-label="'+esc(DAYS[n-1].theme)+' route map">'
+      +'<defs><pattern id="gdot" width="16" height="16" patternUnits="userSpaceOnUse"><circle class="gd" cx="1" cy="1" r="1"/></pattern></defs>'
+      +'<rect class="bg" width="'+MW+'" height="'+MH+'"/><rect width="'+MW+'" height="'+MH+'" fill="url(#gdot)"/>'
+      +cities+paths+lead+vias+marks+labels+scale+north+'</svg>';
+  };
+
+  var segList = function(n){
+    var num=0, h='';
+    RT[n].forEach(function(it,i){
+      if(it.m && i>0) h+='<li class="mv mv-'+MC[it.m]+'"><span class="ln"></span><span class="tx"><b>'+MODE[it.m]+'</b>'+esc(it.d||'')+'</span></li>';
+      var tm='<span class="tm2">'+(it.t||'')+'</span>';
+      var sub=it.sub?'<span class="sb">'+esc(it.sub)+'</span>':'';
+      if(it.gap){ h+='<li class="st gapr"><span class="no gp">?</span><span><span class="nm2">'+esc(it.nm)+'</span>'+sub+'</span>'+tm+'</li>'; return; }
+      if(it.note){ h+='<li class="st'+(it.warn?' wn':'')+'"><span class="no nt">'+(it.warn?'!':'·')+'</span><span><span class="nm2">'+esc(it.nm)+'</span>'+sub+'</span>'+tm+'</li>'; return; }
+      var badge;
+      if(it.k==='home') badge='<span class="no hm">'+svg('p-home')+'</span>';
+      else if(it.via) badge='<span class="no vi"></span>';
+      else { num++; badge='<span class="no">'+num+'</span>'; }
+      h+='<li class="st'+(it.via?' via':'')+'">'+badge+'<span><span class="nm2">'+esc(it.nm)+'</span>'+sub+'</span>'+tm+'</li>';
+    });
+    document.getElementById('segs').innerHTML=h;
+  };
+
+  var gUrl = function(n){
+    var q=[];
+    RT[n].forEach(function(it){ if(it.k && !it.via){ var a=PL[it.k][3]; if(q[q.length-1]!==a) q.push(a); } });
+    if(q.length<2) return M(q[0]||'Bothell, WA');
+    var u='https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(q[0])+'&destination='+encodeURIComponent(q[q.length-1]);
+    if(q.length>2) u+='&waypoints='+encodeURIComponent(q.slice(1,-1).join('|'));
+    return u;
+  };
+
+  var cur=1;
+  var pick = function(n, scroll){
+    cur=n; window.__day=n; var d=DAYS[n-1];
+    document.querySelectorAll('.sum .row').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.n===n)); });
+    var dc=document.getElementById('dchips');
+    dc.querySelectorAll('.dchip').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.dataset.n===n)); });
+    var on=dc.querySelector('.dchip[data-n="'+n+'"]');
+    if(on) dc.scrollLeft = on.offsetLeft - dc.clientWidth/2 + on.offsetWidth/2;
+    document.getElementById('mdate').textContent = d.date.replace('.','/').replace('/0','/')+' '+d.w+'';
+    document.getElementById('mtitle').textContent = d.theme;
+    drawMap(n); segList(n);
+    document.getElementById('gmap').href = gUrl(n);
+    if(scroll) document.getElementById('mapcard').scrollIntoView({block:'start'});
+  };
+
+  document.getElementById('sum').innerHTML = DAYS.map(function(d){
+    var items=RT[d.n]||[], wk=(d.w==='Sat'||d.w==='Sun')?' wknd':'';
+    var fl=items.filter(function(it){ return it.s && !it.via; }).map(function(it){ return it.gap?'<span class="gp">'+esc(it.s)+'</span>':esc(it.s); }).join(' <span class="ar">→</span> ');
+    var ch = d.aunt ? '<span class="chip au">With Aunt</span>' : '<span class="chip">'+esc(d.who)+'</span>';
+    if(JENNY[d.n]) ch+='<span class="chip je">Jenny can join</span>';
+    if(d.how && d.how!=='—') ch+='<span class="chip">'+esc(d.how)+'</span>';
+    if(items.some(function(it){ return it.gap; })) ch+='<span class="chip gp">Has open slot</span>';
+    return '<li><button class="row" type="button" data-n="'+d.n+'" aria-pressed="false"><span class="dd'+wk+'">'+d.date.slice(3).replace(/^0/,'')+'<small>'+d.w+'</small></span>'
+      +'<span class="rb"><span class="th">'+esc(d.theme)+'</span><span class="fl">'+fl+'</span><span class="chips">'+ch+'</span></span>'
+      +'<span class="wq">'+svg(WI[WX[d.n-1].ic])+'<span>'+WX[d.n-1].hi+'° <small>'+WX[d.n-1].lo+'°</small></span></span></button></li>';
+  }).join('');
+  document.getElementById('dchips').innerHTML = DAYS.map(function(d){
+    var wk=(d.w==='Sat'||d.w==='Sun')?' wknd':'';
+    return '<button class="dchip'+wk+'" type="button" data-n="'+d.n+'" aria-pressed="false">'+d.date.replace('.','/').replace('/0','/')+'<small>'+d.w+'</small></button>';
+  }).join('');
+  document.querySelectorAll('.sum .row').forEach(function(b){ b.addEventListener('click', function(){ pick(+b.dataset.n, true); }); });
+  document.querySelectorAll('.dchip').forEach(function(b){ b.addEventListener('click', function(){ pick(+b.dataset.n, false); }); });
+  document.getElementById('todetail').addEventListener('click', function(){
+    show('plan');
+    var el=document.getElementById('d'+cur); if(el) el.scrollIntoView({block:'start'});
+  });
+  var now=new Date(), def=1;
+  if(now.getFullYear()===2026 && now.getMonth()===9 && now.getDate()<=10) def=now.getDate();
+  if(window.__day) def=window.__day;
+  pick(def, false);
+
+}
+
+  var DEFAULT_LANG='ko', app=document.getElementById('app');
+  var setLang=function(l, keep){
+    var y=window.scrollY, prev=document.documentElement.lang||l;
+    app.innerHTML=document.getElementById('tpl-'+l).innerHTML;
+    (l==='en'?runEN:runKO)();
+    document.documentElement.lang=l;
+    document.title = l==='en' ? 'Mom & Me in Seattle' : '시애틀 모녀 여행';
+    var sw=app.querySelector('.lang .sw');
+    if(sw){
+      sw.setAttribute('aria-checked', String(prev==='en'));
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ sw.setAttribute('aria-checked', String(l==='en')); }); });
+      sw.addEventListener('click', function(){ setLang(l==='en'?'ko':'en', true); });
+    }
+    app.querySelectorAll('.lang [data-l]').forEach(function(x){
+      x.classList.toggle('on', x.dataset.l===l);
+      x.addEventListener('click', function(){ if(x.dataset.l!==l) setLang(x.dataset.l, true); });
+    });
+    try{ localStorage.setItem('sea-lang', l); }catch(e){}
+    if(keep) window.scrollTo(0,y);
+  };
+  var start=DEFAULT_LANG;
+  try{ var sv=localStorage.getItem('sea-lang'); if(sv==='ko'||sv==='en') start=sv; }catch(e){}
+  if(location.hash==='#en') start='en'; else if(location.hash==='#ko') start='ko';
+  setLang(start,false);
 })();
 </script>
 
