@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Seoul Layover · Nov 7</title>
+<style>
+:root{
+  --bg:#F6F4EF; --surface:#FFFFFF; --surface-2:#EFECE4; --ink:#1F1C17; --muted:#6F695F; --line:#E0DBD0;
+  --accent:#8A2B3C; --accent-ink:#FFFFFF; --accent-soft:#F4E2E6;
+  --sky:#2F5F8A; --sky-soft:#E3ECF4; --ok:#2E7D4F; --ok-soft:#E3F0E8;
+  --sans:-apple-system,"Apple SD Gothic Neo","Segoe UI","Malgun Gothic",Roboto,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+:root[data-theme="dark"]{
+  --bg:#15130F; --surface:#1E1B16; --surface-2:#27231C; --ink:#EEEAE2; --muted:#A39C8F; --line:#36312A;
+  --accent:#E08597; --accent-ink:#15130F; --accent-soft:#3A2228;
+  --sky:#8BB4DD; --sky-soft:#1E2B38; --ok:#7CC49A; --ok-soft:#1F3328;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;word-break:keep-all}
+a{color:var(--sky)}
+.wrap{max-width:600px;margin:0 auto;padding:0 18px 64px}
+
+[data-lang="en"] .ko{display:none !important}
+[data-lang="ko"] .en{display:none !important}
+.langbar{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px 0 10px;display:flex;justify-content:flex-end;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.langbar .hint{font-size:12.5px;color:var(--muted);margin-right:auto}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:3px}
+.seg button{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:14px;font-weight:600;padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg button[data-theme-set]{padding:6px 10px;font-size:15px;line-height:1}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header{padding:22px 0 10px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:32px;line-height:1.15;margin:6px 0 6px;letter-spacing:-.01em}
+.sub{margin:0;color:var(--muted);font-size:16px}
+.who{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.who span{font-size:13.5px;padding:4px 11px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+
+.flights{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.flight{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.flight .k{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.flight .t{font-family:var(--mono);font-size:16px;font-weight:700;margin-top:4px}
+.flight .d{font-size:13.5px;color:var(--muted);margin-top:2px}
+
+.budget{margin:16px 0 0;background:var(--accent);color:var(--accent-ink);border-radius:14px;padding:14px 16px}
+.budget b{font-size:22px;font-family:var(--mono);display:block;line-height:1.1}
+.budget span{font-size:14px;opacity:.9}
+
+.save{margin:14px 0 0;background:var(--sky-soft);border-radius:12px;padding:12px 14px;font-size:14.5px;line-height:1.55}
+.save b{color:var(--sky)}
+
+h2{font-size:21px;margin:32px 0 12px}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:64px;top:16px;bottom:16px;border-left:2px solid var(--line)}
+.row{display:grid;grid-template-columns:52px 24px 1fr;gap:0 12px;padding:14px 0;position:relative}
+.tm{font-family:var(--mono);font-size:15px;font-weight:700;text-align:right;padding-top:3px;font-variant-numeric:tabular-nums}
+.dot{width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--line);margin:7px 0 0 5px;position:relative;z-index:1}
+.row.key .dot{border-color:var(--accent);background:var(--accent)}
+.row.air .dot{border-color:var(--sky)}
+.row.free .dot{border-color:var(--ok)}
+.bd{min-width:0}
+.nm{font-weight:700;font-size:18px;line-height:1.35;margin:0}
+.tag{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 8px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.tag.key{background:var(--accent-soft);color:var(--accent)}
+.tag.air{background:var(--sky-soft);color:var(--sky)}
+.tag.free{background:var(--ok-soft);color:var(--ok)}
+.lead{margin:6px 0 0;font-size:16px;line-height:1.55}
+.tp{margin:6px 0 0;font-size:14px;line-height:1.55;color:var(--muted)}
+.tp::before{content:"↳ ";opacity:.7}
+.addr{display:block;font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.5}
+.addr a{color:var(--sky);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:0 7px;margin-left:4px;font-family:var(--sans)}
+
+/* train picker */
+.tt{margin:10px 0 0;padding:12px 12px 10px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.tt .ttk{font-size:12px;font-weight:700;color:var(--sky);letter-spacing:.02em;margin-bottom:8px}
+.tt .times{display:flex;flex-wrap:wrap;gap:6px}
+.tt .t{appearance:none;font-family:var(--mono);font-size:15px;font-weight:600;padding:7px 11px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);cursor:pointer}
+.tt .t.pick{background:var(--sky);color:#fff;border-color:var(--sky)}
+.tt .t.pick::after{content:" ✓"}
+.tt .t.bad{text-decoration:line-through;opacity:.5}
+.tt .t:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.tt .sum{margin:10px 0 0;font-size:15px;line-height:1.6}
+.calc{font-weight:700;color:var(--sky)}
+.slack{font-weight:700;color:var(--ok)}
+.slack.low{color:var(--accent)}
+details{margin-top:8px}
+summary{cursor:pointer;font-size:13.5px;color:var(--muted);list-style:none}
+summary::before{content:"▸ ";}
+details[open] summary::before{content:"▾ ";}
+.ttab{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px;font-variant-numeric:tabular-nums}
+.ttab th{font-weight:600;color:var(--muted);text-align:left;padding:5px 6px;border-bottom:1px solid var(--line);font-size:11.5px}
+.ttab td{padding:6px 6px;border-bottom:1px dashed var(--line);font-family:var(--mono)}
+.ttab tr:last-child td{border-bottom:0}
+.ttab td.no{color:var(--accent)} .ttab td.ok{color:var(--ok)}
+.ttab tr.pick td{font-weight:700;background:var(--sky-soft)}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px 16px;margin:10px 0}
+.list{margin:0;padding:0;list-style:none}
+.list li{padding:11px 0;border-bottom:1px dashed var(--line);font-size:15.5px;line-height:1.55}
+.list li:last-child{border-bottom:0}
+.list li b{font-weight:700;display:block;margin-bottom:2px}
+footer{margin-top:36px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:14px;line-height:1.6}
+footer a{color:var(--sky)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="langbar">
+  <span class="hint en">Tap 한국어 to switch</span><span class="hint ko">English로 바꾸려면 탭</span>
+  <div class="seg" role="group" aria-label="Theme">
+    <button type="button" data-theme-set="light" aria-pressed="true" title="Light">☀</button>
+    <button type="button" data-theme-set="dark" aria-pressed="false" title="Dark">☾</button>
+  </div>
+  <div class="seg" role="group" aria-label="Language">
+    <button type="button" id="btn-en" data-set="en" aria-pressed="true">English</button>
+    <button type="button" id="btn-ko" data-set="ko" aria-pressed="false">한국어</button>
+  </div>
+</div>
+
+<header>
+  <div class="eyebrow">Saturday · 2026.11.07 · Incheon → Seoul → Incheon</div>
+  <h1><span class="en">Seoul Layover</span><span class="ko">서울 경유 하루</span></h1>
+  <p class="sub en">13 hours between two Korean Air flights. One neighborhood, done well.</p>
+  <p class="sub ko">대한항공 두 비행기 사이 13시간. 동네 하나를 제대로.</p>
+  <div class="who">
+    <span class="en"><b>Jenny</b> &amp; <b>Kevin</b> · travelers</span><span class="ko"><b>Jenny</b> &amp; <b>Kevin</b> · 여행자</span>
+    <span class="en"><b>Jeongyun</b> &amp; <b>Jeongyeon</b> · guides</span><span class="ko"><b>정윤</b> &amp; <b>정연</b> · 가이드</span>
+  </div>
+  <div class="flights">
+    <div class="flight"><div class="k">KE 048 · <span class="en">arrive</span><span class="ko">도착</span></div><div class="t">Sat 05:20 · T2</div><div class="d en">from Seattle</div><div class="d ko">시애틀 출발</div></div>
+    <div class="flight"><div class="k">KE 645 · <span class="en">depart</span><span class="ko">출발</span></div><div class="t">Sat 18:35 · T2</div><div class="d en">to Singapore · at T2 by 16:30</div><div class="d ko">싱가포르행 · 16:30까지 T2</div></div>
+  </div>
+  <div class="budget"><b class="en">~5½ hours in Hongdae</b><b class="ko">홍대에서 약 5시간 반</b><span class="en">10:00 – 15:30 · the rest is airport, hotel, and the ride between</span><span class="ko">10:00 – 15:30 · 나머지는 공항·호텔·이동</span></div>
+  <div class="save en"><b>No data plan?</b> Open this page once, then save it: iPhone → Share → <b>Add to Reading List</b> (or Save to Files). Android Chrome → ⋮ → <b>Download</b>. It then opens with no internet. Only the map / phone links need a connection, so addresses are written out.</div>
+  <div class="save ko"><b>로밍 없이 보려면</b> 이 페이지를 한 번 연 뒤 저장: 아이폰 → 공유 → <b>읽기 목록에 추가</b>(또는 파일에 저장). 안드로이드 Chrome → ⋮ → <b>다운로드</b>. 그 뒤엔 인터넷 없이 열림. 지도·전화 링크만 인터넷이 필요해서 주소를 글자로 적어둠.</div>
+</header>
+
+<h2><span class="en">Timeline</span><span class="ko">일정</span></h2>
+<ul class="tl">
+
+  <li class="row air"><span class="tm">05:20</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">Land at Incheon, Terminal 2</span><span class="ko">인천공항 2터미널 도착</span><span class="tag air en">airport</span><span class="tag air ko">공항</span></p>
+    <p class="lead en">Immigration, then walk out with carry-on only — your bags go straight through to Singapore.</p>
+    <p class="lead ko">입국심사 후 기내 가방만 들고 나오기 — 수하물은 싱가포르까지 바로 연결.</p>
+    <p class="tp en">Fill the e-Arrival Card on the plane. No visa / K-ETA for US passports in 2026. Confirm "bags through to SIN" at Seattle check-in.</p>
+    <p class="tp ko">전자입국신고서는 기내에서. 미국 여권은 K-ETA 면제(2026). 시애틀 체크인 때 "bags through to SIN" 확인.</p>
+  </div></li>
+
+  <li class="row"><span class="tm">06:10</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">Taxi to the hotel · shower, nap</span><span class="ko">택시로 호텔 · 샤워, 낮잠</span></p>
+    <p class="lead en">15 minutes. The room is booked so you can actually rest after a 10-hour flight.</p>
+    <p class="lead ko">15분. 10시간 비행 뒤 제대로 쉬라고 잡아둔 방.</p>
+    <span class="addr">Ocean Tree Hotel · 32 Yeongjongjin-gwangjang-ro, Yeongjong-gu, Incheon · 오션트리 호텔, 영종진광장로 32 <a href="https://www.google.com/maps/search/?api=1&query=%EC%98%A4%EC%85%98%ED%8A%B8%EB%A6%AC%20%ED%98%B8%ED%85%94%20%EC%98%81%EC%A2%85%EC%A7%84%EA%B4%91%EC%9E%A5%EB%A1%9C%2032" target="_blank" rel="noopener">map</a></span>
+  </div></li>
+
+  <li class="row key"><span class="tm" data-shift="am-hotel" data-base="09:00">09:00</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">Leave hotel → Yeongjong Station → train to Hongdae</span><span class="ko">호텔 출발 → 영종역 → 홍대행 열차</span><span class="tag key en">move</span><span class="tag key ko">이동</span></p>
+    <p class="lead en">Taxi 7–8 min to Yeongjong Station, then the AREX all-stop train toward Seoul. Get off at <b>Hongik Univ.</b> (about 36 min).</p>
+    <p class="lead ko">택시 7~8분으로 영종역, 서울역 방면 일반열차 탑승. <b>홍대입구</b>에서 하차(약 36분).</p>
+    <div class="tt">
+      <div class="ttk en">YEONGJONG STN → SEOUL · SATURDAY · tap the train you take</div><div class="ttk ko">영종역 → 서울 방면 · 토요일 · 탈 열차를 누르세요</div>
+      <div class="times" data-group="am"><button type="button" class="t" data-t="08:59">08:59</button><button type="button" class="t" data-t="09:09">09:09</button><button type="button" class="t pick" data-t="09:17">09:17</button><button type="button" class="t" data-t="09:25">09:25</button><button type="button" class="t" data-t="09:31">09:31</button></div>
+      <p class="sum en">Leave hotel <span class="calc" data-calc="am-hotel"></span> → train <span class="calc" data-calc="am-dep"></span> → Hongik Univ. <span class="calc" data-calc="am-arr"></span>. Every Yeongjong train runs to Seoul, so any of these works.</p>
+      <p class="sum ko">호텔 출발 <span class="calc" data-calc="am-hotel"></span> → 열차 <span class="calc" data-calc="am-dep"></span> → 홍대입구 <span class="calc" data-calc="am-arr"></span>. 영종역 열차는 전부 서울까지 가니 아무거나 OK.</p>
+      <details><summary class="en">All trains at a glance</summary><summary class="ko">열차별 시간 한눈에</summary>
+        <table class="ttab"><thead><tr><th class="en">Train</th><th class="ko">열차</th><th class="en">Leave hotel</th><th class="ko">호텔 출발</th><th class="en">Hongik Univ.</th><th class="ko">홍대입구</th><th class="en">Meet</th><th class="ko">만남</th></tr></thead><tbody>
+          <tr><td>08:59</td><td>08:42</td><td>09:35</td><td>09:42</td></tr>
+          <tr><td>09:09</td><td>08:52</td><td>09:45</td><td>09:52</td></tr>
+          <tr class="pick"><td>09:17</td><td>09:00</td><td>09:53</td><td>10:00</td></tr>
+          <tr><td>09:25</td><td>09:08</td><td>10:01</td><td>10:08</td></tr>
+          <tr><td>09:31</td><td>09:14</td><td>10:07</td><td>10:14</td></tr>
+        </tbody></table>
+      </details>
+    </div>
+    <p class="tp en">Taxi straight to Hongdae instead: ≈ 50 min over Yeongjong Bridge, ₩55–65k. Train is more predictable on a Saturday.</p>
+    <p class="tp ko">택시 직행은 영종대교 건너 50분, 5.5~6.5만 원. 토요일엔 열차가 더 정확.</p>
+  </div></li>
+
+  <li class="row key"><span class="tm" data-shift="am" data-base="10:00">10:00</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">Meet Jeongyun &amp; Jeongyeon · Exit 9</span><span class="ko">정윤·정연과 만남 · 9번 출구</span></p>
+    <p class="lead en">Hongdae is Seoul's student district — street fashion, cafés, music. The best place to do a lot in a little time.</p>
+    <p class="lead ko">홍대는 대학가 — 패션·카페·버스킹. 짧은 시간에 많이 볼 수 있는 동네.</p>
+    <span class="addr">Hongik Univ. Station, Exit 9 · 홍대입구역 9번 출구 (Line 2 / AREX) <a href="https://www.google.com/maps/search/?api=1&query=Hongik%20University%20Station%20Exit%209" target="_blank" rel="noopener">map</a></span>
+  </div></li>
+
+  <li class="row"><span class="tm" data-shift="am" data-base="10:15">10:15</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">Jenny → skin clinic (extraction)</span><span class="ko">제니 → 피부과 압출</span></p>
+    <p class="lead en">About an hour. Kevin + one guide: coffee and a walk down the main street meanwhile.</p>
+    <p class="lead ko">약 1시간. 그동안 케빈은 가이드 한 명과 카페 + 거리 산책.</p>
+    <p class="tp en">Booked in advance by Jeongyun. After extraction: no makeup, stay out of direct sun for a few hours.</p>
+    <p class="tp ko">정윤이 미리 예약. 압출 후 2~3시간 메이크업·직사광선 피하기.</p>
+  </div></li>
+
+  <li class="row"><span class="tm" data-shift="am" data-base="11:30">11:30</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">Lunch · Korean BBQ</span><span class="ko">점심 · 삼겹살</span></p>
+    <p class="lead en">Early lunch beats the Saturday crowd. Pork belly grilled at the table for Kevin; something gentler for Jenny after the clinic — kimchi-jjigae or kalguksu.</p>
+    <p class="lead ko">11:30이면 줄 안 섬. 케빈은 삼겹살, 제니는 압출 직후라 김치찌개·칼국수처럼 순한 것.</p>
+  </div></li>
+
+  <li class="row free"><span class="tm" data-shift="am" data-base="12:45">12:45</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">Hongdae walk · Olive Young · photo booth</span><span class="ko">홍대 거리 · 올리브영 · 인생네컷</span><span class="tag free en">fun</span><span class="tag free ko">놀기</span></p>
+    <p class="lead en">Olive Young for K-beauty (Jenny's haul), a 4-cut photo booth (₩4,000 — the Korean souvenir), busking if it's on, small design shops.</p>
+    <p class="lead ko">올리브영(제니 스킨케어) → 인생네컷(4,000원) → 버스킹·소품샵.</p>
+    <p class="tp en">Keep purchases small — they fly on to Singapore tonight.</p>
+    <p class="tp ko">오늘 밤 싱가포르 가니까 짐은 작게.</p>
+  </div></li>
+
+  <li class="row free"><span class="tm" data-shift="am" data-base="13:45">13:45</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">Yeonnam-dong · "Yeontral Park" + café</span><span class="ko">연남동 · 연트럴파크 + 카페</span></p>
+    <p class="lead en">Five minutes from Exit 3. An old rail line turned into a long park lined with cafés — the calmest, prettiest part of the neighborhood. Dessert, coffee, then a convenience-store snack run for the flight.</p>
+    <p class="lead ko">3번 출구에서 5분. 옛 철길이 공원이 된 곳, 양옆이 카페. 디저트·커피, 편의점에서 비행기 간식.</p>
+    <span class="addr">Gyeongui Line Forest Park, Yeonnam-dong · 경의선숲길 연남동 구간 <a href="https://www.google.com/maps/search/?api=1&query=Gyeongui%20Line%20Forest%20Park%20Yeonnam-dong" target="_blank" rel="noopener">map</a></span>
+  </div></li>
+
+  <li class="row key"><span class="tm" data-shift="pm-plat" data-base="15:30">15:30</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">On the platform → train to Terminal 2</span><span class="ko">승강장 → 인천공항2터미널행 열차</span><span class="tag key en">move</span><span class="tag key ko">이동</span></p>
+    <p class="lead en">Hongik Univ. Station, AREX platform, "Incheon Airport" direction. Ride to the <b>last stop, Terminal 2</b> — about 55 min.</p>
+    <p class="lead ko">홍대입구역 공항철도 승강장, 인천공항 방면. <b>종점 인천공항2터미널</b>까지 약 55분.</p>
+    <div class="tt">
+      <div class="ttk en">HONGIK UNIV. → INCHEON AIRPORT T2 · SATURDAY · tap the train you take</div><div class="ttk ko">홍대입구 → 인천공항2터미널 · 토요일 · 탈 열차를 누르세요</div>
+      <div class="times" data-group="pm"><button type="button" class="t" data-t="15:18">15:18</button><button type="button" class="t" data-t="15:27">15:27</button><button type="button" class="t pick" data-t="15:34">15:34</button><button type="button" class="t bad" data-t="15:39" disabled>15:39</button><button type="button" class="t" data-t="15:43">15:43</button><button type="button" class="t" data-t="15:51">15:51</button><button type="button" class="t" data-t="16:06">16:06</button></div>
+      <p class="sum en">Train <span class="calc" data-calc="pm-dep"></span> → T2 <span class="calc" data-calc="pm-arr"></span> → Chanel done <span class="calc" data-calc="pm-chanel"></span> → <span class="slack" data-calc="pm-slack"></span> before the gate (17:45).</p>
+      <p class="sum ko">열차 <span class="calc" data-calc="pm-dep"></span> → T2 <span class="calc" data-calc="pm-arr"></span> → 샤넬 끝 <span class="calc" data-calc="pm-chanel"></span> → 게이트(17:45)까지 <span class="slack" data-calc="pm-slack"></span>.</p>
+      <details><summary class="en">All trains at a glance</summary><summary class="ko">열차별 시간 한눈에</summary>
+        <table class="ttab"><thead><tr><th class="en">Train</th><th class="ko">열차</th><th class="en">T2</th><th class="ko">T2 도착</th><th class="en">Chanel done</th><th class="ko">샤넬 끝</th><th class="en">Gate 17:45</th><th class="ko">게이트 17:45</th></tr></thead><tbody>
+          <tr><td>15:18</td><td>16:14</td><td>17:14</td><td class="ok"><span class="en">31 min spare</span><span class="ko">31분 여유</span></td></tr>
+          <tr><td>15:27</td><td>16:23</td><td>17:23</td><td class="ok"><span class="en">22 min spare</span><span class="ko">22분 여유</span></td></tr>
+          <tr class="pick"><td>15:34</td><td>16:30</td><td>17:30</td><td class="ok"><span class="en">15 min spare</span><span class="ko">15분 여유</span></td></tr>
+          <tr><td>15:39</td><td colspan="3" class="no"><span class="en">ends at Geomam — do not board</span><span class="ko">검암 종착 — 타지 말 것</span></td></tr>
+          <tr><td>15:43</td><td>16:39</td><td>17:39</td><td class="no"><span class="en">6 min — risky</span><span class="ko">6분 — 위험</span></td></tr>
+          <tr><td>15:51</td><td>16:47</td><td>17:47</td><td class="no"><span class="en">2 min short</span><span class="ko">2분 부족</span></td></tr>
+          <tr><td>16:06</td><td>17:02</td><td>18:02</td><td class="no"><span class="en">too late</span><span class="ko">너무 늦음</span></td></tr>
+        </tbody></table>
+      </details>
+    </div>
+    <p class="tp en"><b>Skip the 15:39</b> — it ends at Geomam. Board only trains signed "Incheon Int'l Airport T2" (인천공항2터미널). Taxi alternative: 60–70 min, ₩75–85k.</p>
+    <p class="tp ko"><b>15:39은 타지 말 것</b> — 검암 종착. 전광판 "인천공항2터미널행"만 탑승. 택시는 60~70분, 7.5~8.5만 원.</p>
+  </div></li>
+
+  <li class="row air"><span class="tm" data-shift="pm-arr" data-base="16:30">16:30</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">Terminal 2 · security &amp; immigration</span><span class="ko">2터미널 · 보안검색·출국심사</span><span class="tag air en">airport</span><span class="tag air ko">공항</span></p>
+    <p class="lead en">Already checked in (same ticket), so straight to security. Saturday evening: 20–40 min.</p>
+    <p class="lead ko">같은 항공권이라 체크인 없이 바로 보안검색. 토요일 저녁 20~40분.</p>
+  </div></li>
+
+  <li class="row key"><span class="tm" data-shift="pm-ch" data-base="17:00">17:00</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">CHANEL · pick up Auntie's bag</span><span class="ko">샤넬 · 이모 가방 수령</span></p>
+    <p class="lead en">Ask for <b>Shin Se-lee (신세리)</b>. Bring passport + boarding pass. Allow 30 min.</p>
+    <p class="lead ko">직원 <b>신세리</b> 찾기. 여권·탑승권 지참. 30분 잡기.</p>
+    <span class="addr">Shilla Duty Free CHANEL · T2 3F duty-free zone, next to Gate 252 · 06:30–21:30 · ☎ 080-805-9628</span>
+  </div></li>
+
+  <li class="row air"><span class="tm">17:45</span><span class="dot"></span><div class="bd">
+    <p class="nm"><span class="en">At the gate · boarding ~17:55</span><span class="ko">게이트 · 탑승 17:55쯤</span></p>
+    <p class="lead en">KE 645 departs 18:35 → Singapore 00:15 (+1).</p>
+    <p class="lead ko">KE 645 18:35 출발 → 싱가포르 다음날 00:15.</p>
+  </div></li>
+</ul>
+
+<h2><span class="en">Need to know</span><span class="ko">꼭 확인</span></h2>
+<div class="card">
+  <ul class="list">
+    <li><span class="en"><b>Bags through to Singapore</b>Same booking (EM3H74), so Korean Air normally tags SEA→SIN. If not, you'd collect and re-check at T2 — about 45 min lost. Ask at Seattle check-in.</span><span class="ko"><b>수하물은 싱가포르까지</b>같은 예약번호(EM3H74)라 보통 SEA→SIN으로 붙음. 안 붙으면 T2에서 찾아 다시 부쳐야 해서 45분 손해. 시애틀 체크인 때 확인.</span></li>
+    <li><span class="en"><b>e-Arrival Card</b>Fill it before landing at e-arrivalcard.go.kr. US passports need no K-ETA in 2026.</span><span class="ko"><b>전자입국신고서</b>착륙 전 e-arrivalcard.go.kr에서 작성. 미국 여권은 2026년 K-ETA 면제.</span></li>
+    <li><span class="en"><b>Skin clinic</b>Jeongyun books the 10:15 slot; Saturday walk-ins are slow.</span><span class="ko"><b>압출 예약</b>토요일 당일 대기가 길어서 10:15로 미리 예약.</span></li>
+    <li><span class="en"><b>Paying</b>Cards work almost everywhere. Tap a credit card or T-money for the train.</span><span class="ko"><b>결제</b>카드 거의 다 됨. 공항철도는 해외 신용카드 탭 또는 티머니.</span></li>
+    <li><span class="en"><b>Weather</b>Early November: 5–13°C, dry and crisp. Jacket and scarf.</span><span class="ko"><b>날씨</b>11월 초 5~13°C, 건조하고 쌀쌀. 재킷·목도리.</span></li>
+  </ul>
+</div>
+
+<h2><span class="en">Why this plan</span><span class="ko">이렇게 짠 이유</span></h2>
+<div class="card">
+  <ul class="list">
+    <li><span class="en"><b>One neighborhood, zero transfers</b>Hongdae + Yeonnam are walkable from one station. Gyeongbokgung or Myeongdong would cost an hour each way.</span><span class="ko"><b>동네 하나, 환승 없음</b>홍대+연남은 한 역에서 다 걸어 다님. 경복궁·명동은 왕복 1시간이 날아감.</span></li>
+    <li><span class="en"><b>Rest first</b>Three hours at the hotel after a 5 AM landing is what makes the afternoon fun instead of a blur.</span><span class="ko"><b>먼저 쉬고 출발</b>새벽 5시 도착 뒤 호텔 3시간이 오후의 질을 결정.</span></li>
+    <li><span class="en"><b>Hard stop at 15:30</b>Working back from the gate: Chanel 30 min + security 30 min + train 56 min = leave Hongdae on the 15:34 train, 15 min to spare.</span><span class="ko"><b>15:30 고정</b>게이트에서 역산: 샤넬 30분 + 보안검색 30분 + 열차 56분 = 15:34 열차, 여유 15분.</span></li>
+  </ul>
+</div>
+
+<footer>
+  <p class="en">Booking EM3H74 · KE 048 SEA→ICN · KE 645 ICN→SIN · Terminal 2 both ways. Train times from the official AREX Saturday/holiday timetables (revised 23 Oct 2026, read 3 Nov 2026): <a href="https://www.airportrailroad.com/train/normal/info/077/1" target="_blank" rel="noopener">Yeongjong</a> · <a href="https://www.airportrailroad.com/train/normal/info/030/1" target="_blank" rel="noopener">Hongik Univ.</a>; travel times from AREX's stated Seoul Stn→T2 66 min (some trains +2–6 min). Other times are estimates. Made by Jeongyun, Nov 2026.</p>
+  <p class="ko">예약번호 EM3H74 · KE 048 SEA→ICN · KE 645 ICN→SIN · 양쪽 다 2터미널. 열차 시각은 공항철도 공식 휴일 시각표(2026.10.23 개정, 11.3 확인): <a href="https://www.airportrailroad.com/train/normal/info/077/1" target="_blank" rel="noopener">영종역</a> · <a href="https://www.airportrailroad.com/train/normal/info/030/1" target="_blank" rel="noopener">홍대입구역</a>. 소요시간은 공식 안내 서울역→T2 66분(일부 +2~6분) 기준. 나머지는 추정. 정윤 만듦, 2026.11.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+
+  /* language */
+  var lbtns = document.querySelectorAll('.seg button[data-set]');
+  function setLang(lang){
+    root.setAttribute('data-lang', lang); root.setAttribute('lang', lang==='ko'?'ko':'en');
+    lbtns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.set===lang)); });
+    try{ localStorage.setItem('layover-lang', lang); }catch(e){}
+    var cur=document.querySelector('[data-group="pm"] .t.pick'); if(cur) pickTrain('pm', cur.dataset.t);
+  }
+  lbtns.forEach(function(b){ b.addEventListener('click', function(){ setLang(b.dataset.set); }); });
+
+  /* theme: light by default, buttons override */
+  var tbtns = document.querySelectorAll('[data-theme-set]');
+  function setTheme(t){
+    root.setAttribute('data-theme', t);
+    tbtns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.themeSet===t)); });
+    try{ localStorage.setItem('layover-theme', t); }catch(e){}
+  }
+  tbtns.forEach(function(b){ b.addEventListener('click', function(){ setTheme(b.dataset.themeSet); }); });
+
+  /* train picker */
+  function toMin(t){ var a=t.split(':'); return (+a[0])*60+(+a[1]); }
+  function fmt(m){ var h=Math.floor(m/60), mm=m%60; return (h<10?'0':'')+h+':'+(mm<10?'0':'')+mm; }
+  var AM_BASE=toMin('09:17'), RIDE_AM=36, RIDE_PM=56, SEC=30, CHANEL=30, GATE=toMin('17:45');
+  function setCalc(key, text){ document.querySelectorAll('[data-calc="'+key+'"]').forEach(function(e){ e.textContent=text; }); }
+  function pickTrain(group, t){
+    var dep=toMin(t);
+    document.querySelectorAll('[data-group="'+group+'"] .t').forEach(function(b){ b.classList.toggle('pick', b.dataset.t===t); });
+    document.querySelectorAll('[data-group="'+group+'"]').forEach(function(g){ var tb=g.parentNode.querySelector('.ttab'); if(!tb) return; tb.querySelectorAll('tbody tr').forEach(function(r){ r.classList.toggle('pick', r.querySelector('td').textContent.trim()===t); }); });
+    if(group==='am'){
+      var d=dep-AM_BASE;
+      document.querySelectorAll('[data-shift="am"]').forEach(function(e){ e.textContent=fmt(toMin(e.dataset.base)+d); });
+      document.querySelectorAll('[data-shift="am-hotel"]').forEach(function(e){ e.textContent=fmt(dep-17); });
+      setCalc('am-hotel', fmt(dep-17)); setCalc('am-dep', t); setCalc('am-arr', fmt(dep+RIDE_AM));
+    }else{
+      var arr=dep+RIDE_PM, chanel=arr+SEC+CHANEL, slack=GATE-chanel;
+      document.querySelectorAll('[data-shift="pm-plat"]').forEach(function(e){ e.textContent=fmt(dep-4); });
+      document.querySelectorAll('[data-shift="pm-arr"]').forEach(function(e){ e.textContent=fmt(arr); });
+      document.querySelectorAll('[data-shift="pm-ch"]').forEach(function(e){ e.textContent=fmt(arr+SEC); });
+      setCalc('pm-dep', t); setCalc('pm-arr', fmt(arr)); setCalc('pm-chanel', fmt(chanel));
+      var ko = root.getAttribute('data-lang')==='ko';
+      var txt = slack>=0 ? (ko ? slack+'분 여유' : slack+' min to spare') : (ko ? Math.abs(slack)+'분 부족 — 탑승 시간 넘김' : Math.abs(slack)+' min short — you would miss boarding');
+      document.querySelectorAll('[data-calc="pm-slack"]').forEach(function(e){ e.textContent=txt; e.classList.toggle('low', slack<15); });
+    }
+    try{ localStorage.setItem('layover-'+group, t); }catch(e){}
+  }
+  document.querySelectorAll('[data-group] .t').forEach(function(b){
+    b.addEventListener('click', function(){ if(b.disabled) return; pickTrain(b.closest('[data-group]').dataset.group, b.dataset.t); });
+  });
+
+  /* restore */
+  var lang='en', theme='light', am='09:17', pm='15:34';
+  try{ lang=localStorage.getItem('layover-lang')||lang; theme=localStorage.getItem('layover-theme')||theme; am=localStorage.getItem('layover-am')||am; pm=localStorage.getItem('layover-pm')||pm; }catch(e){}
+  setTheme(theme==='dark'?'dark':'light'); pickTrain('am', am); pickTrain('pm', pm); setLang(lang==='ko'?'ko':'en');
+})();
+</script>
+</body>
+</html>
