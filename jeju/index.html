@@ -57,6 +57,22 @@ a{color:var(--blue);text-decoration:none}
 .mapctl{display:flex;gap:6px;margin:6px 0 0;flex-wrap:wrap}
 .mapctl button{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 11px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
 .mapctl button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.mapctl.rg{align-items:center}
+.mapctl.rg .rgk{font-size:11.5px;font-weight:800;color:var(--sm);padding:0 2px}
+.mapctl.rg button{border-color:var(--sm-soft);background:var(--sm-soft);color:var(--sm)}
+.mapctl.rg button[aria-pressed="true"]{background:var(--sm);color:#fff;border-color:var(--sm)}
+.mlrg{margin:14px 0 6px;scroll-margin-top:12px}
+.mlrg h2{font-size:15px;font-weight:800;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.mlrg h2 small{font-size:12px;color:var(--muted);font-weight:700}
+.mlrow{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:12px;padding:9px 10px;margin:5px 0;cursor:pointer;border:2px solid transparent}
+.mlrow.sel{border-color:var(--sm)}
+.mlrow.hold{opacity:.62}
+.mlrow .no{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex:none}
+.mlrow .nm{font-size:14px;font-weight:800;line-height:1.25}
+.mlrow .ct{font-size:12px;color:var(--muted);margin-top:1px}
+.mlrow .st{margin-left:auto;font-size:11px;font-weight:800;white-space:nowrap;padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted);flex:none}
+.mlrow .st.ok{background:var(--ok-soft, var(--surface-2));color:var(--ok)}
+.mlrow .st.fix{background:var(--sm-soft);color:var(--sm)}
 .minimap .lab{position:absolute;left:10px;top:8px;font-size:12.5px;font-weight:800;background:var(--surface);border-radius:999px;padding:3px 10px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
 .days{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 0 0}
 .days::-webkit-scrollbar{display:none}
@@ -288,8 +304,11 @@ footer p{margin:4px 0}
   <div class="lgd"><span><i style="background:var(--red)"></i>슈멤 (번호)</span><span><i class="sq" style="background:var(--drone)"></i>오카 픽업</span><span><i class="sq" style="background:var(--dr)"></i>드론 촬영지 D (주황 점선 = 드론 동선)</span><span><i style="background:var(--yel)"></i>숙소 H</span></div>
   <div class="bigmap"><div id="bigmap"></div>
     <div class="mapctl"><button type="button" data-fit="all" aria-pressed="true">전체</button><button type="button" data-fit="city">제주시</button><button type="button" data-fit="drone" style="color:var(--dr);font-weight:800">드론 4곳</button><button type="button" data-fit="20">Day 1</button><button type="button" data-fit="21">Day 2</button><button type="button" data-fit="22">Day 3</button><button type="button" data-fit="23">Day 4</button><button type="button" data-fit="24">Day 5</button><button type="button" data-fit="25">Day 6</button></div>
+    <div class="mapctl rg"><span class="rgk">슈멤 지역</span><button type="button" data-rg="city">제주시</button><button type="button" data-rg="east">동쪽</button><button type="button" data-rg="west">서쪽</button><button type="button" data-rg="south">서귀포·중문</button></div>
   </div>
-  <div id="mapinfo" class="info empty">마커를 누르면 여기에 정보가 떠요. 두 손가락으로 확대·축소.</div>
+  <div id="mapinfo" class="info empty">마커나 위 버튼을 누르면 여기에 정보가 떠요. 두 손가락으로 확대·축소.</div>
+  <div class="hint">슈멤 지역별 정리 — 지역 버튼을 누르면 지도가 그쪽으로 가고 아래 그 지역 목록으로 내려가요. 줄을 누르면 지도에서 그 가게를 짚어줘요.</div>
+  <div id="maplist"></div>
 </section>
 
 <section data-panel="opts" hidden>
@@ -366,7 +385,7 @@ var NAVER_KEY = 'pvoromc2h8';
   var SM = [
     {n:27, name:'싱싱회센타', cat:'회 · 모둠 · 갈치구이', addr:'제주시 동문로4길 9 (동문수산시장) 2-8·9, 3-10호', val:'강남언니', cond:'협찬 확정 · 리뷰 12/1까지 작성', hrs:'매일 11:00~22:00 · 064-702-8838', day:'금', slot:'저녁 19:30', st:'ok', lat:33.5122, lon:126.5279, tel:'064-702-8838', park:'동문시장 공영주차장 (금요일은 걸어서)', why:'스테이현에서 걸어서 3분. 야시장 한 바퀴 돌고 19:45. 먹고 호텔 3분.'},
     {n:29, name:'여기고씨네 제주함덕점', cat:'고등어회 · 딱새우회 포장 (레뷰)', addr:'제주시 조천읍 조함해안로 496 MC타워 3층', val:'7.5만 상당', cond:'협찬 확정 · 포장 7.5만원어치 · 리뷰 등록 기한 확인', hrs:'매일 16:00~02:00 · 010-4325-9077', day:'토', slot:'포장 18:30 → 함덕 숙소 저녁', st:'ok', lat:33.5426, lon:126.6657, tel:'010-4325-9077', park:'MC타워 건물 주차 — 포장이라 잠깐 정차면 됨, 전화 때 확인', why:'서우봉 노을 보고 차 3분. 포장해서 숙소에서 회 + 맥주 — 아이스팩 부탁.'},
-    {n:28, name:'하루선물사진관', cat:'기념사진 · 사진관 (레뷰)', addr:'서귀포시 중산간서로356번길 42', val:'레뷰', cond:'협찬 확정 · 리뷰 11/24(화)까지 등록 · 전화 예약 064-739-0121', hrs:'영업시간·휴무 미확인 → 예약 전화 때 확인 (사진 전달 시점도)', day:'월', slot:'13:50~14:35', st:'ok', lat:33.2627, lon:126.4750, tel:'064-739-0121', park:'확인 필요 — 예약 전화 때 물어보기', why:'포도호텔 점심 후 26분. 끝나고 포레스트 정방 25분. 24일 등록이라 당일 현장 사진 먼저.'},
+    {n:28, name:'하루선물사진관', cat:'기념사진 · 사진관 (레뷰) · 화 13:00 예약', addr:'서귀포시 중산간서로356번길 42', val:'레뷰', cond:'협찬 확정 · 리뷰 11/24(화)까지 등록 · 전화 예약 064-739-0121', hrs:'영업시간·휴무 미확인 → 예약 전화 때 확인 (사진 전달 시점도)', day:'월', slot:'13:50~14:35', st:'ok', lat:33.2627, lon:126.4750, tel:'064-739-0121', park:'확인 필요 — 예약 전화 때 물어보기', why:'포도호텔 점심 후 26분. 끝나고 포레스트 정방 25분. 24일 등록이라 당일 현장 사진 먼저.'},
     {n:25, name:'나는지금생선이먹고싶다 용담공항점', cat:'갈치·고등어·옥돔 구이 정식', addr:'제주시 용담2동 2678-2 1층', val:'3.6만', cond:'하루 4팀 제한 → 미리 전화', hrs:'매일 10:00~21:00', day:'보류', slot:'아침 안 먹어서 빠짐', st:'hold', lat:33.5090, lon:126.5112, tel:'070-8900-9192', park:'주차 어려움 (리뷰)', why:'수요일 점심. 공항에서 택시 10분, 동문시장 9분. 하루 4팀이라 미리 전화 — 갈치·고등어·옥돔 구이 정식.'},
     {n:18, name:'애월본카페 (BON CAFE)', cat:'카페 · 오션뷰', addr:'제주시 애월읍 고내리 1231-4', val:'2만', cond:'전화예약 필수', hrs:'09:00~19:00 · 월요일 휴무', day:'일', slot:'커피 13:10', st:'fix', lat:33.4684, lon:126.3318, tel:'0507-1423-1627', park:'카페 앞 전용 주차장 ✓', why:'애월엄마에서 6분. 오션뷰. 월 휴무라 일요일 OK. 커피 후 금능 22분.'},
     {n:19, name:'애월엄마', cat:'소내장탕 · 해장국', addr:'제주시 애월읍 신엄리 1280-1 (신엄중학교 서쪽 50m)', val:'3만', cond:'최소 2일 전 예약 → 11/20(금)까지 전화 · 12~13시 입장', hrs:'매일 06:00~15:00', day:'일', slot:'점심 12:00', st:'fix', lat:33.4717, lon:126.3681, tel:'064-799-0064', park:'가게 앞 (보류)', why:'오카 픽업 → 어음리 드론 찍고 22분. 12~13시 입장 딱 맞음. 먹고 애월본카페 6분.'},
@@ -530,12 +549,12 @@ var NAVER_KEY = 'pvoromc2h8';
       {t:'16:50', sm:16, mv:'차 41분 · 한림 → 1135 → 중문', opt:'<b>갈치조림 말고 뚝배기면</b> 같은 건물 협재온뚝배기(17). <b>노을 보고 먹으면</b> 17:35 → 호텔 19:10.'},
       {t:'18:15', i:'i-bed', p:'스위트호텔 제주 · 끝', ll:[33.2493,126.4084], a:'해 질 무렵 도착. 수영은 내일.', n:'서귀포시 중문관광로72번길 67', map:'스위트호텔 제주', tag:'fix'}
      ]},
-    {n:'24', w:'화', ov:'서귀포·수영', base:'중문 스위트', theme:'기념사진 → 포도호텔 우동 → 호텔 수영 2시간 반 → 마리조아 말고기', ride:'차 1시간 15분', end:'19:40 (마지막 8분)', wx:WX[4],
+    {n:'24', w:'화', ov:'서귀포·수영', base:'중문 스위트', theme:'포도호텔 우동(12시) → 기념사진 13:00 → 호텔 수영 2시간 반 → 마리조아 말고기', ride:'차 1시간 20분', end:'19:40 (마지막 8분)', wx:WX[4],
      items:[
-      {t:'11:00', i:'i-bed', p:'스위트호텔 제주 출발 → 사진관', ll:[33.2493,126.4084], a:'느긋하게. 머리·화장 하고 사진관 먼저. 사진관 협찬 전화 때 화요일 11:15로.', n:'서귀포시 중문관광로72번길 67 · 064-738-3800', map:'스위트호텔 제주', tag:'fix', mv:'차 12분 · 중산간서로'},
-      {t:'11:15', sm:28, mv:'차 26분 · 1116 → 산록남로'},
-      {t:'12:25', i:'i-food', p:'점심 · 포도호텔 레스토랑', pk:'호텔 주차장 ✓', ll:[33.3296,126.3665], a:'이타미 준이 지은 포도호텔 안. 왕새우튀김우동 정식이 대표(약 2.5만/인), 창가는 산방산 뷰. 점심 12:00~15:30. 먹고 바로 호텔로 — 포레스트 정방은 뺐음(지윤).', n:'안덕면 산록남로 863 · 0507-1459-7030 · 예약 권장 · 2인 약 5~6만 · 슈멤 아님', map:'포도호텔 레스토랑', tag:'fix', mv:'차 약 24분 · 산록남로 → 중문 (트로피카나 경유 11+13분 기준)'},
-      {t:'14:05', i:'i-bed', p:'스위트호텔 수영장 2시간 반 · 쉬기', ll:[33.2493,126.4084], a:'수영 14:15~17:00 (운영시간·수영모 규정은 체크인 때 확인). 끝나고 씻고 쉬다가 마리조아. 더 쉬고 싶으면 마리조아를 19:00으로 — 끝 20:10.', n:'서귀포시 중문관광로72번길 67', map:'스위트호텔 제주', tag:'fix', mv:'차 8분 · 택시 약 6천'},
+      {t:'11:35', i:'i-bed', p:'스위트호텔 제주 출발 → 포도호텔', ll:[33.2493,126.4084], a:'사진관이 13:00 예약이라 포도호텔부터. 머리·화장 하고 나오기 — 사진 그대로 찍게.', n:'서귀포시 중문관광로72번길 67 · 064-738-3800', map:'스위트호텔 제주', tag:'fix', mv:'차 약 24분 · 중문 → 산록남로 (트로피카나 경유 13+11분 기준)'},
+      {t:'12:00', i:'i-food', p:'점심 · 포도호텔 레스토랑', pk:'호텔 주차장 ✓', ll:[33.3296,126.3665], a:'12시 오픈에 맞춰 들어가서 바로 주문 — 35분 안에 먹고 12:35 출발해야 사진관 13:00. 12:00 창가 예약 필수(0507-1459-7030). 이타미 준이 지은 포도호텔 안, 왕새우튀김우동 정식(약 2.5만/인). 늦어지면 사진관 먼저 찍고 14:25 점심으로 (라스트오더 확인).', n:'안덕면 산록남로 863 · 0507-1459-7030 · 예약 권장 · 2인 약 5~6만 · 슈멤 아님', map:'포도호텔 레스토랑', tag:'fix', mv:'차 26분 · 산록남로 → 1116'},
+      {t:'13:00', sm:28, mv:'차 12분 · 중산간서로', a:'13:00 예약 완료. 45~60분. 끝나면 바로 호텔 수영.'},
+      {t:'14:15', i:'i-bed', p:'스위트호텔 수영장 2시간 반 · 쉬기', ll:[33.2493,126.4084], a:'수영 14:30~17:00 (운영시간·수영모 규정은 체크인 때 확인). 끝나고 씻고 쉬다가 마리조아. 더 쉬고 싶으면 마리조아를 19:00으로 — 끝 20:10.', n:'서귀포시 중문관광로72번길 67', map:'스위트호텔 제주', tag:'fix', mv:'차 8분 · 택시 약 6천'},
       {t:'18:30', sm:11, mv:'차 8분'},
       {t:'19:40', i:'i-bed', p:'스위트호텔 제주 · 끝', ll:[33.2493,126.4084], a:'내일 10시 체크아웃 → 오카 반납 → 렌터카 반납.', n:'서귀포시 중문관광로72번길 67', map:'스위트호텔 제주', tag:'fix'}
      ]},
@@ -618,7 +637,7 @@ var NAVER_KEY = 'pvoromc2h8';
   var PLANS = [
     {id:1, name:'지금 루틴', tag:'슈멤 최대 · 서쪽 먼저', days:DAYS1, min:700, drive:'11시간 40분', km:'약 430km', late:'월 21:00 · 일 19:10 · 화 19:30', sm:16, drone:'4/4', swim:'월 21:00 (운영하면)', rec:false,
      pros:['슈멤 16곳 전부', '온정조림·포레스트 정방·돈사향 다 들어감', '오카 일요일 10:30 픽업 → 3일권 5.5만'], cons:['월요일 밤 9시까지 — 해 지고 1시간 넘게 운전', '화요일 동쪽 왕복 (비자림 1시간 24분)', '수영은 밤 9시라 사실상 못 함']},
-    {id:2, name:'한 바퀴', tag:'초보운전 추천 · 운전 최소 · 되돌아가기 없음', days:DAYS2, min:495, drive:'8시간 15분', km:'약 300km', late:'일 19:00 · 화 19:40(8분)', sm:10, drone:'4/4 +함덕', swim:'화 14:15~17:00', rec:true,
+    {id:2, name:'한 바퀴', tag:'초보운전 추천 · 운전 최소 · 되돌아가기 없음', days:DAYS2, min:495, drive:'8시간 20분', km:'약 300km', late:'일 19:00 · 화 19:40(8분)', sm:10, drone:'4/4 +함덕', swim:'화 14:15~17:00', rec:true,
      pros:['토 제주시 → 일 동쪽 → 중문 → 월 서쪽 → 화 서귀포: 시계 방향 한 바퀴, 왔던 길 안 감', '운전 9시간 — 방안 1보다 2시간 40분 덜', '오카를 토요일 렌터카 직후(5분 거리)에 받아서 함덕 노을부터 드론', '수영 화요일 14:15~17:00, 끝나고 마리조아', '매일 19시 전후 호텔'], cons:['오카 4일 요금은 문의 (3일권 5.5만 + 1일)', '일요일 첫 끼가 11시 고기국수', '애월본카페(월 휴무)·제쭈·포레스트 정방·수요일 선물(수라간·오란다·도바나) 빠짐 (슈멤 10)']},
     {id:3, name:'사진 아침 · 수영 화', tag:'사진관 첫 코스 · 화요일 가볍게', days:DAYS3, min:690, drive:'11시간 30분', km:'약 420km', late:'일 19:15 · 월 19:00 · 화 19:05', sm:15, drone:'4/4', swim:'화 16:30~18:30', rec:false,
      pros:['사진관을 아침 첫 코스로 (머리·화장 그대로)', '화요일은 비자림·면주막·억새만 보고 16:30 호텔 → 수영', '매일 19:15 안에 호텔'], cons:['월요일 포도호텔→신천목장 1시간 23분 장거리', '포레스트 정방·온정조림 빠짐 (슈멤 15)', '화요일 동쪽 왕복이 그대로 남음']}
@@ -639,14 +658,14 @@ var NAVER_KEY = 'pvoromc2h8';
 
   var CHK = [
     {id:'ok27', t:'싱싱회센타 — 협찬 확정 (강남언니) · 금 19:30', d:'리뷰 12/1', s:'슈멤 27. 동문수산시장 2-8·9, 3-10호. 방문 후 12/1까지 리뷰.', ok:true},
-    {id:'ok28', t:'하루선물사진관 — 협찬 확정 (레뷰)', d:'리뷰 11/24', s:'슈멤 28. 064-739-0121로 예약 전화 — 방안2면 화 11:15, 방안1이면 월 13:50. 휴무·사진 전달 시점·주차 같이 확인. 24일(화)까지 등록이라 당일 현장 사진 먼저 올리고 보정본은 나중에.', ok:true},
+    {id:'ok28', t:'하루선물사진관 — 협찬 확정 (레뷰) · 화 13:00 예약 완료', d:'리뷰 11/24', s:'슈멤 28. 화요일 13:00 예약(방안2). 방안1·3으로 가면 날짜가 월요일이라 사진관에 변경 전화. 24일(화)까지 등록이라 당일 현장 사진 먼저 올리고 보정본은 나중에. 사진 전달 시점·주차 확인.', ok:true},
     {id:'ok29', t:'여기고씨네 함덕점 — 협찬 확정 (레뷰) · 토 18:30 포장', d:'리뷰 기한?', s:'슈멤 29. 010-4325-9077로 토요일 18:30 포장 예약(고등어·딱새우 7.5만) + 아이스팩. 레뷰 등록 기한 알려주면 여기 적을게요.', ok:true},
     {id:'car', t:'렌터카 — 롯데시티호텔제주 · 토 13:40 인수 · 수 11:00 반납', d:'완료', s:'제주시 도령로 83. 완전자차 확인. 수요일 반납 후엔 택시 5번(약 3.4만).', ok:true},
     {id:'okstay', t:'스위트호텔 제주 — 예약 완료 · 일~수 3박 30만', d:'', s:'11/22 체크인 · 11/25 체크아웃. 064-738-3800 — 수영장 운영·온수, 주차는 가서 확인.', ok:true},
     {id:'okstay1', t:'스테이현 호텔 — 예약 완료 · 금 1박', d:'', s:'동문시장 길 건너, 관덕로8길 7-12 · 064-900-1186. 싱싱회센타 걸어서 3분.', ok:true},
     {id:'stay', t:'숙소: 함덕(토) = 제주 인피니티 리조트 — 예약했으면 체크', d:'지금', s:'조함해안로 378 (함덕 서쪽 1.5km). 비대면 체크인 16:00~(15:50 안내 문자) · 체크아웃 11:00 · 주차 C동 앞/E동 옆 · 근처 편의점 없음.'},
     {id:'s19', t:'① 애월엄마 예약 — 최소 2일 전 전화', d:'방안2: 11/21(토)까지', s:'슈멤 19. 방안2면 월 12:30(11/21 토까지 전화), 방안1·3이면 일 12:00(11/20 금 오늘까지). 12~13시 입장 시간대로 2인.'},
-    {id:'podo', t:'③ 포도호텔 레스토랑 예약 — 0507-1459-7030', d:'이번 주', s:'슈멤 아님. 방안2면 화 12:25, 방안1이면 월 12:10, 방안3이면 월 12:30. 왕새우튀김우동 정식 2인 약 5~6만. 창가(산방산 뷰) 요청. 점심 12:00~15:30.'},
+    {id:'podo', t:'③ 포도호텔 레스토랑 예약 — 0507-1459-7030', d:'이번 주', s:'슈멤 아님. 방안2면 화 12:00 정각(사진관 13:00 전), 방안1이면 월 12:10, 방안3이면 월 12:30. 왕새우튀김우동 정식 2인 약 5~6만. 창가(산방산 뷰) 요청. 점심 12:00~15:30.'},
     {id:'park', t:'주차 물어볼 곳 — 예약 전화할 때 같이', d:'이번 주', s:'숙성도 · 애월엄마 · 온정조림 · 하루선물사진관 · 마리조아 · 수라간떡방 · 여기고씨네(포장 정차). 나는지금생선은 택시라 상관없음. 나머지는 카드에 적어둠.'},
     {id:'auca', t:'오카 예약 (auca.io) — 대여소: 제주시 다호5길 10 · 10~18시', d:'지금', s:'일요일 10:30 픽업 → 수요일 10:40 반납이면 3일권 5.5만. 토요일 14:00 픽업(렌터카 직후 5분)으로 당기면 4일이라 요금 문의. 배터리 6개·보험 포함.'},
     {id:'drone', t:'드론원스톱 앱 설치 · 비행구역 확인 — 금능 · 트로피카나 · 신천목장 (+ 어음리는 선택, 함덕 서우봉은 보너스)', d:'11/21', s:'다 관제권 밖. 제주시 동문시장·노형은 X. 날짜는 방안마다 다름 — 드론 카드 참고.'},
@@ -672,9 +691,9 @@ var NAVER_KEY = 'pvoromc2h8';
     {id:'r-19', sm:19, lead:2, how:'전화 (최소 2일 전)', note:'12~13시 입장 2인'},
     {id:'r-18', sm:18, how:'전화 예약 필수', note:'월요일 휴무 — 방안2에선 뺐음, 방안1·3은 일요일'},
     {id:'r-16', sm:16, how:'전화 (예약 필수)'},
-    {id:'r-28', sm:28, how:'전화 예약 — 협찬 확정', note:'휴무·사진 전달 시점·주차 같이 물어보기'},
+    {id:'r-28', sm:28, how:'화 13:00 예약 완료', note:'사진 전달 시점·주차는 가서 확인', done:true},
     {id:'r-29', sm:29, how:'전화 — 협찬 확정 · 포장 18:30', note:'고등어·딱새우 7.5만 + 아이스팩'},
-    {id:'r-podo', name:'포도호텔 레스토랑', when:'방안2: 화 12:25 · 방안1: 월 12:10 · 방안3: 월 12:30', how:'전화 (예약 권장)', note:'창가(산방산 뷰) 요청 · 왕새우튀김우동 정식', tel:'0507-1459-7030'},
+    {id:'r-podo', name:'포도호텔 레스토랑', when:'방안2: 화 12:00 (사진관 13:00 전에 먹어야 해서 12시 정각) · 방안1: 월 12:10 · 방안3: 월 12:30', how:'전화 예약 필수 — 12:00', note:'창가(산방산 뷰) 요청 · 왕새우튀김우동 정식', tel:'0507-1459-7030'},
     {id:'r-11', sm:11, how:'전화 문의 필수', note:'조아코스 2인 스페셜'},
     {id:'r-7', sm:7, how:'네이버예약 후 전화', note:'수요일 휴무'},
     {id:'r-3', sm:3, how:'네이버예약', note:'점심만 09~15'},
@@ -1135,6 +1154,7 @@ var COAST = [[126.16,33.30],[126.17,33.34],[126.21,33.37],[126.24,33.39],[126.27
     }).join('');
   });
   document.getElementById('smlist').innerHTML = lh;
+  if(typeof renderMapList==='function') renderMapList();
   };
   renderSm();
 
@@ -1149,7 +1169,23 @@ var COAST = [[126.16,33.30],[126.17,33.34],[126.21,33.37],[126.24,33.39],[126.27
   }).join('');
 
   /* ---------- 큰 지도 (지도 탭) ---------- */
-  var big = null, bigRoute = null, selMk = null;
+  var big = null, bigRoute = null, selMk = null, smMk = {};
+  /* 슈멤 지역 나누기 (좌표 기준) */
+  var REGION = [{id:'city', name:'제주시', sub:'공항 · 동문시장 · 연동·노형'}, {id:'east', name:'동쪽', sub:'함덕 · 조천 · 표선'}, {id:'west', name:'서쪽', sub:'애월 · 협재'}, {id:'south', name:'서귀포·중문', sub:'중문 · 안덕 · 올레시장'}];
+  var rgOf = function(s){ return s.lon>=126.64 ? 'east' : (s.lat<33.33 ? 'south' : (s.lon<126.42 ? 'west' : 'city')); };
+  var stLabel = function(s){ return s.st==='ok' ? '협찬 확정' : (s.st==='fix' ? '연락 예정' : (s.st==='opt' ? '선택' : '보류')); };
+  var renderMapList = function(){
+    var el = document.getElementById('maplist'); if(!el) return;
+    el.innerHTML = REGION.map(function(r){
+      var arr = SM.filter(function(s){ return rgOf(s)===r.id; }).sort(function(a,b){ var o={ok:0,fix:1,opt:2,hold:3}; return (o[a.st]-o[b.st]) || (a.n-b.n); });
+      var live = arr.filter(function(s){ return s.st!=='hold'; }).length;
+      return '<div class="mlrg" id="rg-'+r.id+'"><h2>'+esc(r.name)+' <small>'+esc(r.sub)+' · 일정에 '+live+'곳 / 전체 '+arr.length+'</small></h2>'
+        + arr.map(function(s){ return '<div class="mlrow'+(s.st==='hold'?' hold':'')+'" id="ml-'+s.n+'" data-ml="'+s.n+'"><div class="no" style="background:'+(s.st==='ok'?'var(--ok)':(s.st==='hold'?'var(--hold)':'var(--sm)'))+'">'+s.n+'</div><div><div class="nm">'+esc(s.name)+'</div><div class="ct">'+esc(s.cat)+(DLABEL[s.day]?' · Day '+DAYN[DLABEL[s.day]]+' '+esc(s.day)+' '+esc(s.slot):'')+'</div></div><span class="st '+esc(s.st)+'">'+stLabel(s)+'</span></div>'; }).join('')
+        + '</div>';
+    }).join('');
+  };
+  var markRow = function(n){ document.querySelectorAll('.mlrow.sel').forEach(function(e){ e.classList.remove('sel'); }); var r = n!=null ? document.getElementById('ml-'+n) : null; if(r) r.classList.add('sel'); return r; };
+  var scrollToEl = function(e, block){ if(!e) return; try{ e.scrollIntoView({block:block||'start', behavior:'smooth'}); }catch(err){ e.scrollIntoView(true); } };
   var selectMk = function(m){ if(selMk && selMk._cls) markerCls(big, selMk, selMk._cls.replace(' sel','')); selMk=m; if(m) markerCls(big, m, m._cls+' sel'); };
   var curFit = 'all';
   var fitBig = function(what){
@@ -1158,10 +1194,18 @@ var COAST = [[126.16,33.30],[126.17,33.34],[126.21,33.37],[126.24,33.39],[126.27
     if(what==='all') fitPts(big, [[33.19,126.13],[33.58,126.98]], 6);
     else if(what==='city') fitPts(big, [[33.455,126.455],[33.525,126.56]], 10);
     else if(what==='drone'){ fitPts(big, DRONE.map(function(x){ return [x.lat,x.lon]; }), 36, 12); var ds=DRONE.slice().sort(function(a,b){ return a.ord-b.ord; }); infoEl.className='info dr'; infoEl.innerHTML='<div class="nm">드론 4곳 동선 (주황) · 어음리는 선택</div><div class="ct">'+ds.map(function(x){ return x.ord+' '+esc(x.name)+' <span style="color:var(--muted)">'+(DAYN[x.day]?'Day '+DAYN[x.day]:'')+'</span>'; }).join(' → ')+'</div><div class="ct">오카 다른 스팟은 뺐어요. 번호 누르면 상세.</div>'; }
+    else if(REGION.some(function(r){ return r.id===what; })){ var rs = SM.filter(function(s){ return rgOf(s)===what; }); fitPts(big, rs.map(function(s){ return [s.lat,s.lon]; }), 36, 13); var rg = REGION.filter(function(r){ return r.id===what; })[0]; var live = rs.filter(function(s){ return s.st!=='hold'; });
+      infoEl.className='info red'; infoEl.innerHTML='<div class="nm">슈멤 · '+esc(rg.name)+'</div><div class="ct">'+esc(rg.sub)+' · 일정에 들어간 곳 '+live.length+' / 전체 '+rs.length+'</div><div class="ct">'+(live.length?live.map(function(s){ return s.n+' '+esc(s.name)+(DLABEL[s.day]?' <span style="color:var(--muted)">'+esc(s.day)+' '+esc(s.slot)+'</span>':''); }).join(' · '):'이 방안에는 없음')+'</div><div class="btns"><a class="btn pri" href="#" data-gorg="'+what+'">아래 목록 보기 ↓</a></div>'; }
     else { var r = routeLayer(what, bigRoute); if(r && r.bounds.length) fitPts(big, r.bounds, 30, 15); }
-    document.querySelectorAll('.mapctl button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.fit===what)); });
+    document.querySelectorAll('.mapctl button').forEach(function(b){ b.setAttribute('aria-pressed', String((b.dataset.fit||b.dataset.rg)===what)); });
   };
-  document.querySelector('.mapctl').addEventListener('click', function(e){ var b=e.target.closest('[data-fit]'); if(!b) return; fitBig(b.dataset.fit);
+  document.querySelectorAll('.mapctl.rg').forEach(function(ctl){ ctl.addEventListener('click', function(e){ var b=e.target.closest('[data-rg]'); if(!b) return; fitBig(b.dataset.rg); markRow(null); selectMk(null); setTimeout(function(){ scrollToEl(document.getElementById('rg-'+b.dataset.rg)); }, 80); }); });
+  document.addEventListener('click', function(e){ var g=e.target.closest('[data-gorg]'); if(g){ e.preventDefault(); scrollToEl(document.getElementById('rg-'+g.dataset.gorg)); } });
+  document.getElementById('maplist').addEventListener('click', function(e){ var r=e.target.closest('[data-ml]'); if(!r) return; var n=+r.dataset.ml, s=smById[n], m=smMk[n]; if(!s) return;
+    if(big){ fitPts(big, [[s.lat,s.lon]], 0, 15); }
+    showInfo('sm', n, m||null); markRow(n);
+    scrollToEl(document.querySelector('.bigmap'), 'start'); });
+  document.querySelector('.mapctl:not(.rg)').addEventListener('click', function(e){ var b=e.target.closest('[data-fit]'); if(!b) return; fitBig(b.dataset.fit); markRow(null);
     var dd = DAYS.filter(function(x){ return x.n===b.dataset.fit; })[0];
     if(dd){ var ie=document.getElementById('mapinfo'); ie.className='info'; ie.innerHTML='<div class="nm">Day '+DAYN[dd.n]+' · '+esc(dd.ov)+'</div><div class="ct">'+esc(dd.theme)+'</div><div class="btns"><a class="btn pri" href="#" data-goday="'+dd.n+'">이 날 일정으로 이동 →</a></div>'; }
   });
@@ -1169,7 +1213,7 @@ var COAST = [[126.16,33.30],[126.17,33.34],[126.21,33.37],[126.24,33.39],[126.27
     mini = mapCreate(document.getElementById('minimap'), {zoomControl:false, scroll:false});
     big = mapCreate(document.getElementById('bigmap'), {zoomControl:true});
     bigRoute = {k:big.k, map:big.map, layers:[], info:big.info};
-    SM.forEach(function(s){ addMarker(big, s.lat, s.lon, s.st==='hold'?'hold':'red', s.n, 10, s.n+'. '+esc(s.name), function(m){ showInfo('sm', s.n, m); }); });
+    SM.forEach(function(s){ smMk[s.n] = addMarker(big, s.lat, s.lon, s.st==='hold'?'hold':'red', s.n, 10, s.n+'. '+esc(s.name), function(m){ showInfo('sm', s.n, m); }); });
     var dsorted = DRONE.slice().sort(function(a,b){ return a.ord-b.ord; });
     addLine(big, dsorted.map(function(x){ return [x.lat,x.lon]; }), getComputedStyle(document.documentElement).getPropertyValue('--dr').trim()||'#F26A1B', 3);
     DRONE.forEach(function(d){ addMarker(big, d.lat, d.lon, 'dr', d.n, 20, esc(d.name)+' (드론 '+d.ord+'번째)', function(m){ showInfo('dr', d.n, m); }); });
@@ -1178,6 +1222,7 @@ var COAST = [[126.16,33.30],[126.17,33.34],[126.21,33.37],[126.24,33.39],[126.27
     fitPts(big, [[33.19,126.13],[33.58,126.98]], 6);
     if(curDay) drawMini(curDay);
   }
+  renderMapList();
   function bootMaps(){
     var fail = function(){ ENGINE=null; var msg='<div class="info empty" style="margin:0;height:100%;display:flex;align-items:center;justify-content:center">지도는 인터넷이 있어야 떠요</div>'; document.getElementById('minimap').innerHTML=msg; document.getElementById('bigmap').innerHTML=msg; };
     if(NAVER_KEY){
@@ -1190,7 +1235,8 @@ var COAST = [[126.16,33.30],[126.17,33.34],[126.21,33.37],[126.24,33.39],[126.27
   }
   var infoEl = document.getElementById('mapinfo');
   function showInfo(kind, id, g){
-    selectMk(g);
+    if(g) selectMk(g);
+    if(kind==='sm'){ var row = markRow(+id); if(row && g) scrollToEl(row, 'nearest'); }
     var h='', cls='';
     if(kind==='sm'){ var s=smById[id]; cls='red';
       h='<div class="nm">'+s.n+'. '+esc(s.name)+'</div><div class="ct">'+esc(s.cat)+' · '+esc(s.val)+(DLABEL[s.day]?' · Day '+DAYN[DLABEL[s.day]]+' '+esc(s.slot):' · 보류 — '+esc(s.slot))+'</div>'
@@ -1205,7 +1251,7 @@ var COAST = [[126.16,33.30],[126.17,33.34],[126.21,33.37],[126.24,33.39],[126.27
         +'<div class="btns"><a class="btn pri" href="'+a.url+'" target="_blank" rel="noopener">오카 홈페이지 · 추천 경로</a><a class="btn" href="'+M('오카 제주')+'" target="_blank" rel="noopener">네이버 지도</a></div>';
     } else if(kind==='lg'){ var l=LODGE.filter(function(x){ return x.n===id; })[0]; cls='yel';
       h='<div class="nm">'+esc(l.n)+' '+esc(l.name)+'</div><div class="ct">'+esc(l.days)+(l.st==='ok'?' · <span class="chip ok">예약 완료</span>':' · <span class="chip opt">미정</span>')+'</div><p><span class="k">주소</span>'+esc(l.addr)+'</p><p>'+esc(l.note)+'</p>'
-        +'<div class="btns">'+(l.tel?'<a class="btn pri" href="'+M(l.n==='H2' ? '함덕해수욕장' : l.name.replace(/ \(.*\)$/,''))+'" target="_blank" rel="noopener">네이버 지도</a><a class="btn" href="tel:'+l.tel.replace(/-/g,'')+'">전화</a>':'')+'<a class="btn" href="#" data-goday="'+l.day+'">일정 보기</a></div>';
+        +'<div class="btns">'+(l.tel?'<a class="btn pri" href="'+M(l.name.replace(/ \(.*\)$/,''))+'" target="_blank" rel="noopener">네이버 지도</a><a class="btn" href="tel:'+l.tel.replace(/-/g,'')+'">전화</a>':'')+'<a class="btn" href="#" data-goday="'+l.day+'">일정 보기</a></div>';
     }
     infoEl.className='info '+cls; infoEl.innerHTML=h;
     try{ infoEl.scrollIntoView({block:'nearest'}); }catch(e){}
@@ -1310,7 +1356,7 @@ var COAST = [[126.16,33.30],[126.17,33.34],[126.21,33.37],[126.24,33.39],[126.27
     clearPick(); renderDays(); daysEl.innerHTML = DAYS.map(function(d){ return '<button class="dchip" role="tab" aria-selected="false" data-day="'+d.n+'">Day '+DAYN[d.n]+' '+d.w+'</button>'; }).join('');
     var note = document.getElementById('plannote'); if(note){ note.hidden = !p.partial; if(p.partial) note.innerHTML = '<b>일정3 · '+esc(p.name)+'</b> — '+esc(p.tag)+'. Day 1·5·6은 방안 2와 같음. 확정하면 일정2에 반영해줘요.'; }
     document.querySelectorAll('.mapctl button[data-fit]').forEach(function(b){ if(!/^\d+$/.test(b.dataset.fit)) return; b.hidden = !DAYS.some(function(d){ return d.n===b.dataset.fit; }); });
-    renderSm(); renderChk(); if(typeof renderRsv==='function') renderRsv(); renderPlans();
+    renderSm(); if(typeof renderMapList==='function') renderMapList(); renderChk(); if(typeof renderRsv==='function') renderRsv(); renderPlans();
     var ps = document.getElementById('plansub'); if(ps) ps.textContent = p.partial ? '일정3 · '+p.name : '방안 '+PLAN;
     curDay=null; drawMini(DAYS[0].n); spy();
     if(changed && !quiet){ if(window.__markDirty) __markDirty(); toast('방안 '+PLAN+' · '+esc(p.name)+'로 바꿨어요<a href="#" data-goday="20">일정 보기 →</a>'); }
